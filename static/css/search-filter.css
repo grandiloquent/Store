@@ -1,0 +1,108 @@
+/* ================================ */
+#results-header {
+    position: relative;
+    width: 100%;
+    z-index: 9;
+    transition: -webkit-transform .4s cubic-bezier(.01, .8, .32, 1);
+    transition: transform .4s cubic-bezier(.01, .8, .32, 1);
+    transition: transform .4s cubic-bezier(.01, .8, .32, 1), -webkit-transform .4s cubic-bezier(.01, .8, .32, 1);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+#results-header.fixed {
+    position: fixed;
+    top: 0;
+}
+
+.search-filter {
+    position: relative;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    left: 0;
+    background-color: #f8f8f8;
+    z-index: 2;
+    transition: -webkit-transform .4s cubic-bezier(.01, .8, .32, 1);
+    transition: transform .4s cubic-bezier(.01, .8, .32, 1);
+    transition: transform .4s cubic-bezier(.01, .8, .32, 1), -webkit-transform .4s cubic-bezier(.01, .8, .32, 1);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.filter_group {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+
+.filter_group-item {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 1.06667rem;
+    -webkit-flex: 1;
+    flex: 1;
+    text-align: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.filter_group-item > span {
+    display: -webkit-flex;
+    display: flex;
+    color: #666;
+    font-size: .37333rem;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.filter_group-item.active > span {
+    color: #ff6000;
+}
+
+.filter_group-item_icon {
+    font-size: .48rem;
+}
+
+.filter_group-item_icon:before {
+    content: "\E63A";
+}
+
+.filter_tags {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 1.06667rem;
+    padding: 0 .13333rem;
+}
+
+.filter_tags-item {
+    display: -webkit-flex;
+    display: flex;
+    margin: .13333rem;
+    -webkit-flex: 1;
+    flex: 1;
+    height: .8rem;
+    font-size: .32rem;
+    background-color: #ececec;
+    color: #333;
+    border-radius: 6px;
+    border: 1px solid #ececec;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.filter_tags-item span {
+    display: -webkit-flex;
+    display: flex;
+}

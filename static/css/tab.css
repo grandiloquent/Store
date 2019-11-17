@@ -1,0 +1,64 @@
+
+.tab-wrapper {
+    margin: 0 auto;
+    max-width: 46.875rem;
+}
+
+.tab {
+    width: 100%;
+    min-height: 3.125rem;
+    background: #fff;
+}
+
+.tab-title-list {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 3.125rem;
+}
+
+.tab-title-list:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e5e5e5;
+}
+
+.tab-title-item {
+    display: block;
+    width: 100%;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    text-align: center;
+}
+
+.tab-title-text {
+    display: inline-block;
+    line-height: 3.125rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.tab-active .tab-title-text {
+    position: relative;
+    color: #ff6000;
+}
+
+.tab-active .tab-title-text:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: .125rem;
+    background: #ff6000;
+    z-index: 1;
+}

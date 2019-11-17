@@ -1,0 +1,63 @@
+.cardslider {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    background-color: #fff;
+    padding-left: .26667rem;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-overflow-scrolling: touch;
+}
+
+.cardslider-panel {
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    padding: .33333rem .26667rem .33333rem 0;
+}
+
+.cardslider-panel_container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    border: 1px solid #c5c5c5;
+    width: 5.26667rem;
+    height: 100%;
+    padding: .48rem .42667rem;
+}
+
+.cardslider-panel_container h3 {
+    font-size: .46667rem;
+    color: #222;
+    margin-bottom: .33333rem;
+}
+
+.panel_container-tags {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.container-tag {
+    width: 2.02667rem;
+    height: .74667rem;
+    line-height: .74667rem;
+    border: 1px solid #bfbfbf;
+    border-radius: 64px;
+    color: #222;
+    font-size: .32rem;
+    margin-bottom: .32rem;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 .26667rem;
+}

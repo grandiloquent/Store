@@ -1,0 +1,22 @@
+.bar_switch {
+    display: -webkit-flex;
+    display: flex;
+}
+.bar_switch-btn {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: .93333rem;
+}
+.bar_switch-icon {
+    font-size: .53333rem;
+    color: #222;
+}
+
+
+.bar_switch-icon:before {
+    content: "\E603";
+}

@@ -1,0 +1,92 @@
+.search-bar {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #f8f8f8;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    z-index: 2;
+    transition: -webkit-transform .4s cubic-bezier(.01, .8, .32, 1);
+    transition: transform .4s cubic-bezier(.01, .8, .32, 1);
+    transition: transform .4s cubic-bezier(.01, .8, .32, 1), -webkit-transform .4s cubic-bezier(.01, .8, .32, 1);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+.main-block {
+    padding-top: .21333rem;
+    padding-bottom: .02667rem;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+.bar_back {
+    display: -webkit-flex;
+    display: flex;
+}
+.bar_back-btn {
+    display: -webkit-flex;
+    display: flex;
+    width: 1.06667rem;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.bar_back-icon {
+    font-size: .42667rem;
+}
+.icon.back:before {
+    content: "\E60F";
+}
+.bar_search {
+    width: 7.73333rem;
+    height: .88rem;
+    line-height: .88rem;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.bar_search-btn {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    color: #9b9b9b;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 0;
+    text-align: left;
+    padding: 0 .4rem;
+    font-size: .34667rem;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.bar_search-icon_search {
+    display: inline-block;
+    font-size: .37333rem;
+    margin-top: -.02667rem;
+    margin-right: .13333rem;
+}
+.bar_search-btn_text {
+    -webkit-flex: 1;
+    flex: 1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

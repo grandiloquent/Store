@@ -1,0 +1,5 @@
+/.idea
+/settings
+/static/pictures
+/static/*.css
+/static/*.js

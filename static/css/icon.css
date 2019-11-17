@@ -1,0 +1,16 @@
+@font-face {
+    font-family: wapseo;
+    src: url(../font/font_517299_345i7s00onefjemi.eot);
+    src: url(../font/font_517299_345i7s00onefjemi_ie.eot) format("embedded-opentype"), url(../font/font_517299_345i7s00onefjemi.woff) format("woff"), url(../font/font_517299_345i7s00onefjemi.ttf) format("truetype"), url(../font/font_517299_345i7s00onefjemi.svg) format("svg")
+}
+
+.icon {
+    display: inline-block;
+    font-weight: 400;
+    font-style: normal;
+    font-size: inherit;
+    font-family: wapseo;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
