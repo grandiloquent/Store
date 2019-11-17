@@ -3,3 +3,4 @@
 /static/pictures
 /static/*.css
 /static/*.js
+/scripts/*.json
