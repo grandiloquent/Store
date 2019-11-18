@@ -78,6 +78,7 @@ func main() {
 	r.Handle("/store/api/slide", handlers.ApiSlideHandler(env)).Methods("POST")
 	r.Handle("/store/api/category", handlers.ApiCategoryHandler(env)).Methods("POST")
 	r.Handle("/store/api/store", handlers.ApiStoreHandler(env)).Methods("GET", "POST")
+	r.Handle("/store/api/sell", handlers.ApiStoreHandler(env)).Methods("GET", "POST")
 
 	// -----------------------------------
 

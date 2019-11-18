@@ -206,3 +206,46 @@ end;
 $$;
 
 ---
+CREATE OR REPLACE FUNCTION store_update(uid_val text,
+                                        title_val text,
+                                        price_val numeric,
+                                        thumbnail_val text,
+                                        details_val text,
+                                        specification_val text,
+                                        service_val text,
+                                        properties_val text[],
+                                        showcases_val text[])
+    RETURNS void
+    LANGUAGE 'plpgsql'
+AS
+$BODY$
+declare
+    properties_array text[];
+    showcases_array  text[];
+
+begin
+
+    if array_length(properties_val, 1) > 0 then
+        properties_array = properties_val;
+    end if;
+
+    if array_length(showcases_val, 1) > 0 then
+        showcases_array = showcases_val;
+    end if;
+
+    update
+        store
+    set title= COALESCE(title_val, title),
+        price = COALESCE(price_val, price),
+        thumbnail = COALESCE(thumbnail_val, thumbnail),
+        details = COALESCE(details_val, details),
+        specification = COALESCE(specification_val, specification),
+        service = COALESCE(service_val, service),
+        properties = COALESCE(properties_array, properties),
+        showcases = COALESCE(showcases_array, showcases),
+        update_at = now()
+    where uid = uid_val;
+end;
+$BODY$;
+
+

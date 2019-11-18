@@ -9,10 +9,26 @@ import (
 
 const (
 	InsertStoreSQL = "select * from store_insert($1,$2,$3,$4,$5,$6,$7,$8)"
+	UpdateStoreSQL = "select * from store_update($1,$2,$3,$4,$5,$6,$7,$8,$9)"
 	FetchStoreSQL  = "select title,price,thumbnail,details,specification,service,taobao,wholesale,properties,showcases from commodities where uid = $1"
 	ListStoreSQL   = "select * from store_list($1,$2)"
 )
 
+func ApiCategoryHandler(e *common.Env) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		items, err := readData(e, r)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+		t, err := e.DB.Exec("select * from store_category_insert($1)", joinArray(*items))
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+		writeCommandTag(t, w)
+	})
+}
 func ApiSearchHandler(e *common.Env) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		method := r.URL.Query().Get("method")
@@ -29,7 +45,37 @@ func ApiSearchHandler(e *common.Env) http.Handler {
 				return
 			}
 		}
-
+		notFound(w)
+	})
+}
+func ApiSlideHandler(e *common.Env) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		items, err := readData(e, r)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+		t, err := e.DB.Exec("select * from store_slide_insert($1)", joinArray(*items))
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+		writeCommandTag(t, w)
+	})
+}
+func ApiStoreHandler(e *common.Env) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		method := r.URL.Query().Get("method")
+		if r.Method == "POST" {
+			switch method {
+			case "insert":
+				insertStore(e, w, r)
+				return
+			case "update":
+				updateStore(e, w, r)
+				return
+			}
+		}
 		notFound(w)
 	})
 }
@@ -47,29 +93,12 @@ func fetchSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(obj)
 }
-func insertSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
-	items, err := readData(e, r)
-	if err != nil {
-		internalServerError(w, err)
-		return
-	}
-
-	s := joinArray(*items)
-
-	t, err := e.DB.Exec("select * from store_search_insert($1)", s)
-	if err != nil {
-		internalServerError(w, err)
-		return
-	}
-	w.Write([]byte(fmt.Sprintf("%d", t.RowsAffected())))
-}
 func fetchSearchKeywords(e *common.Env) ([]string, error) {
 	rows, err := e.DB.Query("select search from store_search limit 6")
 	if err != nil {
 		return nil, err
 	}
 	var items []string
-
 	for rows.Next() {
 		values, err := rows.Values()
 		if err != nil {
@@ -79,55 +108,21 @@ func fetchSearchKeywords(e *common.Env) ([]string, error) {
 	}
 	return items, nil
 }
-func ApiSlideHandler(e *common.Env) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		items, err := readData(e, r)
-		if err != nil {
-			internalServerError(w, err)
-			return
-		}
-		t, err := e.DB.Exec("select * from store_slide_insert($1)", joinArray(*items))
-		if err != nil {
-			internalServerError(w, err)
-			return
-		}
-		writeCommandTag(t, w)
-	})
-}
-func ApiCategoryHandler(e *common.Env) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		items, err := readData(e, r)
-		if err != nil {
-			internalServerError(w, err)
-			return
-		}
-		t, err := e.DB.Exec("select * from store_category_insert($1)", joinArray(*items))
-		if err != nil {
-			internalServerError(w, err)
-			return
-		}
-		writeCommandTag(t, w)
-	})
-}
-
-func ApiStoreHandler(e *common.Env) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		method := r.URL.Query().Get("method")
-
-		if r.Method == "POST" {
-			switch method {
-			case "insert":
-				insertStore(e, w, r)
-				return
-			}
-
-		}
-
-		notFound(w)
-	})
+func insertSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
+	items, err := readData(e, r)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	s := joinArray(*items)
+	t, err := e.DB.Exec("select * from store_search_insert($1)", s)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	w.Write([]byte(fmt.Sprintf("%d", t.RowsAffected())))
 }
 func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
-
 	items, err := readData(e, r)
 	if err != nil {
 		internalServerError(w, err)
@@ -138,9 +133,7 @@ func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 		badRequest(w)
 		return
 	}
-
 	// -----------------------------------
-
 	title := rows["title"]
 	if isWhiteSpaceString(title) {
 		badRequest(w)
@@ -157,10 +150,8 @@ func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	service := rows["service"]
 	properties := joinArray(rows["properties"])
 	showcases := joinArray(rows["showcases"])
-
 	// -----------------------------------
 	var uid string
-
 	err = e.DB.QueryRow(InsertStoreSQL,
 		title,
 		price,
@@ -175,7 +166,6 @@ func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// -----------------------------------
-
 	w.Write([]byte(uid))
 }
 func updateStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
@@ -189,16 +179,12 @@ func updateStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 		badRequest(w)
 		return
 	}
-
 	// -----------------------------------
-
 	uid := rows["uid"]
-
 	if isWhiteSpaceString(uid) {
 		badRequest(w)
 		return
 	}
-
 	title := rows["title"]
 	if isWhiteSpaceString(title) {
 		badRequest(w)
@@ -215,10 +201,9 @@ func updateStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	service := rows["service"]
 	properties := joinArray(rows["properties"])
 	showcases := joinArray(rows["showcases"])
-
 	// -----------------------------------
-
-	err = e.DB.QueryRow(InsertStoreSQL,
+	t, err := e.DB.Exec(UpdateStoreSQL,
+		uid,
 		title,
 		price,
 		thumbnail,
@@ -226,11 +211,11 @@ func updateStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 		specification,
 		service,
 		properties,
-		showcases).Scan(&uid);
+		showcases)
 	if err != nil {
 		internalServerError(w, err)
 		return
 	}
 	// -----------------------------------
-
+	writeCommandTag(t, w)
 }
