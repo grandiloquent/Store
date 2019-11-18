@@ -290,6 +290,8 @@ func main() {
 				insertSlide(host, accessToken)
 			} else if o == "category" {
 				insertCategory(host, accessToken)
+			} else if o == "i" {
+				insertStore(host, accessToken)
 			}
 		}
 	}
@@ -311,6 +313,18 @@ func insertSlide(host, accessToken string) {
 	body := "[" + `"TB1kkQMlLb2gK0jSZK9XXaEgFXa-1080-498.jpg","TB1LYdTkuT2gK0jSZFvXXXnFXXa-1080-498.jpg","TB1PRiGm7L0gK0jSZFxXXXWHVXa-1080-498.jpg"` + "]"
 	uri := host + "/store/api/slide"
 	buf, err := Touch(uri, "POST", body, "Bearer "+accessToken, "", "", "", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(buf))
+}
+func insertStore(host, accessToken string) {
+	buf, err := ioutil.ReadFile("./insert.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	uri := host + "/store/api/store?method=insert"
+	buf, err = Touch(uri, "POST", string(buf), "Bearer "+accessToken, "", "", "", nil)
 	if err != nil {
 		log.Fatal(err)
 	}

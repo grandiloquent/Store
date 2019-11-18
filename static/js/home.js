@@ -2,6 +2,15 @@
     'use strict';
     var Home = function Home() {
     };
+
+    Home.prototype.addHistory = function (keywords) {
+        if (!window.localStorage) return;
+        var obj = (JSON.parse(window.localStorage.getItem('search-history'))) || [];
+        if (obj.indexOf(keywords) === -1) {
+            obj.push(keywords);
+        }
+        window.localStorage.setItem('search-history', JSON.stringify(obj));
+    }
     Home.prototype.adjustSize = function () {
         var that = this;
         _.every(this.element_, '.like-cell', function (element) {
@@ -49,30 +58,11 @@
         this.calculateSize();
         this.adjustSize();
         this.setupSlide();
-        this.setupHomeSearch();
+        this.setupHomeSearch();6
+        this.setupItems();
     };
     Home.prototype.onRefreshFailed = function (error) {
         console.log(error);
-    };
-    Home.prototype.setupSlide = function () {
-        this.swiperActiveIndex_ = document.getElementById('swiper-active-index');
-        this.swiperPagination_ = document.querySelector('.swiper-pagination');
-
-
-        var that = this;
-        new Swipe(document.getElementById('slider'), {
-            startSlide: 2,
-            speed: 400,
-            auto: 3000,
-            continuous: true,
-            disableScroll: false,
-            stopPropagation: false,
-            callback: function (index, elem) {
-                that.swiperActiveIndex_.innerHTML = index + 1;
-            },
-            transitionEnd: function (index, elem) {
-            }
-        });
     };
     Home.prototype.onRefreshSuccess = function (obj) {
         var content = [];
@@ -82,14 +72,6 @@
         }
         this.modalHotTags_.innerHTML = content.join('');
         this.setupKeyword();
-    };
-    Home.prototype.addHistory = function (keywords) {
-        if (!window.localStorage) return;
-        var obj = (JSON.parse(window.localStorage.getItem('search-history'))) || [];
-        if (obj.indexOf(keywords) === -1) {
-            obj.push(keywords);
-        }
-        window.localStorage.setItem('search-history', JSON.stringify(obj));
     };
     Home.prototype.setupHomeSearch = function () {
         var elements = document.querySelectorAll('.home-search');
@@ -104,6 +86,15 @@
         for (var i = 0; i < elements.length; i++) {
             _.click(elements[i], this.showSearchModal.bind(this));
         }
+    };
+    Home.prototype.setupItems = function () {
+        document.querySelectorAll('.like-cell')
+            .forEach(function (element) {
+                element
+                    .addEventListener('click', function (event) {
+                        window.location = "/store/details/" + event.currentTarget.getAttribute('data-id')
+                    });
+            });
     };
     Home.prototype.setupKeyword = function () {
         var that = this;
@@ -131,6 +122,24 @@
                 .catch(that.onRefreshFailed)
         });
     };
+    Home.prototype.setupSlide = function () {
+        this.swiperActiveIndex_ = document.getElementById('swiper-active-index');
+        this.swiperPagination_ = document.querySelector('.swiper-pagination');
+        var that = this;
+        new Swipe(document.getElementById('slider'), {
+            startSlide: 2,
+            speed: 400,
+            auto: 3000,
+            continuous: true,
+            disableScroll: false,
+            stopPropagation: false,
+            callback: function (index, elem) {
+                that.swiperActiveIndex_.innerHTML = index + 1;
+            },
+            transitionEnd: function (index, elem) {
+            }
+        });
+    };
     // 显示搜索框
     Home.prototype.showSearchModal = function () {
         if (!this.searchModal_) {
@@ -141,8 +150,6 @@
             this.setupRefresh();
             this.setupKeyword();
             this.searchModalHistorytags_ = document.querySelector('.search-modal_historytags');
-
-
             if (!this.searchModalClear_) {
                 this.searchModalClear_ = document.querySelector('.search-modal_clear');
                 var that = this;
@@ -151,12 +158,11 @@
                     that.searchModalHistorytags_.innerHTML = '';
                 });
             }
-
         }
         this.searchModal_.show();
         this.fetchHistory();
         this.swiperPagination_.style.display = 'none';
-    };
+    }
     var home = new Home();
     home.initialize();
 })();

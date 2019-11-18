@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"store/common"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -33,6 +34,17 @@ func toFloat(i interface{}) (float64, error) {
 		return f, nil;
 	}
 	return 0, errors.New("invalid")
+}
+func float(i interface{}) (float64) {
+	f, ok := i.(string)
+	if ok {
+		v, err := strconv.ParseFloat(f, 64)
+		if err != nil {
+			return 0
+		}
+		return v
+	}
+	return 0
 }
 func badRequest(w http.ResponseWriter) {
 	http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)

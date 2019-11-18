@@ -8,7 +8,9 @@ import (
 )
 
 const (
-	InsertStoreSQL = "select * from commodity_insert($1,$2,$3,$4,$5,$6,$7,$8)"
+	InsertStoreSQL = "select * from store_insert($1,$2,$3,$4,$5,$6,$7,$8)"
+	FetchStoreSQL  = "select title,price,thumbnail,details,specification,service,taobao,wholesale,properties,showcases from commodities where uid = $1"
+	ListStoreSQL   = "select * from store_list($1,$2)"
 )
 
 func ApiSearchHandler(e *common.Env) http.Handler {
@@ -114,7 +116,7 @@ func ApiStoreHandler(e *common.Env) http.Handler {
 
 		if r.Method == "POST" {
 			switch method {
-			case method:
+			case "insert":
 				insertStore(e, w, r)
 				return
 			}
@@ -175,4 +177,60 @@ func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	// -----------------------------------
 
 	w.Write([]byte(uid))
+}
+func updateStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
+	items, err := readData(e, r)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	rows, ok := (*items).(map[string]interface{})
+	if !ok {
+		badRequest(w)
+		return
+	}
+
+	// -----------------------------------
+
+	uid := rows["uid"]
+
+	if isWhiteSpaceString(uid) {
+		badRequest(w)
+		return
+	}
+
+	title := rows["title"]
+	if isWhiteSpaceString(title) {
+		badRequest(w)
+		return
+	}
+	price, err := toFloat(rows["price"])
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	thumbnail := rows["thumbnail"]
+	details := rows["details"]
+	specification := rows["specification"]
+	service := rows["service"]
+	properties := joinArray(rows["properties"])
+	showcases := joinArray(rows["showcases"])
+
+	// -----------------------------------
+
+	err = e.DB.QueryRow(InsertStoreSQL,
+		title,
+		price,
+		thumbnail,
+		details,
+		specification,
+		service,
+		properties,
+		showcases).Scan(&uid);
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	// -----------------------------------
+
 }

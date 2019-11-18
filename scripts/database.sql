@@ -18,6 +18,21 @@ create table store
     update_at     timestamp
 );
 
+create table store_sell
+(
+    "_id"      int
+        constraint store_sell_pk
+            primary key,
+    uid        text not null
+        constraint store_sell_store_uid_fk
+            references store (uid)
+            on delete cascade,
+    taobao     text,
+    wholesaler text,
+    quantities int
+);
+
+
 create table store_search
 (
     "_id"     serial not null
@@ -164,3 +179,30 @@ begin
     return uid_val;
 end;
 $$;
+
+---
+
+create or replace function store_list(limit_val int, offset_val int)
+    returns table
+            (
+                uid        text,
+                title      text,
+                price      numeric(15, 6),
+                thumbnail  text,
+                quantities int
+            )
+    language plpgsql
+as
+$$
+begin
+
+    return query select store.uid, store.title, store.price, store.thumbnail, ss.quantities
+                 from store
+                          join store_sell ss on store.uid = ss.uid
+                 order by update_at desc
+                 limit limit_val
+                     offset offset_val;
+end;
+$$;
+
+---
