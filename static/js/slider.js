@@ -12,14 +12,21 @@ if(!this.swiperWrapper_ ){this.swiperWrapper_ =document.querySelector('.swiper-w
 
 */
         this.swiperWrapper_ = this.element_.querySelector('.swiper-wrapper');
-
+        this.swiperSlides_ = this.element_.querySelectorAll('.swiper-slide');
+        this.count_ = this.swiperSlides_.length;
+        this.width_ = window.innerWidth;
+        this.cur_ = 1;
         this.delay_ = 3000;
-        this.slide(0, -360);
+        this.slide(0, this.width_ * -1 * this.cur_);
     };
     Slider.prototype.next = function () {
         var that = this;
         setTimeout(function () {
-            that.slide(-360, -720);
+            if (that.cur_ >= that.count_)
+                that.cur_ = 0;
+            var from = that.cur_ * that.width_ * -1;
+            var to = (++that.cur_) * that.width_ * -1;
+            that.slide(from, to);
         }, this.delay_)
     }
     Slider.prototype.slide = function (from, to) {

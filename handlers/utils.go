@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
+	"github.com/jackc/pgx"
 	"github.com/pkg/errors"
 	"io"
 	"log"
@@ -88,4 +89,16 @@ func readJson(r *http.Request, items *interface{}) error {
 	}
 	decoder := json.NewDecoder(reader)
 	return decoder.Decode(items)
+}
+func writeCommandTag(t pgx.CommandTag, w http.ResponseWriter) {
+	out := make(map[string]interface{})
+	out["RowsAffected"] = t.RowsAffected()
+
+	buf, err := json.Marshal(out)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(buf)
 }

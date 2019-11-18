@@ -4,11 +4,13 @@ import (
 	"compress/flate"
 	"compress/gzip"
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -262,15 +264,65 @@ func Touch(uri, method, body, authorization, contentType, cookie, referer string
 	return buf, nil
 }
 func main() {
+	m := loadingSettings()
+	accessToken := m["AccessToken"].(string)
 
+	debug := true
+	host := "http://localhost:5050"
+
+	if len(os.Args) > 1 {
+		for _, o := range os.Args[1:] {
+			if o == "d" {
+				debug = true
+				break
+			}
+		}
+	}
+	if !debug {
+		host = "https://halalla.cn"
+	}
+	if len(os.Args) > 1 {
+		for _, o := range os.Args[1:] {
+			if o == "s" {
+				insertSearch(host, accessToken)
+				break
+			} else if o == "slide" {
+				insertSlide(host, accessToken)
+			}
+		}
+	}
+
+}
+func insertSearch(host, accessToken string) {
 	buf, err := ioutil.ReadFile("data.json")
 	if err != nil {
 		log.Fatal(err)
 	}
-	uri := "http://localhost:5050/store/api/search?method=insert"
-	buf, err = Touch(uri, "POST", string(buf), "", "", "", "", nil)
+	uri := host + "/store/api/search?method=insert"
+	buf, err = Touch(uri, "POST", string(buf), "Bearer "+accessToken, "", "", "", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println(string(buf))
+}
+func insertSlide(host, accessToken string) {
+	body := "[" + `"TB1kkQMlLb2gK0jSZK9XXaEgFXa-1080-498.jpg","TB1LYdTkuT2gK0jSZFvXXXnFXXa-1080-498.jpg","TB1PRiGm7L0gK0jSZFxXXXWHVXa-1080-498.jpg"` + "]"
+	uri := host + "/store/api/slide"
+	buf, err := Touch(uri, "POST", body, "Bearer "+accessToken, "", "", "", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(buf))
+}
+func loadingSettings() map[string]interface{} {
+	buf, err := ioutil.ReadFile("../settings/settings.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var m map[string]interface{}
+	err = json.Unmarshal(buf, &m)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return m
 }

@@ -73,3 +73,20 @@ func fetchSearchKeywords(e *common.Env) ([]string, error) {
 	}
 	return items, nil
 }
+func ApiSlideHandler(e *common.Env) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		items, err := readData(e, w, r)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+		t, err := e.DB.Exec("select * from store_slide_insert($1)", joinArray(*items))
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+		writeCommandTag(t, w)
+	})
+}
+
+

@@ -37,22 +37,52 @@
 </div>
 <!---->
 <div class="node-inserted">
-    <div class="slider" id="slider">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <a class="swiper-slide slider-pic"
-                   style="background-image: url(https://img.alicdn.com/tfs/TB1LYdTkuT2gK0jSZFvXXXnFXXa-1080-498.jpg);width: 360px;"></a>
-                <a class="swiper-slide slider-pic"
-                   style="background-image: url(https://img.alicdn.com/tfs/TB1LYdTkuT2gK0jSZFvXXXnFXXa-1080-498.jpg);width: 360px;"></a>
-
-            </div>
+    <div class="swipe" id="slider">
+        <div class="swipe-wrap">
+            {{$slideLen:=len .Slide}}
+            {{range  .Slide}}
+                <div class="swiper-slide slider-pic"
+                     style="background-image: url(/store/static/pictures/{{index . 0}});width: 360px;"></div>
+            {{end}}
+        </div>
+        <div class="swiper-pagination">
+            <span class="swiper-active-index" id="swiper-active-index">{{$slideLen}}</span>
+            <span class="swiper-fuhao"></span>
+            <span class="swiper-length-index" id="swiper-length-index">{{$slideLen}}</span>
         </div>
     </div>
 </div>
 <!---->
-<div class="home-recommend">
-    <a class="home-recommend-item home-recommend-item-main"></a>
+<div class="node-inserted">
+    <div class="nav">
+        <div class="nav-box">
+            <a class="nav-item">
+                <img src="/store/static/images/women-clothing.png">
+                <span>女装</span>
+            </a>
+            <a class="nav-item">
+                <img src="/store/static/images/baihuo.png">
+                <span>百货</span>
+            </a>
+            <a class="nav-item">
+                <img src="/store/static/images/tongzhuang.png">
+                <span>童装</span>
+            </a>
+            <a class="nav-item">
+                <img src="/store/static/images/shipin.png">
+                <span>食品饮料</span>
+            </a>
+            <a class="nav-item">
+                <img src="/store/static/images/fenlie.png">
+                <span>更多品类</span>
+            </a>
+        </div>
+    </div>
 </div>
+<!---->
+{{/*<div class="home-recommend">*/}}
+{{/*    <a class="home-recommend-item home-recommend-item-main"></a>*/}}
+{{/*</div>*/}}
 <!---->
 <div class="node-inserted">
     <div class="like-wrapper">
@@ -167,4 +197,5 @@
         </div>
     </div>
 </div>
+<script src="/store/static/js/swipe.min.js"></script>
 {{template "footer.html" .}}

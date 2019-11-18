@@ -26,6 +26,32 @@ create table store_search
     search    text unique,
     create_at timestamp
 );
+create table store_slide
+(
+    "_id"     serial not null
+        constraint store_slide_pk
+            primary key,
+    filename  text unique,
+    create_at timestamp
+);
+
+--函数
+
+create function store_slide_insert(filename_val text[]) returns void
+    language plpgsql
+as
+$$
+declare
+    s text;
+begin
+
+    foreach s in array filename_val
+        loop
+            insert into store_slide (filename, create_at) values (s, now());
+        end loop;
+
+end;
+$$;
 
 create function store_search_insert(search_val text[]) returns void
     language plpgsql
@@ -42,4 +68,3 @@ begin
 
 end;
 $$;
-

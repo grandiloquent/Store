@@ -2,9 +2,10 @@
     var SearchModal = function SearchModal() {
     };
     window['SearchModal'] = SearchModal;
-    SearchModal.prototype.initialize = function () {
+    SearchModal.prototype.initialize = function (closeCallback) {
         this.element_ = document.getElementById('search-modal');
         if (!this.element_) return;
+        this.closeCallback_ = closeCallback;
         this.complete_ = document.querySelector('.search-modal_autocomplete');
         this.input_ = this.element_.querySelector('.top_input-text');
         this.close_ = this.element_.querySelector('.top_clear');
@@ -37,6 +38,7 @@
         _.removeClass(this.searchModal_, 'active');
         _.removeClass(this.searchModalTop_, 'active');
         _.removeClass(this.searchModalRecent_, 'active');
+        this.closeCallback_ && this.closeCallback_();
     };
     SearchModal.prototype.clearSearch = function () {
         _.delStyle(this.close_);

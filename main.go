@@ -73,6 +73,7 @@ func main() {
 	// -----------------------------------
 
 	r.Handle("/store/api/search", handlers.ApiSearchHandler(env)).Methods("GET", "POST")
+	r.Handle("/store/api/slide", handlers.ApiSlideHandler(env)).Methods("POST")
 
 	// -----------------------------------
 

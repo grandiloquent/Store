@@ -1,0 +1,34 @@
+.nav {
+    padding: .26667rem .13333rem .45333rem;
+    background-color: #fff;
+    width: 10rem;
+    margin-bottom: .21333rem;
+}
+
+.nav-box {
+    overflow: hidden;
+}
+
+.nav-item {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 1.94667rem;
+    padding-top: .32rem;
+    float: left;
+}
+.nav-item img {
+    width: 1.06667rem;
+    height: 1.06667rem;
+}
+.nav-item span {
+    line-height: .45333rem;
+    margin-top: .13333rem;
+    font-size: .32rem;
+    color: #666;
+}

@@ -11,6 +11,7 @@ type Home struct {
 	Debug          bool
 	SearchHolder   string
 	SearchKeywords []string
+	Slide          []interface{}
 }
 
 func HomeHandler(e *common.Env) http.Handler {
@@ -20,11 +21,17 @@ func HomeHandler(e *common.Env) http.Handler {
 			internalServerError(w, err)
 			return
 		}
+		slide, err := e.DB.Fetch("select filename from store_slide")
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
 		writeHome(w, &Home{
 			Title:          "淘货",
 			Debug:          e.Debug,
 			SearchHolder:   "精选好货",
 			SearchKeywords: searchKeywords,
+			Slide:          slide,
 		})
 	})
 }
