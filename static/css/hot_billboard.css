@@ -1,0 +1,77 @@
+
+.hot_billboard .container {
+    width: 7.6rem;
+    padding: .33333rem;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    position: relative;
+    background-color: #fff;
+}
+
+.card-title {
+    font-size: .32rem;
+    font-weight: 700;
+    color: #222;
+    width: 6.93333rem;
+    background-color: #fff;
+}
+
+.card-more-link {
+    color: #ff5a00;
+    position: absolute;
+    right: .33333rem;
+    top: .36rem;
+    font-size: .29333rem;
+}
+
+.boards-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    height: auto;
+    width: 6.93333rem;
+}
+
+.board-item-container {
+    margin-top: .33333rem;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.board-item-container .pic {
+    width: 1.73333rem;
+    height: 1.73333rem;
+    border-top-right-radius: .10667rem;
+    border-top-left-radius: .10667rem;
+}
+
+.board-item-container span {
+    width: 2.08rem;
+    height: .48rem;
+    text-align: center;
+    font-size: .29333rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.board-title {
+    border-radius: 100px;
+    background-color: #ff5a00;
+    background-image: linear-gradient(90deg, #ff5a00, #ff996a);
+    color: #fff;
+}
+
+.board-sub-title {
+    margin-top: .06667rem;
+    color: #333;
+}

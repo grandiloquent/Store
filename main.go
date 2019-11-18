@@ -69,11 +69,13 @@ func main() {
 
 	r.Handle("/", handlers.HomeHandler(env)).Methods("GET")
 	r.Handle("/store/results", handlers.ResultsHandler(env)).Methods("GET")
+	r.Handle("/store/categories", handlers.CategoriesHandler(env)).Methods("GET")
 
 	// -----------------------------------
 
 	r.Handle("/store/api/search", handlers.ApiSearchHandler(env)).Methods("GET", "POST")
 	r.Handle("/store/api/slide", handlers.ApiSlideHandler(env)).Methods("POST")
+	r.Handle("/store/api/category", handlers.ApiCategoryHandler(env)).Methods("POST")
 
 	// -----------------------------------
 

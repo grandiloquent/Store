@@ -288,6 +288,8 @@ func main() {
 				break
 			} else if o == "slide" {
 				insertSlide(host, accessToken)
+			} else if o == "category" {
+				insertCategory(host, accessToken)
 			}
 		}
 	}
@@ -308,6 +310,77 @@ func insertSearch(host, accessToken string) {
 func insertSlide(host, accessToken string) {
 	body := "[" + `"TB1kkQMlLb2gK0jSZK9XXaEgFXa-1080-498.jpg","TB1LYdTkuT2gK0jSZFvXXXnFXXa-1080-498.jpg","TB1PRiGm7L0gK0jSZFxXXXWHVXa-1080-498.jpg"` + "]"
 	uri := host + "/store/api/slide"
+	buf, err := Touch(uri, "POST", body, "Bearer "+accessToken, "", "", "", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(buf))
+}
+
+/*
+"汽车用品",
+"家居百货",
+"家用电器",
+"女装",
+"配饰",
+"内衣",
+"童装",
+"玩具",
+"母婴用品",
+"包装",
+"美妆日化",
+"食品生鲜",
+"进口",
+"家装建材",
+"安防",
+"五金工具",
+"家纺家饰",
+"宠物园艺",
+"运动户外",
+"鞋靴",
+"办公文化",
+"男装",
+"箱包皮具",
+"电工电气",
+"数码电子",
+"机械设备",
+"化工冶金",
+"纺织皮革",
+"照明工业",
+"橡塑",
+*/
+func insertCategory(host, accessToken string) {
+	body := "[" + `"汽车用品",
+"家居百货",
+"家用电器",
+"女装",
+"配饰",
+"内衣",
+"童装",
+"玩具",
+"母婴用品",
+"包装",
+"美妆日化",
+"食品生鲜",
+"进口",
+"家装建材",
+"安防",
+"五金工具",
+"家纺家饰",
+"宠物园艺",
+"运动户外",
+"鞋靴",
+"办公文化",
+"男装",
+"箱包皮具",
+"电工电气",
+"数码电子",
+"机械设备",
+"化工冶金",
+"纺织皮革",
+"照明工业",
+"橡塑"` + "]"
+	uri := host + "/store/api/category"
 	buf, err := Touch(uri, "POST", body, "Bearer "+accessToken, "", "", "", nil)
 	if err != nil {
 		log.Fatal(err)

@@ -99,7 +99,7 @@ a, img {
 
 a, a:active, a:focus, a:hover, a:link, a:visited {
     text-decoration: none !important;
-    color: #333 !important;
+    color: #333;
 }
 
 fieldset, img {

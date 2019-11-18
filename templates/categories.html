@@ -1,3 +1,47 @@
 {{template "header.html" .}}
 
+<div class="column-container" id="category-container">
+    <div class="left-content">
+        <div class="node-inserted">
+            <div class="container">
+                <div class="tab-container">
+                    <div class="tab-item-container selected">热门推荐</div>
+                    {{range .Names}}
+                        <div class="tab-item-container">{{index . 0}}</div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-content">
+        <div class="hot_billboard">
+            <div class="container">
+                <span class="card-title">热门榜单</span>
+                <a class="card-more-link">查看全部 ></a>
+                <div class="boards-container">
+                    <a class="board-item-container">
+                        <img class="pic">
+                        <span class="board-title">人气好品优选</span>
+                        <span class="board-sub-title">尼龙背包榜 &gt;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/**/}}
+    <div class="node-inserted">
+        <div class="loading" id="loading">
+            <div id="loading-center">
+                <div id="loading-center-absolute">
+                    <div class="object" id="object_one"></div>
+                    <div class="object" id="object_two"></div>
+                    <div class="object" id="object_three"></div>
+                    <div class="object" id="object_four"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{template "footer.html" .}}

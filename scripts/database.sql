@@ -34,9 +34,31 @@ create table store_slide
     filename  text unique,
     create_at timestamp
 );
-
+create table store_category
+(
+    "_id"     serial not null
+        constraint store_category_pk
+            primary key,
+    name  text unique,
+    create_at timestamp
+);
 --函数
 
+create function store_category_insert(name_val text[]) returns void
+    language plpgsql
+as
+$$
+declare
+    s text;
+begin
+
+    foreach s in array name_val
+        loop
+            insert into store_category (name, create_at) values (s, now());
+        end loop;
+
+end;
+$$;
 create function store_slide_insert(filename_val text[]) returns void
     language plpgsql
 as

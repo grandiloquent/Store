@@ -1,5 +1,6 @@
 ;(function () {
     'use strict';
+
     function dumpSize(element) {
         console.log(
             // '\nelement.accessKey,' + element.accessKey +
@@ -33,6 +34,8 @@
             // '\nelement.matches,' + element.matches +
             // '\nelement.name,' + element.name +
             // '\nelement.namespaceURI,' + element.namespaceURI +
+            '\nelement.namespaceURI,' + element.offsetTop +
+
             // '\nelement.onfullscreenchange,' + element.onfullscreenchange +
             // '\nelement.onfullscreenerror,' + element.onfullscreenerror +
             // '\nelement.openOrClosedShadowRoot,' + element.openOrClosedShadowRoot +
@@ -49,10 +52,15 @@
             // '\nelement.scrollBy,' + element.scrollBy +
             '\nelement.scrollHeight,' + element.scrollHeight +
             // '\nelement.scrollIntoView,' + element.scrollIntoView +
-            // '\nelement.scrollLeft,' + element.scrollLeft +
+            '\nelement.scrollLeft,' + element.scrollLeft +
             // '\nelement.scrollTo,' + element.scrollTo +
-            // '\nelement.scrollTop,' + element.scrollTop +
-            '\nelement.scrollWidth,' + element.scrollWidth);
+            '\nelement.scrollTop,' + element.scrollTop +
+            '\nelement.scrollWidth,' + element.scrollWidth +
+            '\nelement.offsetHeight,' + element.offsetHeight +
+            '\nelement.offsetLeft,' + element.offsetLeft +
+            '\nelement.offsetTop,' + element.offsetTop +
+            '\nelement.offsetWidth,' + element.offsetWidth
+        );
         // '\nelement.setAttribute,' + element.setAttribute +
         // '\nelement.setAttributeNode,' + element.setAttributeNode +
         // '\nelement.setCapture,' + element.setCapture +
@@ -62,6 +70,7 @@
         // '\nelement.tagName,' + element.tagName +
         // '\nelement.toggleAttribute,' + element.toggleAttribute);
     }
+
     function dumpWindow() {
         console.log(
             // '\nwindow.alert,' + window.alert +
@@ -152,6 +161,7 @@
             // '\nwindow.window,' + window.window
         )
     }
+
     function every(parent, selector, callback) {
         if (isUndefined(callback) && isFunction(selector)) {
             callback = selector;
@@ -164,54 +174,68 @@
             return callback(element);
         });
     }
+
     function isFunction(value) {
         return typeof value === 'function';
     }
+
     function isString(value) {
         return typeof value === 'string';
     }
+
     function isUndefined(value) {
         return typeof value === 'undefined';
     }
+
     function substringAfter(text, delimiter) {
         var index = text.indexOf(delimiter);
         if (index === -1) return text;
         return text.substr(index + 1);
     }
+
     function substringAfterLast(s, c) {
         var i = s.lastIndexOf(c);
         if (i === -1) return s;
         return s.substring(i + c.length);
     }
+
     function substringBefore(text, delimiter) {
         var index = text.indexOf(delimiter);
         if (index === -1) return text;
         return text.substr(0, index);
     }
+
     function substringBeforeLast(s, c) {
         var i = s.lastIndexOf(c);
         if (i === -1) return s;
         return s.substring(0, i);
     }
+
     function isWhitespace(text) {
         return !(isString(text) && text.trim().length > 0);
     }
+
     function delStyle(element) {
         element.removeAttribute('style');
     }
+
     function click(element, callback) {
         element.addEventListener('click', callback);
     }
+
     function removeClass(element, value) {
         element.classList.remove(value);
     }
+
     function addClass(element, value) {
         element.classList.add(value);
     }
+
     function display(element, value) {
         if (isUndefined(value)) value = 'block';
         element.style.display = value;
     }
+
     window['_'] = {
         addClass: addClass,
         removeClass: removeClass,
