@@ -46,6 +46,18 @@ func float(i interface{}) (float64) {
 	}
 	return 0
 }
+func readMapString(e *common.Env, r *http.Request) (map[string]interface{}, error) {
+	items, err := readData(e, r)
+	if err != nil {
+		return nil, err
+	}
+	rows, ok := (*items).(map[string]interface{})
+	if !ok {
+
+		return nil, errors.New("")
+	}
+	return rows, nil
+}
 func badRequest(w http.ResponseWriter) {
 	http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 }

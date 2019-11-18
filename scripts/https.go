@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"crypto/tls"
 	"encoding/json"
+	"euphoria/scripts/utils"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -292,9 +293,40 @@ func main() {
 				insertCategory(host, accessToken)
 			} else if o == "i" {
 				insertStore(host, accessToken)
+			} else {
+
 			}
 		}
+		return
 	}
+	s, err := utils.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+	f, err := os.Stat(s)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if !strings.HasSuffix(f.Name(), ".json") {
+		return
+	}
+	postJson(s, accessToken)
+}
+func postJson(filename string, accessToken string) {
+	buf, err := ioutil.ReadFile(filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var items map[string]interface{}
+	err = json.Unmarshal(buf, &items)
+	if err != nil {
+		log.Fatal(err)
+	}
+	buf, err = Touch(items["Url"].(string), "POST", string(buf), "Bearer "+accessToken, "", "", "", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(buf))
 
 }
 func insertSearch(host, accessToken string) {

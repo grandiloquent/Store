@@ -79,6 +79,42 @@ func ApiStoreHandler(e *common.Env) http.Handler {
 		notFound(w)
 	})
 }
+func ApiSellHandler(e *common.Env) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		method := r.URL.Query().Get("method")
+		if method == "POST" {
+			switch method {
+			case "insert":
+				insertSell(e, w, r)
+				return
+			}
+		}
+		notFound(w)
+	})
+}
+
+func insertSell(e *common.Env, w http.ResponseWriter, r *http.Request) {
+
+	rows, err := readMapString(e, r)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	// -----------------------------------
+
+	uid := rows["uid"]
+	if isWhiteSpaceString(uid) {
+		badRequest(w)
+		return
+	}
+
+	taobao := rows["taobao"]
+	wholesaler := rows["wholesaler"]
+	quantities := rows["quantities"]
+
+	fmt.Println(taobao, wholesaler, quantities)
+
+}
 func fetchSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	s, err := fetchSearchKeywords(e)
 	if err != nil {
