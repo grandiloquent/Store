@@ -11,8 +11,29 @@ import (
 	"net/http"
 	"store/common"
 	"strings"
+	"unicode"
 )
 
+func isWhiteSpaceString(i interface{}) bool {
+	s, ok := i.(string)
+	if !ok {
+		return false
+	}
+
+	for _, v := range s {
+		if !    unicode.IsSpace(v) {
+			return false
+		}
+	}
+	return true
+}
+func toFloat(i interface{}) (float64, error) {
+	f, ok := i.(float64)
+	if ok {
+		return f, nil;
+	}
+	return 0, errors.New("invalid")
+}
 func badRequest(w http.ResponseWriter) {
 	http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 }
@@ -62,7 +83,7 @@ func joinArray(i interface{}) string {
 func notFound(w http.ResponseWriter) {
 	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 }
-func readData(e *common.Env, w http.ResponseWriter, r *http.Request) (*interface{}, error) {
+func readData(e *common.Env, r *http.Request) (*interface{}, error) {
 	if !checkAuthorization(r, e.AccessToken) {
 		return nil, errors.New("forbidden")
 	}
