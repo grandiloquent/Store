@@ -12,6 +12,7 @@ import (
 	"store/common"
 	"strconv"
 	"strings"
+	"text/template"
 	"unicode"
 )
 
@@ -146,4 +147,18 @@ func writeCommandTag(t pgx.CommandTag, w http.ResponseWriter) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(buf)
+}
+func writeJson(w http.ResponseWriter, buf []byte) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(buf)
+}
+
+func renderPage(w http.ResponseWriter, data *Details, debug bool) {
+	t, err := template.ParseGlob("./templates/*.html")
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	err = t.ExecuteTemplate(w, "details.html", data)
+	log.Println(err)
 }

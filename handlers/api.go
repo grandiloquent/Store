@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/jackc/pgx/pgtype"
 	"net/http"
 	"store/common"
 )
@@ -10,7 +11,7 @@ import (
 const (
 	InsertStoreSQL = "select * from store_insert($1,$2,$3,$4,$5,$6,$7,$8)"
 	UpdateStoreSQL = "select * from store_update($1,$2,$3,$4,$5,$6,$7,$8,$9)"
-	FetchStoreSQL  = "select title,price,thumbnail,details,specification,service,taobao,wholesale,properties,showcases from commodities where uid = $1"
+	FetchStoreSQL  = "select title,price,thumbnail,details,specification,service,properties,showcases from store where uid = $1"
 	ListStoreSQL   = "select * from store_list($1,$2)"
 	InsertSellSQL  = "select * from store_sell_insert($1,$2,$3,$4)"
 )
@@ -74,6 +75,12 @@ func ApiStoreHandler(e *common.Env) http.Handler {
 				return
 			case "update":
 				updateStore(e, w, r)
+				return
+			}
+		} else if r.Method == "GET" {
+			switch method {
+			case "details":
+				fetchStoreDetails(e, w, r)
 				return
 			}
 		}
@@ -264,4 +271,65 @@ func updateStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	}
 	// -----------------------------------
 	writeCommandTag(t, w)
+}
+func fetchStoreDetails(e *common.Env, w http.ResponseWriter, r *http.Request) {
+	if !checkAuthorization(r, e.AccessToken) {
+		forbidden(w)
+		return
+	}
+	uid := r.URL.Query().Get("uid")
+
+	buf, err := fetchStore(uid, e)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	writeJson(w, buf)
+	// http://localhost:5050/store/api/store?method=details&uid=lpkxgi
+
+}
+func fetchStore(uid string, e *common.Env) ([]byte, error) {
+
+	var (
+		title         string
+		price         float64
+		thumbnail     string
+		details       string
+		specification string
+		service       string
+		properties    pgtype.TextArray
+		showcases     pgtype.TextArray
+	)
+
+	err := e.DB.QueryRow(FetchStoreSQL, uid).Scan(
+		&title,
+		&price,
+		&thumbnail,
+		&details,
+		&specification,
+		&service,
+		&properties,
+		&showcases,
+
+	)
+	if err != nil {
+		return nil, err
+	}
+	m := make(map[string]interface{})
+
+	m["uid"] = uid
+	m["title"] = title
+	m["price"] = common.ToFixed(price, 2)
+	m["thumbnail"] = thumbnail
+	m["details"] = details
+	m["specification"] = specification
+	m["service"] = service
+	m["properties"] = properties.Elements
+	m["showcases"] = showcases.Elements
+
+	buf, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return buf, nil
 }

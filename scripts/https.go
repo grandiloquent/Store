@@ -303,6 +303,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	if strings.HasPrefix(s, "http") {
+		fetchStore(s, accessToken)
+		return
+	}
 	f, err := os.Stat(s)
 	if err != nil {
 		log.Fatal(err)
@@ -445,3 +450,19 @@ func loadingSettings() map[string]interface{} {
 	}
 	return m
 }
+func fetchStore(uri, accessToken string) {
+	buf, err := Touch(uri, "GET", "", "Bearer "+accessToken, "", "", "", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var m map[string]interface{}
+
+	err = json.Unmarshal(buf, &m)
+
+	uid := m["uid"].(string)
+
+	filename := "./json/update_" + uid + ".json"
+	ioutil.WriteFile(filename, buf, 0644)
+}
+
+// http://localhost:5050/store/api/store?method=details&uid=lpkxgi

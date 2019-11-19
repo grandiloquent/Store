@@ -12,7 +12,6 @@ import (
 	"store/common/datastore"
 	"store/middleware"
 
-	ghandlers "github.com/gorilla/handlers"
 	"store/handlers"
 )
 
@@ -82,9 +81,11 @@ func main() {
 
 	// -----------------------------------
 
-	loggedRouter := ghandlers.LoggingHandler(os.Stdout, r)
+	//loggedRouter := ghandlers.LoggingHandler(os.Stdout, r)
+	// http.Handle("/", stdChain.Then(loggedRouter))
+
 	stdChain := alice.New(middleware.PanicRecoveryHandler, middleware.RemoveTrailingSlashHandler)
-	http.Handle("/", stdChain.Then(loggedRouter))
+	http.Handle("/", stdChain.Then(r))
 
 	r.PathPrefix("/store/static/").Handler(http.StripPrefix("/store/static/", http.FileServer(http.Dir("./static"))))
 
