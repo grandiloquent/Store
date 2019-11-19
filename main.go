@@ -70,6 +70,7 @@ func main() {
 	r.Handle("/store/results", handlers.ResultsHandler(env)).Methods("GET")
 	r.Handle("/store/categories", handlers.CategoriesHandler(env)).Methods("GET")
 	r.Handle("/store/details/{uid}", handlers.DetailsHandler(env)).Methods("GET")
+	r.Handle("/store/service", handlers.ServiceHandler(env)).Methods("GET")
 
 	// -----------------------------------
 

@@ -153,13 +153,13 @@ func writeJson(w http.ResponseWriter, buf []byte) {
 	w.Write(buf)
 }
 
-func renderPage(w http.ResponseWriter, data *Details, debug bool) {
+func renderPage(w http.ResponseWriter, filename string, data interface{}, debug bool) {
 	t, err := template.ParseGlob("./templates/*.html")
 	if err != nil {
 		internalServerError(w, err)
 		return
 	}
-	err = t.ExecuteTemplate(w, "details.html", data)
+	err = t.ExecuteTemplate(w, filename, data)
 	if err != nil {
 		log.Println(err)
 	}

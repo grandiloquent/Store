@@ -1,5 +1,26 @@
 {{template "header.html" .}}
 <div class="details_wrapper" id="details-content">
+
+    <div class="detail-header-layout">
+        <div class="detail-header-container">
+            <a class="detail-header-btn btn-go-back" style="display: inline"></a>
+            <a class="detail-header-btn btn-go-cart"></a>
+        </div>
+    </div>
+
+    <div class="detail-image">
+        <div class="swipe">
+            <div class="swipe-wrap">
+                <div><img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
+                <div><img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
+                <div><img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
+            </div>
+        </div>
+        <div class="image-slide-index-box">
+            <span class="image-slide-current-index">1</span>/<span class="image-slide-count">5</span>
+        </div>
+    </div>
+
     <div class="details_list">
         <div class="tab_wrapper" style="display: none">
             <div class="tab">
@@ -18,12 +39,14 @@
             <div class="details-item detail-title-container no-border-bottom">
                 <div class="offer-title-container">
                     <h1 class="title-content">
-                        <span class="title-text">坐垫eva泡沫地垫 家用宿舍拼接地板爬行垫子榻榻米地垫拼接地垫</span>
+                        <span class="title-text">{{.Title}}</span>
                     </h1>
                 </div>
             </div>
         </div>
 
+
+        {{/*        价格*/}}
         <div class="detail-price">
             <div class="details-item detail-price-container no-border-bottom">
                 <div class="detail-price-list">
@@ -31,41 +54,42 @@
                         <div class="price-all-value">
                             <div class="price-show-box">
                                 <span class="price-unit">¥</span>
-                                <span class="price-num">0.35</span>
+                                <span class="price-num">{{.Price}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {{/*        */}}
 
-        <div class="detail-logistics">
-            <div class="details-item detail-logistics-container no-border-bottom">
-                <div class="details-item-title detail-logistics-title">
-                    物流
-                </div>
-                <div class="details-item-content detail-logistics-content">
-                    <span class="detail-logistics-text">浙江省 金华市</span>
-                    <span class="detail-logistics-text">
-                        <span>快递费</span>
-                        <span class="price-rmb">¥</span><span>4.00</span>
-                    </span>
-                </div>
-            </div>
-        </div>
+        {{/*        物流*/}}
+
+        {{/*        {{if .Logistics}}*/}}
+        {{/*            <div class="detail-logistics" style="display: none;">*/}}
+        {{/*                <div class="details-item detail-logistics-container no-border-bottom">*/}}
+        {{/*                    <div class="details-item-title detail-logistics-title">*/}}
+        {{/*                        物流*/}}
+        {{/*                    </div>*/}}
+        {{/*                    <div class="details-item-content detail-logistics-content">*/}}
+        {{/*                        <span class="detail-logistics-text">浙江省 金华市</span>*/}}
+        {{/*                        <span class="detail-logistics-text">*/}}
+        {{/*                        <span>快递费</span>*/}}
+        {{/*                        <span class="price-rmb">¥</span><span>4.00</span>*/}}
+        {{/*                    </span>*/}}
+        {{/*                    </div>*/}}
+        {{/*                </div>*/}}
+        {{/*            </div>*/}}
+        {{/*        {{end}}*/}}
+        {{/*        */}}
 
     </div>
     <!--    -->
     <div class="details_list">
 
-        <div class="detail-sku">
-            <div class="details-item">
-                <div class="details-item-title">规格</div>
-                <div class="details-item-content has-item-arrow">
-                    <span class="detail-sku-text">&nbsp;</span>
-                </div>
-            </div>
-        </div>
+        {{/*        */}}{{/*        规格*/}}
+        {{/*        {{template "details-sku.html" .}}*/}}
+        {{/*        */}}{{/*        */}}
 
         <div class="detail-attribute">
             <div class="details-item">
@@ -94,24 +118,54 @@
 
 
     </div>
+    {{/*    */}}
+
+    <div class="detail-description">
+        <div class="details-item no-border-bottom">
+            <div class="tab">
+                <div class="tab-title-list">
+                    <div class="tab-title-item tab-active">
+                        <span class="tab-title-text">
+                            图文详情
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="detail-footer">
     <div class="detail-footer-container">
         <div class="detail-footer-biz-btn-group"></div>
         <div class="detail-footer-order-btn-group">
-            <a class="footer-order-btn order-btn-show">进入淘宝店</a>
-            <a class="footer-order-btn order-btn-show btn-important">立即订购</a>
+            <a class="footer-order-btn order-btn-show" target="_blank"
+               {{if .Taobao}}href="{{.Taobao}}}"{{end}}>进入淘宝店</a>
+            <a class="footer-order-btn order-btn-show btn-important" href="/store/order/{{.UId}}">立即订购</a>
         </div>
     </div>
 </div>
-<div class="detail-attribute-mask">
-    <div class="detail-mask-container">
-        <div class="detail-modal-container">
 
+{{/**/}}
+
+<div class="detail-attribute-mask">
+    <div class="detail-attribute-mask-inner"></div>
+    <div class="detail-attribute-modal-container" style="max-height: 80%">
+        <div class="detail-attribute-header">
+            <div>产品属性</div>
+        </div>
+        <div class="detail-attribute-content">
+            <div class="detail-attribute-list">
+                {{.Specification}}
+            </div>
+        </div>
+        <div class="detail-attribute-close">
+            <div>关闭</div>
         </div>
     </div>
+
 </div>
 {{/* https://github.com/tweenjs/tween.js */}}
+<script type="text/javascript" src="/store/static/js/swipe.min.js"></script>
 <script type="text/javascript" src="/store/static/js/Tween.min.js"></script>
 {{template "footer.html" .}}

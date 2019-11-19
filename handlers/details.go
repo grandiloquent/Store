@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/pgtype"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 )
 
 type Details struct {
+	UId           string
 	Title         string
 	Price         string
 	Details       string
@@ -26,7 +28,7 @@ func DetailsHandler(e *common.Env) http.Handler {
 		uid := vars["uid"]
 
 		var title string
-		var price string
+		var price pgtype.Numeric
 		var details string
 		var specification string
 		var service string
@@ -50,10 +52,18 @@ func DetailsHandler(e *common.Env) http.Handler {
 			internalServerError(w, err)
 			return
 		}
-		renderPage(w, &Details{
-			Title: title, Price: price, Details: details, Specification: specification, Service: service, Showcases: showcases,
+		priceStr, err := price.Value()
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+		renderPage(w, "details.html", Details{
+			UId:     uid,
+			Title:   title,
+			Price:   fmt.Sprintf("%.2f", float(priceStr)),
+			Details: details, Specification: specification, Service: service, Showcases: showcases,
 			Properties: properties,
-			Taobao: taobao.String,
+			Taobao:     taobao.String,
 			Quantities: quantities.Int,
 			Debug:      e.Debug,
 		}, e.Debug)
