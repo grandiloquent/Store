@@ -296,6 +296,19 @@
     color: rgb(51, 51, 51);
 }
 
+.like-cell-tags {
+    border: 0px solid black;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    flex-direction: row;
+    align-content: flex-start;
+    flex-shrink: 0;
+    height: 21.6px;
+    padding-top: 4.8px;
+}
+
 .like-cell-bottom {
     border: 0px solid black;
     position: relative;
@@ -359,20 +372,3 @@
 }
 
 /* ================================ */
-.footer {
-    width: 10rem;
-    height: 3.42667rem;
-    margin-top: .16rem;
-    margin-bottom: 1.73333rem;
-    background-color: #fff;
-    box-sizing: border-box;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.copy-right {
-    color: #b2b2b2;
-    font-size: .29333rem;
-    margin-top: .13333rem;
-}

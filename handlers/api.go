@@ -12,6 +12,7 @@ const (
 	UpdateStoreSQL = "select * from store_update($1,$2,$3,$4,$5,$6,$7,$8,$9)"
 	FetchStoreSQL  = "select title,price,thumbnail,details,specification,service,taobao,wholesale,properties,showcases from commodities where uid = $1"
 	ListStoreSQL   = "select * from store_list($1,$2)"
+	InsertSellSQL  = "select * from store_sell_insert($1,$2,$3,$4)"
 )
 
 func ApiCategoryHandler(e *common.Env) http.Handler {
@@ -82,7 +83,7 @@ func ApiStoreHandler(e *common.Env) http.Handler {
 func ApiSellHandler(e *common.Env) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		method := r.URL.Query().Get("method")
-		if method == "POST" {
+		if r.Method == "POST" {
 			switch method {
 			case "insert":
 				insertSell(e, w, r)
@@ -110,9 +111,18 @@ func insertSell(e *common.Env, w http.ResponseWriter, r *http.Request) {
 
 	taobao := rows["taobao"]
 	wholesaler := rows["wholesaler"]
-	quantities := rows["quantities"]
-
-	fmt.Println(taobao, wholesaler, quantities)
+	quantities, ok := rows["quantities"].(float64)
+	if !ok {
+		badRequest(w)
+		return
+	}
+	// -----------------------------------
+	t, err := e.DB.Exec(InsertSellSQL, uid, taobao, wholesaler, int64(quantities))
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	writeCommandTag(t, w)
 
 }
 func fetchSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {

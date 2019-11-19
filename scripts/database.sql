@@ -20,10 +20,10 @@ create table store
 
 create table store_sell
 (
-    "_id"      int
+    "_id"      serial not null
         constraint store_sell_pk
             primary key,
-    uid        text not null
+    uid        text   not null
         constraint store_sell_store_uid_fk
             references store (uid)
             on delete cascade,
@@ -91,6 +91,9 @@ begin
 end;
 $$;
 
+
+---
+
 create function store_search_insert(search_val text[]) returns void
     language plpgsql
 as
@@ -106,7 +109,27 @@ begin
 
 end;
 $$;
+
 ----
+
+
+create function store_sell_insert(uid_val text,
+                                  taobao_val text,
+                                  wholesaler_val text,
+                                  quantities_val int) returns int
+    language plpgsql
+as
+$$
+declare
+    id int;
+begin
+    insert into store_sell (uid, taobao, wholesaler, quantities)
+    VALUES (uid_val, taobao_val, wholesaler_val, quantities_val) returning _id into id;
+    return id;
+end;
+$$;
+
+---
 
 CREATE OR REPLACE FUNCTION make_store_uid()
     RETURNS text

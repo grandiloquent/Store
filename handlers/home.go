@@ -56,10 +56,12 @@ func HomeHandler(e *common.Env) http.Handler {
 			writer.WriteString(thumbnail)
 			writer.WriteString(`"/><div class="like-cell-footer"><span>`)
 			writer.WriteString(title)
-			writer.WriteString(`</span><div class="like-cell-bottom"><span class="like-price">￥`)
+			writer.WriteString(`</span>`)
+			writer.WriteString(`<div class="like-cell-tags"></div>`)
+			writer.WriteString(`<div class="like-cell-bottom"><span class="like-price">￥`)
 			writer.WriteString(fmt.Sprintf("%.2f", float(price)))
 			writer.WriteString(`</span> <span class="like-quantities">`)
-			writer.WriteString(fmt.Sprintf("%d", quantities))
+			writer.WriteString(fmt.Sprintf("已出售 %d  件", quantities))
 			writer.WriteString(`</span></div></div></div>`)
 
 			if i+1 < len(items) {
@@ -82,16 +84,17 @@ func HomeHandler(e *common.Env) http.Handler {
 				writer.WriteString(thumbnail)
 				writer.WriteString(`"/><div class="like-cell-footer"><span>`)
 				writer.WriteString(title)
-				writer.WriteString(`</span><div class="like-cell-bottom"><span class="like-price">￥`)
+				writer.WriteString(`</span>`)
+				writer.WriteString(`<div class="like-cell-tags"></div>`)
+				writer.WriteString(`<div class="like-cell-bottom"><span class="like-price">￥`)
 				writer.WriteString(fmt.Sprintf("%.2f", float(price)))
 				writer.WriteString(`</span> <span class="like-quantities">`)
-				writer.WriteString(fmt.Sprintf("%d", quantities))
+				writer.WriteString(fmt.Sprintf("已出售 %d  件", quantities))
 				writer.WriteString(`</span></div></div></div>`)
 			}
 
 			writer.WriteString(`</div>`)
 		}
-		fmt.Println(writer.String())
 
 		writeHome(w, &Home{
 			Title:          "淘货",
