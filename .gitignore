@@ -1,6 +1,6 @@
 /.idea
 /settings
 /static/pictures
+/scripts/json
 /static/*.css
 /static/*.js
-/scripts/*.json
