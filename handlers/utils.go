@@ -160,5 +160,7 @@ func renderPage(w http.ResponseWriter, data *Details, debug bool) {
 		return
 	}
 	err = t.ExecuteTemplate(w, "details.html", data)
-	log.Println(err)
+	if err != nil {
+		log.Println(err)
+	}
 }

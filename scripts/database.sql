@@ -271,4 +271,40 @@ begin
 end;
 $BODY$;
 
+---
+
+create or replace function store_fetch_details(uid_val text)
+    returns table
+            (
+                title         text,
+                price         numeric(15, 6),
+                details       text,
+                specification text,
+                service       text,
+                showcases     text[],
+                properties    text[],
+                taobao        text,
+                quantities    int
+            )
+    language plpgsql
+as
+$$
+begin
+
+    return query select store.title,
+                        store.price,
+                        store.details,
+                        store.specification,
+                        store.service,
+                        store.showcases,
+                        store.properties,
+                        ss.taobao,
+                        ss.quantities
+                 from store
+                          left join store_sell ss on store.uid = ss.uid
+                 where store.uid = uid_val;
+end;
+$$;
+
+
 
