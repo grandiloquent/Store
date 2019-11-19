@@ -1,10 +1,12 @@
 .acceleration {
     transform: translate3d(0px, 0px, 0px);
 }
+
 .flex {
     display: -webkit-flex;
     display: flex;
 }
+
 .flex-center {
     display: -webkit-flex;
     display: flex;
@@ -13,9 +15,15 @@
     -webkit-justify-content: center;
     justify-content: center;
 }
+
 .hide {
     display: none !important;
 }
+
 .noscroll {
     overflow: hidden;
+}
+
+.no-border-bottom:after {
+    display: none !important;
 }

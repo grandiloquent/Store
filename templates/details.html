@@ -1,7 +1,7 @@
 {{template "header.html" .}}
-<div class="details_wrapper">
+<div class="details_wrapper" id="details-content">
     <div class="details_list">
-        <div class="tab_wrapper">
+        <div class="tab_wrapper" style="display: none">
             <div class="tab">
                 <div class="tab-title-list">
                     <div class="tab-title-item tab-active">
@@ -15,7 +15,7 @@
         </div>
 
         <div class="details_box">
-            <div class="details-item detail-title-container">
+            <div class="details-item detail-title-container no-border-bottom">
                 <div class="offer-title-container">
                     <h1 class="title-content">
                         <span class="title-text">坐垫eva泡沫地垫 家用宿舍拼接地板爬行垫子榻榻米地垫拼接地垫</span>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="detail-price">
-            <div class="details-item detail-price-container">
+            <div class="details-item detail-price-container no-border-bottom">
                 <div class="detail-price-list">
                     <div class="detail-price-item">
                         <div class="price-all-value">
@@ -39,8 +39,79 @@
             </div>
         </div>
 
+        <div class="detail-logistics">
+            <div class="details-item detail-logistics-container no-border-bottom">
+                <div class="details-item-title detail-logistics-title">
+                    物流
+                </div>
+                <div class="details-item-content detail-logistics-content">
+                    <span class="detail-logistics-text">浙江省 金华市</span>
+                    <span class="detail-logistics-text">
+                        <span>快递费</span>
+                        <span class="price-rmb">¥</span><span>4.00</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!--    -->
+    <div class="details_list">
 
+        <div class="detail-sku">
+            <div class="details-item">
+                <div class="details-item-title">规格</div>
+                <div class="details-item-content has-item-arrow">
+                    <span class="detail-sku-text">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-attribute">
+            <div class="details-item">
+                <div class="details-item-title">属性</div>
+                <div class="details-item-content has-item-arrow">
+                    <span class="detail-sku-text">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{/*    */}}
+    <div class="details_list">
+
+        <div class="detail-service">
+            <div class="details-item">
+                <div class="details-item-title">服务</div>
+                <div class="details-item-content has-item-arrow">
+                    <span class="detail-sku-text">
+                        <span class="detail-service-item">7天包换</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 </div>
+
+<div class="detail-footer">
+    <div class="detail-footer-container">
+        <div class="detail-footer-biz-btn-group"></div>
+        <div class="detail-footer-order-btn-group">
+            <a class="footer-order-btn order-btn-show">进入淘宝店</a>
+            <a class="footer-order-btn order-btn-show btn-important">立即订购</a>
+        </div>
+    </div>
+</div>
+<div class="detail-attribute-mask">
+    <div class="detail-mask-container">
+        <div class="detail-modal-container">
+
+        </div>
+    </div>
+</div>
+{{/* https://github.com/tweenjs/tween.js */}}
+<script type="text/javascript" src="/store/static/js/Tween.min.js"></script>
 {{template "footer.html" .}}
