@@ -5,7 +5,59 @@
     window['OrderModal'] = OrderModal;
 
     // ==============================================
+    OrderModal.prototype.setupSubmit = function () {
+        this.selectorBtn_ = this.element_.querySelector('.selector-btn');
+        this.selectorBtn_.addEventListener('click', function () {
+            this.onSubmit();
+        }.bind(this));
+    };
+    OrderModal.prototype.onSubmit = function () {
+        var phoneNumber = this.phoneNum_.value;
+        if (!/^[0-9]{11}$/.test(phoneNumber)) {
 
+            this.phoneNum_.setAttribute('placeholder', '请输入正确的手机号码');
+            this.phoneNum_.value = '';
+            this.phoneNum_.focus();
+            return false;
+        } else {
+            window.localStorage && window.localStorage.setItem('phoneNumber', phoneNumber);
+            this.touchServer(phoneNumber);
+        }
+    };
+    OrderModal.prototype.onFailed = function () {
+        this.hideOrderMask();
+        _.toast("发生未知错误。<br>无法提交订单。<br>请稍后再试。");
+
+    };
+    OrderModal.prototype.onSuccess = function () {
+        this.hideOrderMask();
+        _.toast('已成功提交订单。');
+    }
+    OrderModal.prototype.touchServer = function (phoneNumber) {
+        var obj = {
+            'phoneNumber': phoneNumber,
+            'quantities': this.amount_,
+            'uid': this.element_.getAttribute('data-id'),
+        };
+        var that = this;
+        _.touchServer({
+            uri: '/',
+            body: JSON.stringify(obj),
+            success: function () {
+
+            },
+            failed: function (error) {
+                that.onFailed(error);
+            }
+        });
+    };
+
+    OrderModal.prototype.setupPhoneNumber = function () {
+        this.phoneNum_ = this.element_.querySelector('.phone-num-container input');
+        if (window.localStorage && localStorage.getItem('phoneNumber')) {
+            this.phoneNum_.value = localStorage.getItem('phoneNumber');
+        }
+    };
     OrderModal.prototype.initialize = function () {
         this.element_ = document.getElementById('detail-order-mask');
         if (!this.element_) return;
@@ -15,6 +67,7 @@
         this.totalAmount_ = this.element_.querySelector('.total-amount .color-highlight');
         this.totalPrice_ = this.element_.querySelector('.total-price .price-num');
         this.detailOrderContainer_ = this.element_.querySelector('.detail-order-container');
+
 
         this.element_.addEventListener('click', function () {
             this.hideOrderMask();
@@ -31,6 +84,8 @@
         this.setupControlButton(this.amountDownBtn_, true);
         this.setupControlButton(this.amountUpBtn_, false);
         this.setupInput();
+        this.setupPhoneNumber();
+        this.setupSubmit();
     };
     OrderModal.prototype.setupControlButton = function (element, isDown) {
         element.addEventListener('click', function () {
@@ -77,7 +132,7 @@
         var tween = new TWEEN.Tween(start) // Create a new tween that modifies 'coords'.
             .to({s: 0}, 150) // Move to (300, 200) in 1 second.
             .easing(TWEEN.Easing.Linear.None) // Use an easing function to make the animation smooth.
-            .onUpdate(function() {
+            .onUpdate(function () {
                 element.style.bottom = start.s + 'px';
             })
             .start(); // Start the tween immediately.
@@ -95,7 +150,7 @@
         var tween = new TWEEN.Tween(start) // Create a new tween that modifies 'coords'.
             .to({s: this.orderMaskHeight_ * -1}, 150) // Move to (300, 200) in 1 second.
             .easing(TWEEN.Easing.Linear.None) // Use an easing function to make the animation smooth.
-            .onUpdate(function() {
+            .onUpdate(function () {
                 element.style.bottom = start.s + 'px';
             })
             .onComplete(function () {
@@ -131,7 +186,7 @@
         var tween = new TWEEN.Tween(start) // Create a new tween that modifies 'coords'.
             .to({s: 0}, 400) // Move to (300, 200) in 1 second.
             .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-            .onUpdate(function() {
+            .onUpdate(function () {
                 element.style.opacity = start.s + '';
             }).onComplete(function () {
                 element.style.display = 'none';

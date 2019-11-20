@@ -243,12 +243,67 @@
         element.style.display = value;
     }
 
+    function touchServer(options) {
+        if (!options || !options.uri) return;
+        var headers = options.headers || [];
+        var method = options.method || 'GET';
+
+        if (options.body) {
+            if (!options.headers)
+                headers.push(["Content-Type", "application/json"]);
+            if (!options.method)
+                method = 'POST';
+        }
+        console.log(headers);
+        fetch(options.uri, {
+            method: method,
+            headers: headers,
+        }).then(function (response) {
+            options.response && options.response(response);
+            if (!response.ok) {
+                throw new Error();
+            }
+            return response.json();
+        }).then(function (data) {
+            options.success && options.success(data);
+        }).catch(function (error) {
+            options.failed && options.failed(error);
+        })
+
+    }
+
+    function toast(innerHTML, callback) {
+        var mask = document.createElement('div');
+        mask.setAttribute('style', 'position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);z-index:100');
+
+        var container = document.createElement('div');
+        container.setAttribute('style', 'width:100%;align-items:center;justify-content:center;height:100%;display:flex;');
+
+        var messsage = document.createElement('div');
+        messsage.setAttribute('style', 'width:50%;background:#fefefe;text-align:center;padding:1rem;');
+
+
+        messsage.innerHTML = innerHTML;
+        container.appendChild(messsage);
+
+        mask.appendChild(container);
+
+        mask.addEventListener('click', function () {
+            mask.parentNode.removeChild(mask);
+            callback && callback();
+        });
+
+        document.body.appendChild(mask);
+    }
+
+
     window['_'] = {
         addClass: addClass,
         removeClass: removeClass,
         click: click,
         display: display,
         dumpSize: dumpSize,
+        touchServer: touchServer,
         dumpWindow: dumpWindow,
         every: every,
         isFunction: isFunction,
@@ -257,6 +312,7 @@
         interceptClick: interceptClick,
         isWhitespace: isWhitespace,
         delStyle: delStyle,
+        toast: toast,
         substringAfter: substringAfter,
         substringAfterLast: substringAfterLast,
         substringBefore: substringBefore,

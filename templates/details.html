@@ -11,9 +11,9 @@
     <div class="detail-image">
         <div class="swipe">
             <div class="swipe-wrap">
-                <div><img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
-                <div><img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
-                <div><img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
+                {{range .Showcases}}
+                    <div><img src="/store/static/pictures/{{.}}"></div>
+                {{end}}
             </div>
         </div>
         <div class="image-slide-index-box">
@@ -164,8 +164,10 @@
         </div>
     </div>
 </div>
-
-<div class="detail-order-mask" id="detail-order-mask" style="display: none" data-price="{{.Price}}">
+{{/**/}}
+<div class="detail-order-mask" id="detail-order-mask" style="display: none"
+     data-id="{{.UId}}"
+     data-price="{{.Price}}">
     <div class="detail-order-mask-inner"></div>
     <div class="detail-order-container">
 
@@ -173,7 +175,9 @@
             <div class="detail-order-header-container">
                 <div class="detail-order-current-image">
                     <div class="image-container">
-                        <img src="/store/static/pictures/mobile_adapters_1.jpg">
+                        {{if .Showcases}}
+                            <img src="/store/static/pictures/{{index .Showcases 0}}">
+                        {{end}}
                     </div>
                 </div>
                 {{/*                */}}
@@ -201,6 +205,13 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="phone-num-container">
+                        <input type="number" placeholder="请输入收货人手机号码">
+                        <div class="underline">
+                            <div class="unfocused-line"></div>
+                            <div class="focused-line"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

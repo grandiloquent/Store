@@ -67,6 +67,7 @@ func main() {
 	// -----------------------------------
 
 	r.Handle("/", handlers.HomeHandler(env)).Methods("GET")
+	r.Handle("/store", handlers.HomeHandler(env)).Methods("GET")
 	r.Handle("/store/results", handlers.ResultsHandler(env)).Methods("GET")
 	r.Handle("/store/categories", handlers.CategoriesHandler(env)).Methods("GET")
 	r.Handle("/store/details/{uid}", handlers.DetailsHandler(env)).Methods("GET")

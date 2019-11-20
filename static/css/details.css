@@ -796,3 +796,57 @@
 .detail-description {
     margin: 0 auto;
 }
+
+/* ================================ */
+.phone-num-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-right: 1rem;
+}
+
+.phone-num-container > input {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+    font-size: 14px;
+    outline: none;
+    height: 42px;
+    padding-left: 10px;
+    width: 100%;
+    border: none;
+}
+
+.underline {
+    position: relative;
+}
+
+.unfocused-line {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #ccc;
+    height: 1px;
+}
+
+.focused-line {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #ff9000;
+    height: 2px;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+}
+
+input:focus + .underline .focused-line {
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transition: -webkit-transform .25s;
+    transition: -webkit-transform .25s;
+    transition: transform .25s, -webkit-transform .25s;
+}
