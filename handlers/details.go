@@ -18,7 +18,7 @@ type Details struct {
 	Showcases     []string
 	Properties    []string
 	Taobao        string
-	Quantities    int64
+	Quantities    int32
 	Debug         bool
 }
 
@@ -35,7 +35,7 @@ func DetailsHandler(e *common.Env) http.Handler {
 		var showcases []string
 		var properties []string
 		var taobao pgtype.Text
-		var quantities pgtype.Int8
+		var quantities pgtype.Int4
 
 		err := e.DB.QueryRow("select * from store_fetch_details($1)", uid).Scan(
 			&title,

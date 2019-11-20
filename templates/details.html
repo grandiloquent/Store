@@ -140,7 +140,7 @@
         <div class="detail-footer-biz-btn-group"></div>
         <div class="detail-footer-order-btn-group">
             <a class="footer-order-btn order-btn-show" target="_blank"
-               {{if .Taobao}}href="{{.Taobao}}}"{{end}}>进入淘宝店</a>
+               {{if .Taobao}}href="{{.Taobao}}}" {{else}}href="https://shop151475952.taobao.com/"{{end}}>进入淘宝店</a>
             <a class="footer-order-btn order-btn-show btn-important" id="order" data-id="{{.UId}}">立即订购</a>
         </div>
     </div>

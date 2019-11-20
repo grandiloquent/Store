@@ -1,11 +1,58 @@
 ;(function () {
     'use strict';
 
-    function interceptClick(element, callback) {
-        element.addEventListener('click', function (event) {
-            event.stopPropagation();
-            callback && callback(event);
-        })
+    function addClass(element, value) {
+        element.classList.add(value);
+    }
+
+    function click(element, callback) {
+        element.addEventListener('click', callback);
+    }
+
+    function clipboard(input) {
+        var element = document.createElement('textarea');
+        var previouslyFocusedElement = document.activeElement;
+        element.value = input;
+        // Prevent keyboard from showing on mobile
+        element.setAttribute('readonly', '');
+        element.style.contain = 'strict';
+        element.style.position = 'absolute';
+        element.style.left = '-9999px';
+        element.style.fontSize = '12pt'; // Prevent zooming on iOS
+        var selection = document.getSelection();
+        var originalRange = false;
+        if (selection.rangeCount > 0) {
+            originalRange = selection.getRangeAt(0);
+        }
+        document.body.append(element);
+        element.select();
+        // Explicit selection workaround for iOS
+        element.selectionStart = 0;
+        element.selectionEnd = input.length;
+        var isSuccess = false;
+        try {
+            isSuccess = document.execCommand('copy');
+        } catch (_) {
+        }
+        element.remove();
+        if (originalRange) {
+            selection.removeAllRanges();
+            selection.addRange(originalRange);
+        }
+        // Get the focus back on the previously focused element, if any
+        if (previouslyFocusedElement) {
+            previouslyFocusedElement.focus();
+        }
+        return isSuccess;
+    }
+
+    function delStyle(element) {
+        element.removeAttribute('style');
+    }
+
+    function display(element, value) {
+        if (isUndefined(value)) value = 'block';
+        element.style.display = value;
     }
 
     function dumpSize(element) {
@@ -42,7 +89,6 @@
             // '\nelement.name,' + element.name +
             // '\nelement.namespaceURI,' + element.namespaceURI +
             '\nelement.namespaceURI,' + element.offsetTop +
-
             // '\nelement.onfullscreenchange,' + element.onfullscreenchange +
             // '\nelement.onfullscreenerror,' + element.onfullscreenerror +
             // '\nelement.openOrClosedShadowRoot,' + element.openOrClosedShadowRoot +
@@ -182,6 +228,13 @@
         });
     }
 
+    function interceptClick(element, callback) {
+        element.addEventListener('click', function (event) {
+            event.stopPropagation();
+            callback && callback(event);
+        })
+    }
+
     function isFunction(value) {
         return typeof value === 'function';
     }
@@ -192,6 +245,18 @@
 
     function isUndefined(value) {
         return typeof value === 'undefined';
+    }
+
+    function isWeiXin() {
+        return window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1;
+    }
+
+    function isWhitespace(text) {
+        return !(isString(text) && text.trim().length > 0);
+    }
+
+    function removeClass(element, value) {
+        element.classList.remove(value);
     }
 
     function substringAfter(text, delimiter) {
@@ -218,36 +283,27 @@
         return s.substring(0, i);
     }
 
-    function isWhitespace(text) {
-        return !(isString(text) && text.trim().length > 0);
-    }
-
-    function delStyle(element) {
-        element.removeAttribute('style');
-    }
-
-    function click(element, callback) {
-        element.addEventListener('click', callback);
-    }
-
-    function removeClass(element, value) {
-        element.classList.remove(value);
-    }
-
-    function addClass(element, value) {
-        element.classList.add(value);
-    }
-
-    function display(element, value) {
-        if (isUndefined(value)) value = 'block';
-        element.style.display = value;
+    function toast(innerHTML, callback) {
+        var mask = document.createElement('div');
+        mask.setAttribute('style', 'position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);z-index:100');
+        var container = document.createElement('div');
+        container.setAttribute('style', 'width:100%;align-items:center;justify-content:center;height:100%;display:flex;');
+        var messsage = document.createElement('div');
+        messsage.setAttribute('style', 'width:50%;background:#fefefe;text-align:center;padding:1rem;');
+        messsage.innerHTML = innerHTML;
+        container.appendChild(messsage);
+        mask.appendChild(container);
+        mask.addEventListener('click', function () {
+            mask.parentNode.removeChild(mask);
+            callback && callback();
+        });
+        document.body.appendChild(mask);
     }
 
     function touchServer(options) {
         if (!options || !options.uri) return;
         var headers = options.headers || [];
         var method = options.method || 'GET';
-
         if (options.body) {
             if (!options.headers)
                 headers.push(["Content-Type", "application/json"]);
@@ -269,53 +325,29 @@
         }).catch(function (error) {
             options.failed && options.failed(error);
         })
-
     }
-
-    function toast(innerHTML, callback) {
-        var mask = document.createElement('div');
-        mask.setAttribute('style', 'position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);z-index:100');
-
-        var container = document.createElement('div');
-        container.setAttribute('style', 'width:100%;align-items:center;justify-content:center;height:100%;display:flex;');
-
-        var messsage = document.createElement('div');
-        messsage.setAttribute('style', 'width:50%;background:#fefefe;text-align:center;padding:1rem;');
-
-
-        messsage.innerHTML = innerHTML;
-        container.appendChild(messsage);
-
-        mask.appendChild(container);
-
-        mask.addEventListener('click', function () {
-            mask.parentNode.removeChild(mask);
-            callback && callback();
-        });
-
-        document.body.appendChild(mask);
-    }
-
 
     window['_'] = {
         addClass: addClass,
-        removeClass: removeClass,
         click: click,
+        clipboard: clipboard,
+        delStyle: delStyle,
         display: display,
         dumpSize: dumpSize,
-        touchServer: touchServer,
         dumpWindow: dumpWindow,
         every: every,
+        interceptClick: interceptClick,
         isFunction: isFunction,
         isString: isString,
         isUndefined: isUndefined,
-        interceptClick: interceptClick,
+        isWeiXin: isWeiXin,
         isWhitespace: isWhitespace,
-        delStyle: delStyle,
-        toast: toast,
+        removeClass: removeClass,
         substringAfter: substringAfter,
         substringAfterLast: substringAfterLast,
         substringBefore: substringBefore,
         substringBeforeLast: substringBeforeLast,
+        toast: toast,
+        touchServer: touchServer,
     }
 })();
