@@ -26,9 +26,9 @@
     </div>
     <div class="search-filter">
         <div class="filter_group">
-            <div class="filter_group-item active"><span>综合</span></div>
-            <div class="filter_group-item"><span>销量</span></div>
-            <div class="filter_group-item"><span>价格</span></div>
+            <div class="filter_group-item active" id="review"><span>综合</span></div>
+            <div class="filter_group-item" id="quantities"><span>销量</span></div>
+            <div class="filter_group-item" id="price"><span>价格</span></div>
             <div class="filter_group-item"><span>筛选<i class="icon filter_group-item_icon"></i></span></div>
         </div>
         <div class="filter_tags">
@@ -62,29 +62,32 @@
 <div class="search-list">
     <div class="list_counter"></div>
     <div class="list_column">
-        <div class="skelecton-item">
-            <a class="item-link">
-                <div class="item-image">
-                    <img class="image_src" src="">
-                </div>
-                <div class="item-info">
-                    <div class="item-info_title">
-                        <span>坐垫eva泡沫地垫 家用宿舍拼接地板爬行垫子榻榻米地垫拼接地垫</span>
-                    </div>
-                    <div class="item-info_count">
-                        <div class="count_price">
-                            <i>￥</i>0.35
-                        </div>
-                        <div class="count_vol">
-                            成交41603笔
-                        </div>
-                        <div class="count_position">
-                            临沂市
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
+        {{.Items}}
+        {{/*        <div class="skelecton-item">*/}}
+        {{/*            <a class="item-link">*/}}
+        {{/*                <div class="item-image">*/}}
+        {{/*                    <img class="image_src" src="">*/}}
+        {{/*                </div>*/}}
+        {{/*                <div class="item-info">*/}}
+        {{/*                    <div class="item-info_title">*/}}
+        {{/*                        <span>坐垫eva泡沫地垫 家用宿舍拼接地板爬行垫子榻榻米地垫拼接地垫</span>*/}}
+        {{/*                    </div>*/}}
+        {{/*                    <div class="item-info_count">*/}}
+        {{/*                        <div class="count_price">*/}}
+        {{/*                            <i>￥</i>0.35*/}}
+        {{/*                        </div>*/}}
+        {{/*                        <div class="count_vol">*/}}
+        {{/*                            成交41603笔*/}}
+        {{/*                        </div>*/}}
+        {{/*                        <div class="count_position">*/}}
+        {{/*                            临沂市*/}}
+        {{/*                        </div>*/}}
+        {{/*                    </div>*/}}
+        {{/*                </div>*/}}
+        {{/*            </a>*/}}
+        {{/*        </div>*/}}
+
+
     </div>
 </div>
 
@@ -107,5 +110,12 @@
         </div>
     </div>
 </div>
+
+{{if  .Debug}}
+    <script src="/store/static/js/share.js"></script>
+    <script src="/store/static/js/results.js"></script>
+{{else}}
+    <script src="/store/static/results.f2560b9a8389c3a7c64fcddf069f9c68.js"></script>
+{{end}}
 
 {{template "footer.html" .}}

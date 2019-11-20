@@ -45,7 +45,11 @@ func ApiSearchHandler(e *common.Env) http.Handler {
 			case "fetch":
 				fetchSearch(e, w, r)
 				return
+			case "like":
+				fetchLikeSearch(e, w, r)
+				return
 			}
+
 		}
 		notFound(w)
 	})
@@ -332,4 +336,51 @@ func fetchStore(uid string, e *common.Env) ([]byte, error) {
 		return nil, err
 	}
 	return buf, nil
+}
+func fetchLikeSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
+	keyword := r.URL.Query().Get("keyword")
+	limit := r.URL.Query().Get("limit")
+	offset := r.URL.Query().Get("offset")
+	sorttype := r.URL.Query().Get("sorttype")
+
+	items, err := e.DB.Fetch(LikeSQL, "%"+keyword+"%", limit, offset, sorttype)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	var results []interface{}
+
+	for _, i := range items {
+
+		item := i.([]interface{})
+
+		m := make(map[string]interface{})
+		uid := item[0].(string)
+		title := item [1].(string)
+		price, err := item[2].(*pgtype.Numeric).Value()
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+
+		thumbnail := item [3].(string)
+		quantities, ok := item[4].(int32)
+		if !ok {
+			quantities = 0
+		}
+
+		m["uid"] = uid
+		m["title"] = title
+		m["thumbnail"] = thumbnail
+		m["price"] = fmt.Sprintf("%.2f", float(price))
+		m["quantities"] = quantities
+
+		results = append(results, m)
+	}
+	buf, err := json.Marshal(results)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	writeJson(w, buf)
 }

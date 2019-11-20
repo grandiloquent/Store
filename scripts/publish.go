@@ -124,7 +124,7 @@ func compressJavaScript(path string) {
 	md := calculateMd5(&writerBuf)
 	target := dir + "/" + strings.TrimSuffix(filepath.Base(path), ".html") + "." + md + ".js"
 	ioutil.WriteFile(target, writerBuf, 0644)
-	runCommand("uglifyjs", target, "-o", target)
+	runCommand("uglifyjs", target, "-o", target, "-c", "-m")
 	//regex = regexp.MustCompile("/static/([a-zA-Z]+\\.[a-zA-Z0-9_]{5,}).js\"></script>")
 	regex = regexp.MustCompile("/static/[a-zA-Z0-9_.]+.js\"></script>")
 
@@ -165,7 +165,7 @@ func mergeStyle(css, dir string) {
 		log.Fatal(err)
 	}
 	compressCSS(o)
-	regex= regexp.MustCompile("rel=\"stylesheet\" href=\"/store/static/[a-zA-Z0-9._]+.css\"/>")
+	regex = regexp.MustCompile("rel=\"stylesheet\" href=\"/store/static/[a-zA-Z0-9._]+.css\"/>")
 
 	buf, err = ioutil.ReadFile(css)
 	if err != nil {

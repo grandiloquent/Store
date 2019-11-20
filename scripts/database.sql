@@ -333,7 +333,10 @@ end;
 $$;
 ---
 
-create or replace function store_list_like_results(like_val text, limit_val int, offset_val int)
+create or replace function store_list_like_results(like_val text,
+                                                   limit_val int,
+                                                   offset_val int,
+                                                   sort_val int=1)
     returns table
             (
                 uid        text,
@@ -346,14 +349,33 @@ create or replace function store_list_like_results(like_val text, limit_val int,
 as
 $$
 begin
-
-    return query select s.uid, s.title, s.price, s.thumbnail, ss.quantities
-                 from store as s
-                          join store_sell ss on s.uid = ss.uid
-                 where s.title like like_val
-                    or s.details like like_val
-                 order by update_at desc
-                 limit limit_val
-                     offset offset_val;
-end;
+    if sort_val = 1 then
+        return query select s.uid, s.title, s.price, s.thumbnail, ss.quantities
+                     from store as s
+                              left join store_sell ss on s.uid = ss.uid
+                     where s.title like like_val
+                        or s.details like like_val
+                     order by update_at desc
+                     limit limit_val
+                         offset offset_val;
+    elseif sort_val = 2 then
+        return query select s.uid, s.title, s.price, s.thumbnail, ss.quantities
+                     from store as s
+                              left join store_sell ss on s.uid = ss.uid
+                     where s.title like like_val
+                        or s.details like like_val
+                     order by ss.quantities desc
+                     limit limit_val
+                         offset offset_val;
+    elseif sort_val = 3 then
+        return query select s.uid, s.title, s.price, s.thumbnail, ss.quantities
+                     from store as s
+                              left join store_sell ss on s.uid = ss.uid
+                     where s.title like like_val
+                        or s.details like like_val
+                     order by s.price
+                     limit limit_val
+                         offset offset_val;
+    end if;
+end ;
 $$;

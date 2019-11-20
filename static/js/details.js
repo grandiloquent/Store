@@ -226,7 +226,10 @@
     Details.prototype.setupGoBack = function () {
         this.btnGoBack_ = this.element_.querySelector('.btn-go-back');
         this.btnGoBack_.addEventListener('click', function () {
-            window.location = "/store";
+            if (!window.history.state)
+                window.history.back();
+            else
+                window.location = "/store";
         });
     };
     Details.prototype.setupGoCart = function () {
