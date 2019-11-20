@@ -205,6 +205,7 @@
         this.setupGoBack();
         this.setupGoCart();
         this.setupOrderButton();
+        this.setupTaobao();
         this.adjustSize();
         this.setupScroll();
         // ==============================================
@@ -282,6 +283,16 @@
             .start(); // Start the tween immediately.
     };
 
+    Details.prototype.setupTaobao = function () {
+        this.taobaoButton_ = document.getElementById('taobao');
+        this.taobaoButton_.addEventListener('click', function (event) {
+            if (_.isWeiXin()) {
+                event.preventDefault();
+                _.clipboard(event.currentTarget.getAttribute('href'));
+                _.toast("已成功复制到剪切板。<br>请用手机自带浏览器打开。")
+            }
+        }.bind(this));
+    };
     Details.prototype.setupOrderButton = function () {
         this.orderButton_ = document.getElementById('order');
         this.orderButton_.addEventListener('click', function () {

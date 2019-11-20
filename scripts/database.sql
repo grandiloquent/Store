@@ -307,4 +307,53 @@ end;
 $$;
 
 
+---
 
+create or replace function store_list(limit_val int, offset_val int)
+    returns table
+            (
+                uid        text,
+                title      text,
+                price      numeric(15, 6),
+                thumbnail  text,
+                quantities int
+            )
+    language plpgsql
+as
+$$
+begin
+
+    return query select store.uid, store.title, store.price, store.thumbnail, ss.quantities
+                 from store
+                          join store_sell ss on store.uid = ss.uid
+                 order by update_at desc
+                 limit limit_val
+                     offset offset_val;
+end;
+$$;
+---
+
+create or replace function store_list_like_results(like_val text, limit_val int, offset_val int)
+    returns table
+            (
+                uid        text,
+                title      text,
+                price      numeric(15, 6),
+                thumbnail  text,
+                quantities int
+            )
+    language plpgsql
+as
+$$
+begin
+
+    return query select s.uid, s.title, s.price, s.thumbnail, ss.quantities
+                 from store as s
+                          join store_sell ss on s.uid = ss.uid
+                 where s.title like like_val
+                    or s.details like like_val
+                 order by update_at desc
+                 limit limit_val
+                     offset offset_val;
+end;
+$$;
