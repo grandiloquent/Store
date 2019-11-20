@@ -310,7 +310,6 @@
             if (!options.method)
                 method = 'POST';
         }
-        console.log(headers);
         fetch(options.uri, {
             method: method,
             headers: headers,
