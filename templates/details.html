@@ -141,7 +141,7 @@
         <div class="detail-footer-order-btn-group">
             <a class="footer-order-btn order-btn-show" target="_blank"
                {{if .Taobao}}href="{{.Taobao}}}"{{end}}>进入淘宝店</a>
-            <a class="footer-order-btn order-btn-show btn-important" href="/store/order/{{.UId}}">立即订购</a>
+            <a class="footer-order-btn order-btn-show btn-important" id="order" data-id="{{.UId}}">立即订购</a>
         </div>
     </div>
 </div>
@@ -163,8 +163,22 @@
             <div>关闭</div>
         </div>
     </div>
-
 </div>
+
+<div class="detail-order-mask">
+    <div class="detail-order-mask-inner"></div>
+    <div class="detail-order-container">
+        <div class="detail-order-header">
+            <div class="detail-order-header-container">
+                <div class="detail-order-current-image">
+                    <div class="image-container">
+                        <img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{/* https://github.com/tweenjs/tween.js */}}
 <script type="text/javascript" src="/store/static/js/swipe.min.js"></script>
 <script type="text/javascript" src="/store/static/js/Tween.min.js"></script>
