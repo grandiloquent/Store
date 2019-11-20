@@ -95,13 +95,7 @@ func mergeStyle(css, dir string) {
 	}
 	compressCSS(o)
 }
-func runCommand(name string, arg ...string) {
-	cmd, err := exec.Command(name, arg...).CombinedOutput()
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(name, arg, string(cmd))
-}
+
 func substringBeforeLast(s string, sep uint8) string {
 	for i := len(s) - 1; i > -1; i-- {
 		if s[i] == sep {

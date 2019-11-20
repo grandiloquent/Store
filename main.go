@@ -34,7 +34,7 @@ func loadSettings() map[string]interface{} {
 
 func setupEnv() *common.Env {
 	settings := loadSettings()
-	debug := true
+	debug := false
 	if len(os.Args) > 1 {
 		for _, v := range os.Args[1:] {
 			if v == "debug" {

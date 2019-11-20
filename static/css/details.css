@@ -608,6 +608,7 @@
     float: left;
     position: relative;
 }
+
 .image-container {
     position: absolute;
     bottom: 1.125rem;
@@ -617,9 +618,177 @@
     background: #fff;
     border: .125rem solid #fff;
 }
+
 .image-container > img {
     width: 4.375rem;
     height: 4.375rem;
+}
+
+.price-box {
+    position: absolute;
+    top: .625rem;
+    bottom: .625rem;
+    left: 6.5rem;
+    right: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.price-item {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 100%;
+    color: #666;
+}
+
+.price-item .price-show-price {
+    font-size: 1rem;
+    color: #ff6000;
+}
+
+.selector-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4.75rem;
+    bottom: 7.25rem;
+    background: #f9f9f9;
+}
+
+.prop-list {
+    list-style: none;
+    margin: 0;
+    padding: 1.125rem 0;
+    padding-left: 1rem;
+}
+
+.prop-item {
+    min-height: 2.25rem;
+    margin: 1rem 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.prop-amount {
+    -webkit-box-flex: 4.5;
+    -webkit-flex: 4.5;
+    -ms-flex: 4.5;
+    flex: 4.5;
+}
+
+.amount-controller {
+    width: 6.25rem;
+    height: 2.125rem;
+    float: right;
+    margin-right: 1rem;
+    background: #f5f5f5;
+}
+
+.amount-btn {
+    display: block;
+    float: left;
+    width: 2.125rem;
+    height: 2.125rem;
+}
+
+.amount-down-btn {
+    background: url('data:image/svg+xml;charset=utf-8,<svg width="20" height="3" viewBox="0 0 20 3" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v3H0z" fill="%23999" fill-rule="evenodd"/></svg>') no-repeat;
+    background-position: 50%;
+    background-size: .875rem
+}
+
+.amount-up-btn {
+    background: url('data:image/svg+xml;charset=utf-8,<svg width="20" height="21" viewBox="0 0 20 21" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 9V.5h3V9H20v3h-8.5v8.5h-3V12H0V9h8.5z" fill="%23999" fill-rule="evenodd"/></svg>') no-repeat;
+    background-position: 50%;
+    background-size: .8125rem
+}
+
+.amount-input {
+    display: block;
+    float: left;
+    width: 2rem;
+    height: 2.125rem;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    line-height: 2.125rem;
+    background: #f5f5f5;
+    color: #666;
+    font-size: .9375rem;
+}
+
+.selector-footer {
+    padding: 0 1.125rem;
+    border-top: 1px solid #eee;
+    height: 7.25rem;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+
+}
+
+.selector-info-box {
+    height: 3.375rem;
+    box-sizing: border-box;
+}
+
+.total-info {
+    height: 1.75rem;
+    padding-top: .625rem;
+}
+
+.info-right {
+    float: right;
+}
+
+.total-amount {
+    display: inline-block;
+    font-size: .75rem;
+    color: #999;
+    margin-right: 1rem;
+    line-height: 1.625rem;
+}
+
+.total-price {
+    display: inline-block;
+    color: #ff6000;
+    line-height: 1.625rem;
+}
+
+.selector-btn-group {
+    height: 2.75rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+
+.selector-btn {
+    border-radius: .125rem;
+    line-height: 2.75rem;
+    text-align: center;
+    font-size: 1.0625rem;
+    display: block;
+    height: auto;
+    width: auto;
+    border-right: .28125rem solid #fff;
+    flex: 1;
+    -ms-flex: 1;
+    -webkit-flex: 1;
+    -webkit-box-flex: 1;
+    border-left: none;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgb(255, 115, 0) 0%, rgb(255, 96, 0) 100%);
+
 }
 
 /* ================================ */

@@ -165,15 +165,64 @@
     </div>
 </div>
 
-<div class="detail-order-mask">
+<div class="detail-order-mask" id="detail-order-mask" style="display: none" data-price="{{.Price}}">
     <div class="detail-order-mask-inner"></div>
     <div class="detail-order-container">
+
         <div class="detail-order-header">
             <div class="detail-order-header-container">
                 <div class="detail-order-current-image">
                     <div class="image-container">
-                        <img src="/store/static/pictures/mobile_adapters_1.jpg"></div>
+                        <img src="/store/static/pictures/mobile_adapters_1.jpg">
+                    </div>
                 </div>
+                {{/*                */}}
+                <div class="price-box">
+                    <div class="price-item">
+                        <div class="price-show-price">
+                            ¥<span class="price-num">{{.Price}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="selector-content">
+            <div class="container-relative">
+                <div class="container-absolute">
+                    <ul class="prop-list">
+                        <li class="price-item">
+                            <div class="prop-amount">
+                                <div class="amount-controller">
+                                    <a class="amount-btn amount-down-btn"></a>
+                                    <input type="text" class="amount-input" value="1">
+                                    <a class="amount-btn amount-up-btn"></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="selector-footer">
+            <div class="selector-info-box">
+                <div class="total-info">
+                    <div class="info-right clearfix">
+                        <div class="total-amount">
+                            <span>共</span>
+                            <span class="color-highlight">1</span>
+                            <span>个</span>
+                        </div>
+                        <div class="total-price">
+                            <span class="price-unit">¥</span>
+                            <span class="price-num">{{.Price}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="selector-btn-group">
+                <a class="selector-btn">确定</a>
             </div>
         </div>
     </div>
@@ -182,4 +231,11 @@
 {{/* https://github.com/tweenjs/tween.js */}}
 <script type="text/javascript" src="/store/static/js/swipe.min.js"></script>
 <script type="text/javascript" src="/store/static/js/Tween.min.js"></script>
+{{if  .Debug}}
+    <script src="/store/static/js/share.js"></script>
+    <script src="/store/static/js/details.js"></script>
+{{else}}
+    <script src="/store/static/js/details.de563b02e7ab270f1608676d6185daa9.js"></script>
+{{end}}
+
 {{template "footer.html" .}}

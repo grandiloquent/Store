@@ -1,6 +1,13 @@
 ;(function () {
     'use strict';
 
+    function interceptClick(element, callback) {
+        element.addEventListener('click', function (event) {
+            event.stopPropagation();
+            callback && callback(event);
+        })
+    }
+
     function dumpSize(element) {
         console.log(
             // '\nelement.accessKey,' + element.accessKey +
@@ -247,6 +254,7 @@
         isFunction: isFunction,
         isString: isString,
         isUndefined: isUndefined,
+        interceptClick: interceptClick,
         isWhitespace: isWhitespace,
         delStyle: delStyle,
         substringAfter: substringAfter,

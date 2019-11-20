@@ -1,0 +1,586 @@
+.takla-wap-b2b-skuselector-component {
+    display: block;
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    width: 100%;
+    height: 100%
+}
+
+.takla-wap-b2b-skuselector-component .component-sku-selector-mask {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5)
+}
+
+.takla-wap-b2b-skuselector-component .component-sku-selector-container {
+    position: absolute;
+    bottom: 0;
+    height: 85%;
+    width: 100%;
+    background-color: #fff
+}
+
+.takla-wap-b2b-skuselector-component .component-sku-selector-container.sku-short-container {
+    height: 60%
+}
+
+.takla-wap-b2b-skuselector-component .component-sku-selector-container .b2b-wap-skuselector-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4.75rem
+}
+
+.takla-wap-b2b-skuselector-component .component-sku-selector-container .b2b-wap-skuselector-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4.75rem;
+    bottom: 7.25rem;
+    background: #f9f9f9
+}
+
+.takla-wap-b2b-skuselector-component .component-sku-selector-container .b2b-wap-skuselector-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 7.25rem
+}
+
+.takla-wap-b2b-skuselector-component.ctrl-hide-selector-footer .component-sku-selector-container .b2b-wap-skuselector-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4.75rem;
+    bottom: 0;
+    background: #f9f9f9
+}
+
+.takla-wap-b2b-skuselector-component.ctrl-hide-selector-footer .component-sku-selector-container .b2b-wap-skuselector-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .m-selector-header {
+    position: relative;
+    width: 100%;
+    height: 100%
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-current-image {
+    width: 6.5rem;
+    height: 100%;
+    float: left;
+    position: relative
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-current-image .image-container {
+    position: absolute;
+    bottom: 1.125rem;
+    left: 1.125rem;
+    width: 4.625rem;
+    height: 4.625rem;
+    background: #fff;
+    border: .125rem solid #fff
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-current-image .image-content {
+    width: 4.375rem;
+    height: 4.375rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box {
+    position: absolute;
+    top: .625rem;
+    bottom: .625rem;
+    left: 6.5rem;
+    right: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box .selector-price-item {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 100%;
+    color: #666
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box .selector-price-item.active-price .price-beigin-amount, .takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box .selector-price-item.active-price .price-show-price {
+    color: #ff6000
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box .selector-price-item .price-show-price {
+    font-size: 1rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box .selector-price-item .price-show-price .price-unit {
+    font-size: .75rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box .selector-price-item .price-beigin-amount, .takla-wap-b2b-skuselector-component .b2b-wap-skuselector-header .selector-price-box .selector-price-item .price-origin-price {
+    font-size: .75rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content {
+    position: relative;
+    width: 100%;
+    height: 100%
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-1st-prop-box, .takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-1st-prop-box .sku-1st-prop-name {
+    display: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-1st-prop-box .sku-1st-prop-content {
+    left: 0
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-1st-prop-box .sku-1st-prop-content .sku-1st-prop-list {
+    text-align: center
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-1st-prop-box .sku-1st-prop-content .sku-1st-prop-item {
+    display: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-2nd-prop-box {
+    top: 0;
+    border-top: 1px solid #eee
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-2nd-prop-box .sku-2nd-prop-name {
+    display: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-2nd-prop-box .sku-2nd-prop-content {
+    left: 0
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-2nd-prop-box .sku-2nd-prop-content .sku-2nd-prop-list {
+    padding-left: 1rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-2nd-prop-box .sku-2nd-prop-content .sku-2nd-prop-text {
+    visibility: hidden
+}
+
+@media screen and (max-width: 320px) {
+    .takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.no-sku-status .sku-2nd-prop-box .sku-2nd-prop-content .sku-amount-controller {
+        margin-right: 1.25rem
+    }
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.one-sku-status .sku-1st-prop-box .sku-1st-prop-name {
+    display: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.one-sku-status .sku-1st-prop-box .sku-1st-prop-content {
+    left: 0
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.one-sku-status .sku-1st-prop-box .sku-1st-prop-content .sku-1st-prop-list {
+    text-align: center
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.one-sku-status .sku-2nd-prop-box .sku-2nd-prop-name {
+    display: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.one-sku-status .sku-2nd-prop-box .sku-2nd-prop-content {
+    left: 0
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .m-selector-content.one-sku-status .sku-2nd-prop-box .sku-2nd-prop-content .sku-2nd-prop-list {
+    padding-left: 1rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.75rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-name {
+    display: table;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4.875rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-name .prop-name-text {
+    display: table-cell;
+    height: 3.75rem;
+    color: #333;
+    font-size: .875rem;
+    text-align: center;
+    vertical-align: middle
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 4.875rem;
+    right: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-list {
+    list-style: none;
+    height: 3.75rem;
+    margin: 0;
+    padding: 0;
+    display: block;
+    overflow-x: auto
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-list:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-item {
+    display: inline-block;
+    height: 3.75rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-item.active-sku-item .sku-1st-prop-btn {
+    color: #ff6000
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-item .selected-count {
+    display: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-item.show-selected-count {
+    position: relative
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-item.show-selected-count .selected-count {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: .5rem;
+    background: #ff6000;
+    color: #fff;
+    box-sizing: border-box;
+    padding: 0 .5rem;
+    min-width: 1rem;
+    line-height: 1rem;
+    font-size: .625rem;
+    text-align: center;
+    border-radius: .5rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-1st-prop-box .sku-1st-prop-btn {
+    display: inline-block;
+    line-height: 3.75rem;
+    padding: 0 .875rem;
+    color: #666;
+    font-size: .875rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box {
+    position: absolute;
+    top: 3.75rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff
+}
+
+@media screen and (max-width: 320px) {
+    .takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-name {
+        width: 3.75rem
+    }
+
+    .takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-content {
+        left: 3.75rem
+    }
+
+    .takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-content .sku-amount-controller {
+        margin-right: .3125rem
+    }
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-name {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4.875rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-name .prop-name-text {
+    display: block;
+    padding-top: 1.875rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    color: #333;
+    font-size: .875rem;
+    text-align: center;
+    word-break: break-all
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 4.875rem;
+    right: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-list {
+    list-style: none;
+    margin: 0;
+    padding: 1.125rem 0
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-item {
+    min-height: 2.25rem;
+    margin: 1rem 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-text {
+    -webkit-box-flex: 3;
+    -webkit-flex: 3;
+    -ms-flex: 3;
+    flex: 3;
+    text-align: left
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-text .main-text {
+    font-size: .875rem;
+    line-height: 1rem;
+    color: #666;
+    margin-bottom: .125rem;
+    word-break: break-all
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-text .price-text {
+    font-size: .6875rem;
+    line-height: .75rem;
+    color: #999
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-canbook {
+    -webkit-box-flex: 2.5;
+    -webkit-flex: 2.5;
+    -ms-flex: 2.5;
+    flex: 2.5;
+    text-align: right;
+    font-size: .6875rem;
+    line-height: .75rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-canbook .canbook-num {
+    color: #999;
+    padding-right: .25rem;
+    padding-bottom: .3125rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-amount {
+    -webkit-box-flex: 4.5;
+    -webkit-flex: 4.5;
+    -ms-flex: 4.5;
+    flex: 4.5
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-2nd-prop-amount.amount-disable {
+    visibility: hidden
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-amount-controller {
+    width: 6.25rem;
+    height: 2.125rem;
+    float: right;
+    margin-right: 1rem;
+    background: #f5f5f5
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-amount-controller .amount-input {
+    display: block;
+    float: left;
+    width: 2rem;
+    height: 2.125rem;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    line-height: 2.125rem;
+    background: #f5f5f5;
+    color: #666;
+    font-size: .9375rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-amount-controller .amount-btn {
+    display: block;
+    float: left;
+    width: 2.125rem;
+    height: 2.125rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-amount-controller .amount-btn:active {
+    background-color: #ccc
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-amount-controller .amount-down-btn {
+    background: url('data:image/svg+xml;charset=utf-8,<svg width="20" height="3" viewBox="0 0 20 3" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v3H0z" fill="%23999" fill-rule="evenodd"/></svg>') no-repeat;
+    background-position: 50%;
+    background-size: .875rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-content .sku-2nd-prop-box .sku-amount-controller .amount-up-btn {
+    background: url('data:image/svg+xml;charset=utf-8,<svg width="20" height="21" viewBox="0 0 20 21" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 9V.5h3V9H20v3h-8.5v8.5h-3V12H0V9h8.5z" fill="%23999" fill-rule="evenodd"/></svg>') no-repeat;
+    background-position: 50%;
+    background-size: .8125rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer {
+    border-top: 1px solid #eee;
+    padding: 0 1.125rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box {
+    height: 3.375rem;
+    box-sizing: border-box
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info {
+    height: 1.75rem;
+    padding-top: .625rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .info-left {
+    float: left
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .info-left:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .info-right {
+    float: right
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .info-right:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .info-text-content {
+    font-size: .75rem;
+    line-height: 1.625rem;
+    color: #999
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .total-amount {
+    display: inline-block;
+    font-size: .75rem;
+    color: #999;
+    margin-right: 1rem;
+    line-height: 1.625rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .total-amount .amount-num {
+    color: #ff6000
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .total-price {
+    display: inline-block;
+    color: #ff6000;
+    line-height: 1.625rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .total-price .price-unit {
+    font-size: .875rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-info-box .common-total-info .total-price .price-num {
+    font-size: 1.1875rem
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-btn-group {
+    height: 2.75rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-btn {
+    display: block;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0;
+    -ms-flex: 0;
+    flex: 0;
+    color: #ff5000;
+    font-size: 1.0625rem;
+    background: #ffebe5;
+    text-align: center;
+    line-height: 2.75rem;
+    border-radius: .125rem;
+    border-left: none;
+    border-right: none;
+    width: 0;
+    height: 0
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-btn.btn-display {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    border-left: .28125rem solid #fff;
+    border-right: .28125rem solid #fff;
+    width: auto;
+    height: auto
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-btn.btn-display:first-child {
+    border-left: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-btn.btn-display:last-child {
+    border-right: none
+}
+
+.takla-wap-b2b-skuselector-component .b2b-wap-skuselector-footer .selector-btn.btn-important {
+    background: #ff5000;
+    color: #fff
+}

@@ -200,4 +200,11 @@
     </div>
 </div>
 <script src="/store/static/js/swipe.min.js"></script>
+{{if .Debug}}
+    <script src="/store/static/js/share.js"></script>
+    <script src="/store/static/js/search-modal.js"></script>
+    <script src="/store/static/js/home.js"></script>
+{{else}}
+    <script src="/store/static/js/app.js"></script>
+{{end}}
 {{template "footer.html" .}}
