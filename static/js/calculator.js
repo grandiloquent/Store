@@ -17,12 +17,35 @@
 
     // ==============================================
 
+    function setupButtons() {
+
+        for (var i = 0; i < modBtns_.length; i++) {
+            var btn = modBtns_[i];
+            btn.addEventListener('click', function (event) {
+                var value = event.currentTarget.getAttribute('data-value');
+                var expression = substringBeforeLast(modInput_.textContent, '=').trim();
+                expression += value;
+                console.log(expression);
+                try {
+                    var results = eval(expression);
+                    if (!isNaN(results)) {
+                        modInput_.textContent = expression + ' = ' + results.toFixed(2);
+                    } else {
+                        modInput_.textContent = expression;
+                    }
+                } catch (e) {
+                    modInput_.textContent = expression;
+                }
+
+            });
+        }
+    }
+
     function calculate() {
         var expression = formatExpression(modInput_.textContent);
         var sel = window.getSelection();
         var anchorOffset = sel.anchorOffset;
         expression = substringBeforeLast(expression, '=');
-        console.log(expression);
         var result = eval(expression);
         if (!isNaN(result)) {
             modInput_.textContent = expression.trim() + ' = ' + result.toFixed(2);
@@ -31,6 +54,7 @@
             selection.collapse(modInput_.childNodes[modInput_.childNodes.length - 1], anchorOffset);
         }
     }
+
 
     function formatExpression(expression) {
         expression = expression.replace(/[^0-9.+-/=*]/g, '');
@@ -49,6 +73,7 @@
         setupSave();
         loadStorage();
         setupDeleteButtons();
+        setupButtons();
     }
 
     function setupClear() {

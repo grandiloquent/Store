@@ -63,7 +63,7 @@ func insertStores(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	}
 	items, ok := (*rItems).([]interface{})
 	if !ok {
-		internalServerError(w, errors.New(""))
+		internalServerError(w, errors.New("invalid data"))
 		return
 	}
 
@@ -71,6 +71,14 @@ func insertStores(e *common.Env, w http.ResponseWriter, r *http.Request) {
 
 	for _, v := range items {
 		m, ok := v.(map[string]interface{})
+
+		var uidValue interface{}
+		uid, ok := m["uid"].(string)
+		if !ok {
+			uidValue = nil
+		} else {
+			uidValue = uid
+		}
 		title := m["title"]
 		if isWhiteSpaceString(title) {
 			badRequest(w)
@@ -87,11 +95,9 @@ func insertStores(e *common.Env, w http.ResponseWriter, r *http.Request) {
 		service := m["service"]
 		properties := joinArray(m["properties"])
 		showcases := joinArray(m["showcases"])
-		if !ok {
-			internalServerError(w, errors.New(""))
-			return
-		}
+
 		batch.Queue(InsertStoreSQL,
+			uidValue,
 			title,
 			price,
 			thumbnail,

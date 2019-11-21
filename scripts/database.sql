@@ -313,3 +313,72 @@ $$;
 
 ---------------------
 
+create or replace function store_insert(uid_val text,
+                                        title_val text,
+                                        price_val numeric,
+                                        thumbnail_val text,
+                                        details_val text,
+                                        specification_val text,
+                                        service_val text,
+                                        properties_val text[],
+                                        showcases_val text[]) returns text
+    language plpgsql
+as
+$$
+declare
+    uid_val          text;
+    properties_array text[];
+    showcases_array  text[];
+
+begin
+
+    if array_length(properties_val, 1) > 0 then
+        properties_array = properties_val;
+    end if;
+
+    if array_length(showcases_val, 1) > 0 then
+        showcases_array = showcases_val;
+    end if;
+    if uid_val isnull then
+        select uid from store where title = title_val into uid_val;
+    end if;
+    if uid_val is not null then
+        update
+            store
+        set title= COALESCE(title_val, title),
+            price = COALESCE(price_val, price),
+            thumbnail = COALESCE(thumbnail_val, thumbnail),
+            details = COALESCE(details_val, details),
+            specification = COALESCE(specification_val, specification),
+            service = COALESCE(service_val, service),
+            properties = COALESCE(properties_array, properties),
+            showcases = COALESCE(showcases_array, showcases),
+            update_at = now()
+        where uid = uid_val;
+        return uid_val;
+    end if;
+    insert into store(uid,
+                      title,
+                      price,
+                      thumbnail,
+                      details,
+                      specification,
+                      service,
+                      properties,
+                      showcases,
+                      create_at,
+                      update_at)
+    values (make_store_uid(),
+            title_val,
+            price_val,
+            thumbnail_val,
+            details_val,
+            specification_val,
+            service_val,
+            properties_val,
+            showcases_val,
+            now(),
+            now()) returning uid into uid_val;
+    return uid_val;
+end;
+$$;

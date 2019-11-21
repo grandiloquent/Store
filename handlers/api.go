@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	InsertStoreSQL = "select * from store_insert($1,$2,$3,$4,$5,$6,$7,$8)"
+	InsertStoreSQL = "select * from store_insert($1,$2,$3,$4,$5,$6,$7,$8,$9)"
 	UpdateStoreSQL = "select * from store_update($1,$2,$3,$4,$5,$6,$7,$8,$9)"
 	FetchStoreSQL  = "select title,price,thumbnail,details,specification,service,properties,showcases from store where uid = $1"
 	ListStoreSQL   = "select * from store_list($1,$2)"

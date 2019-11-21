@@ -19,12 +19,7 @@ type Home struct {
 func HomeHandler(e *common.Env) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		searchKeywords, err := fetchSearchKeywords(e, 6, 0, 2)
-		if err != nil {
 
-			internalServerError(w, err)
-			return
-		}
 		slide, err := e.DB.Fetch("select filename from store_slide")
 		if err != nil {
 			internalServerError(w, err)
@@ -96,7 +91,6 @@ func HomeHandler(e *common.Env) http.Handler {
 			Title:          "好货送到家",
 			Debug:          e.Debug,
 			SearchHolder:   "精选好货",
-			SearchKeywords: searchKeywords,
 			Slide:          slide,
 			Items:          writer.String(),
 		}, e.Debug)

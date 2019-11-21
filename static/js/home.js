@@ -25,17 +25,47 @@
         this.imgSize_ = 'width:' + cellWidth + 'px;height:' + cellWidth + 'px';
     };
 
+    Home.prototype.loadingMore = function () {
+        _.touchServer({
+            uri: '/store/api/store?limit=10&offset=' + this.offset_,
+            success: this.onSuccess.bind(this),
+            failed: this.onFailed.bind(this)
+        })
+    };
+    Home.prototype.onFailed = function () {
+        this.likeLoadMore_.textContent = '没有更多了';
+    };
+    Home.prototype.onSuccess = function () {
+
+    };
+    Home.prototype.setupScroll = function () {
+        var element = document.querySelector('.like-row:last-child');
+        this.offsetTop_ = element.offsetTop;
+        var that = this;
+        window.addEventListener('scroll', function () {
+            if (!that.isLoading_ && window.pageYOffset > that.offsetTop_) {
+                that.isLoading_ = true;
+                that.loadingMore();
+            }
+        });
+    };
+
     Home.prototype.initialize = function () {
         this.element_ = document.getElementById('like-content');
         if (!this.element_) {
             console.log('cant detect the base element. stop rendering the home page.');
             return;
         }
+        this.likeLoadMore_ = document.querySelector('.like-load-more');
+
+        // -----------------------------------
+        this.offset_ = 10;
         this.calculateSize();
         this.adjustSize();
         this.setupSlide();
         this.setupHomeSearch();
         this.setupItems();
+        this.setupScroll();
     };
     Home.prototype.onRefreshFailed = function (error) {
         console.log(error);
