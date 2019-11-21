@@ -110,9 +110,65 @@
         </div>
     </div>
 </div>
+{{/**/}}
+<div class="node-inserted" id="search-modal">
+    <div class="search-modal">
+        <div class="search-modal_top">
+            <div class="top_input">
+                <input type="search" class="top_input-text" placeholder="请输入关键字">
+                <button class="top_clear">
+                    <i class="icon close top_clear-icon"></i>
+                </button>
+                <button class="top_search">
+                    <i class="icon search top_search-icon"></i>
+                </button>
+            </div>
+            <div class="top_back">取消</div>
+        </div>
+        <div class="search-modal_autocomplete">
+            {{/*            <div class="autocomplete-list_item">*/}}
+            {{/*                asdasd*/}}
+            {{/*            </div>*/}}
+            {{/*            <div class="autocomplete-list_item">*/}}
+            {{/*                asdasd*/}}
+            {{/*            </div>*/}}
+            {{/*            <div class="autocomplete-list_item">*/}}
+            {{/*                asdasd*/}}
+            {{/*            </div>*/}}
+            {{/*            <div class="autocomplete-list_item">*/}}
+            {{/*                asdasd*/}}
+            {{/*            </div>*/}}
+        </div>
+        <div class="search-modal_recent">
+            <div class="search-modal_hot">
+                <div class="modal_title">
+                    <span>大家都在搜</span>
+                    <span class="modal_hot-refresh">
+                        <i class="icon refresh modal_hot-refresh-icon"></i>换一批</span>
+                </div>
+                <div class="modal_hot-tags">
+                    {{range .SearchKeywords}}
+                        <div class="hot-tag">{{.}}</div>
+                    {{end}}
+                </div>
+            </div>
+            <div class="search-modal_history">
+                <div class="search-modal_title">
+                    <span>搜索历史</span>
+                    <span class="search-modal_clear">
+                        <i class="icon close search-modal_clear-icon"></i>
+                    </span>
+                </div>
+                <div class="search-modal_historytags">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {{if  .Debug}}
     <script src="/store/static/js/share.js"></script>
+    <script src="/store/static/js/search-modal.js"></script>
     <script src="/store/static/js/results.js"></script>
 {{else}}
     <script src="/store/static/results.f2560b9a8389c3a7c64fcddf069f9c68.js"></script>

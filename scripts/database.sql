@@ -33,14 +33,7 @@ create table store_sell
 );
 
 
-create table store_search
-(
-    "_id"     serial not null
-        constraint store_search_pk
-            primary key,
-    search    text unique,
-    create_at timestamp
-);
+
 create table store_slide
 (
     "_id"     serial not null
@@ -94,19 +87,19 @@ $$;
 
 ---
 
-create function store_search_insert(search_val text[]) returns void
+create function store_search_insert(search_val text,
+                                    raw_val text,
+                                    visits_val int,
+                                    popular_val int) returns void
     language plpgsql
 as
 $$
-declare
-    s text;
 begin
 
-    foreach s in array search_val
-        loop
-            insert into store_search (search, create_at) values (s, now());
-        end loop;
 
+    insert into store_search (search, raw, visits, popular, create_at, update_at)
+    values (search_val, raw_val, visits_val, popular_val, now(), now())
+    on conflict (search,raw) do nothing;
 end;
 $$;
 
