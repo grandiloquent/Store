@@ -3,7 +3,6 @@ package handlers
 import (
 	"bytes"
 	"fmt"
-	"github.com/jackc/pgx/pgtype"
 	"net/http"
 	"store/common"
 	"text/template"
@@ -40,7 +39,7 @@ func HomeHandler(e *common.Env) http.Handler {
 			item := items[i].([]interface{})
 			uid := item[0].(string)
 			title := item [1].(string)
-			price, err := item[2].(*pgtype.Numeric).Value()
+			price := item[2].(float64)
 			if err != nil {
 				internalServerError(w, err)
 				return
@@ -68,7 +67,7 @@ func HomeHandler(e *common.Env) http.Handler {
 				item = items[i+1].([]interface{})
 				uid = item[0].(string)
 				title = item [1].(string)
-				price, err = item[2].(*pgtype.Numeric).Value()
+				price = item[2].(float64)
 				if err != nil {
 					internalServerError(w, err)
 					return

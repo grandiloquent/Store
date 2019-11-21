@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/jackc/pgx/pgtype"
 	"net/http"
 	"store/common"
 )
@@ -23,7 +23,7 @@ func ApiCategoryHandler(e *common.Env) http.Handler {
 			internalServerError(w, err)
 			return
 		}
-		t, err := e.DB.Exec("select * from store_category_insert($1)", joinArray(*items))
+		t, err := e.DB.Exec(context.Background(), "select * from store_category_insert($1)", joinArray(*items))
 		if err != nil {
 			internalServerError(w, err)
 			return
@@ -37,7 +37,7 @@ func ApiSearchHandler(e *common.Env) http.Handler {
 		if r.Method == "POST" {
 			switch method {
 			case "insert":
-				insertSearch(e, w, r)
+				insertSearchKeywords(e, w, r)
 				return
 			}
 		} else {
@@ -61,7 +61,7 @@ func ApiSlideHandler(e *common.Env) http.Handler {
 			internalServerError(w, err)
 			return
 		}
-		t, err := e.DB.Exec("select * from store_slide_insert($1)", joinArray(*items))
+		t, err := e.DB.Exec(context.Background(), "select * from store_slide_insert($1)", joinArray(*items))
 		if err != nil {
 			internalServerError(w, err)
 			return
@@ -128,7 +128,7 @@ func insertSell(e *common.Env, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// -----------------------------------
-	t, err := e.DB.Exec(InsertSellSQL, uid, taobao, wholesaler, int64(quantities))
+	t, err := e.DB.Exec(context.Background(), InsertSellSQL, uid, taobao, wholesaler, int64(quantities))
 	if err != nil {
 		internalServerError(w, err)
 		return
@@ -136,49 +136,7 @@ func insertSell(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	writeCommandTag(t, w)
 
 }
-func fetchSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
-	s, err := fetchSearchKeywords(e)
-	if err != nil {
-		internalServerError(w, err)
-		return
-	}
-	obj, err := json.Marshal(s)
-	if err != nil {
-		internalServerError(w, err)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(obj)
-}
-func fetchSearchKeywords(e *common.Env) ([]string, error) {
-	rows, err := e.DB.Query("select search from store_search limit 6")
-	if err != nil {
-		return nil, err
-	}
-	var items []string
-	for rows.Next() {
-		values, err := rows.Values()
-		if err != nil {
-			return nil, err
-		}
-		items = append(items, values[0].(string))
-	}
-	return items, nil
-}
-func insertSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
-	items, err := readData(e, r)
-	if err != nil {
-		internalServerError(w, err)
-		return
-	}
-	s := joinArray(*items)
-	t, err := e.DB.Exec("select * from store_search_insert($1)", s)
-	if err != nil {
-		internalServerError(w, err)
-		return
-	}
-	w.Write([]byte(fmt.Sprintf("%d", t.RowsAffected())))
-}
+
 func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	items, err := readData(e, r)
 	if err != nil {
@@ -209,7 +167,7 @@ func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	showcases := joinArray(rows["showcases"])
 	// -----------------------------------
 	var uid string
-	err = e.DB.QueryRow(InsertStoreSQL,
+	err = e.DB.QueryRow(context.Background(), InsertStoreSQL,
 		title,
 		price,
 		thumbnail,
@@ -259,7 +217,7 @@ func updateStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	properties := joinArray(rows["properties"])
 	showcases := joinArray(rows["showcases"])
 	// -----------------------------------
-	t, err := e.DB.Exec(UpdateStoreSQL,
+	t, err := e.DB.Exec(context.Background(), UpdateStoreSQL,
 		uid,
 		title,
 		price,
@@ -301,11 +259,11 @@ func fetchStore(uid string, e *common.Env) ([]byte, error) {
 		details       string
 		specification string
 		service       string
-		properties    pgtype.TextArray
-		showcases     pgtype.TextArray
+		properties    []string
+		showcases     []string
 	)
 
-	err := e.DB.QueryRow(FetchStoreSQL, uid).Scan(
+	err := e.DB.QueryRow(context.Background(), FetchStoreSQL, uid).Scan(
 		&title,
 		&price,
 		&thumbnail,
@@ -328,9 +286,8 @@ func fetchStore(uid string, e *common.Env) ([]byte, error) {
 	m["details"] = details
 	m["specification"] = specification
 	m["service"] = service
-	m["properties"] = properties.Elements
-	m["showcases"] = showcases.Elements
-
+	m["properties"] = properties
+	m["showcases"] = showcases
 	buf, err := json.Marshal(m)
 	if err != nil {
 		return nil, err
@@ -357,11 +314,7 @@ func fetchLikeSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
 		m := make(map[string]interface{})
 		uid := item[0].(string)
 		title := item [1].(string)
-		price, err := item[2].(*pgtype.Numeric).Value()
-		if err != nil {
-			internalServerError(w, err)
-			return
-		}
+		price := item[2].(float64)
 
 		thumbnail := item [3].(string)
 		quantities, ok := item[4].(int32)

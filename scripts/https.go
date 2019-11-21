@@ -335,7 +335,7 @@ func postJson(filename string, accessToken string) {
 
 }
 func insertSearch(host, accessToken string) {
-	buf, err := ioutil.ReadFile("data.json")
+	buf, err := ioutil.ReadFile("./json/all_search.json")
 	if err != nil {
 		log.Fatal(err)
 	}

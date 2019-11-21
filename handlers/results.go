@@ -3,7 +3,7 @@ package handlers
 import (
 	"bytes"
 	"fmt"
-	"github.com/jackc/pgx/pgtype"
+	"github.com/jackc/pgtype"
 	"net/http"
 	"store/common"
 )

@@ -1,9 +1,10 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/jackc/pgx/pgtype"
+	"github.com/jackc/pgtype"
 	"net/http"
 	"store/common"
 )
@@ -37,7 +38,7 @@ func DetailsHandler(e *common.Env) http.Handler {
 		var taobao pgtype.Text
 		var quantities pgtype.Int4
 
-		err := e.DB.QueryRow("select * from store_fetch_details($1)", uid).Scan(
+		err := e.DB.QueryRow(context.Background(), "select * from store_fetch_details($1)", uid).Scan(
 			&title,
 			&price,
 			&details,

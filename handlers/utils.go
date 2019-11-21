@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
-	"github.com/jackc/pgx"
+	"github.com/jackc/pgconn"
 	"github.com/pkg/errors"
 	"io"
 	"log"
@@ -136,7 +136,7 @@ func readJson(r *http.Request, items *interface{}) error {
 	decoder := json.NewDecoder(reader)
 	return decoder.Decode(items)
 }
-func writeCommandTag(t pgx.CommandTag, w http.ResponseWriter) {
+func writeCommandTag(t pgconn.CommandTag, w http.ResponseWriter) {
 	out := make(map[string]interface{})
 	out["RowsAffected"] = t.RowsAffected()
 

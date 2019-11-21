@@ -1,13 +1,16 @@
 package datastore
 
-import "github.com/jackc/pgx"
+import (
+	"context"
+	"github.com/jackc/pgx"
+)
 
 type DataStore struct {
-	*pgx.ConnPool
+	*pgx.Conn
 }
 
 func (s *DataStore) Fetch(sql string, args ...interface{}) ([]interface{}, error) {
-	rows, err := s.Query(sql, args...)
+	rows, err := s.Query(context.Background(), sql, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -22,23 +25,25 @@ func (s *DataStore) Fetch(sql string, args ...interface{}) ([]interface{}, error
 	return items, nil
 
 }
-func NewDataStore(user, password, database, host string) (*DataStore, error) {
-	pgxconfig := pgx.ConnConfig{
-		User:     user,
-		Password: password,
-		Database: database,
-	}
-	if len(host) > 0 {
-		pgxconfig.Host = host
-	}
+func NewDataStore(connString string) (*DataStore, error) {
+	conn, err := pgx.Connect(context.Background(), connString)
 
-	conn, err := pgx.NewConnPool(pgx.ConnPoolConfig{
-		ConnConfig:     pgxconfig,
-		MaxConnections: 2,
-	})
+	//pgxconfig := pgx.ConnConfig{
+	//	User:     user,
+	//	Password: password,
+	//	Database: database,
+	//}
+	//if len(host) > 0 {
+	//	pgxconfig.Host = host
+	//}
+	//
+	//conn, err := pgx.NewConnPool(pgx.ConnPoolConfig{
+	//	ConnConfig:     pgxconfig,
+	//	MaxConnections: 2,
+	//})
 	if err != nil {
 		return nil, err
 	}
 	return &DataStore{
-		ConnPool: conn}, nil
+		Conn: conn}, nil
 }

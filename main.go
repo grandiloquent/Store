@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"
@@ -42,13 +43,9 @@ func setupEnv() *common.Env {
 			}
 		}
 	}
-	database := settings["Database"].(map[string]interface{})
-	host := ""
-	if debug {
-		host = database["Host"].(string)
-	}
+	database := settings["DSN"].(string)
 
-	db, err := datastore.NewDataStore(database["User"].(string), database["Password"].(string), database["Database"].(string), host)
+	db, err := datastore.NewDataStore(database)
 
 	if err != nil {
 		log.Fatal(err)
@@ -59,7 +56,7 @@ func setupEnv() *common.Env {
 func main() {
 	// -----------------------------------
 	env := setupEnv()
-	defer env.DB.Close()
+	defer env.DB.Close(context.Background())
 	// -----------------------------------
 
 	r := mux.NewRouter()
