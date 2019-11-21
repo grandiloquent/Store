@@ -2,11 +2,34 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/jackc/pgx"
 	"github.com/pkg/errors"
 	"net/http"
 	"store/common"
 )
+
+func fetchStoreList(e *common.Env, w http.ResponseWriter, r *http.Request) {
+	limit := safeQueryInt(r, "limit", 10)
+	offset := safeQueryInt(r, "offset", 10)
+	items, err := e.DB.Fetch(ListStoreSQL, limit, offset)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	var rows []interface{}
+	for _, i := range items {
+		item := i.([]interface{})
+		item[2] = stringPrice(item[2])
+		rows = append(rows, item)
+	}
+	buf, err := json.Marshal(rows)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	w.Write(buf)
+}
 
 func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	items, err := readData(e, r)

@@ -9,12 +9,12 @@
         _.every(this.element_, '.like-cell', function (element) {
             element.style = that.cellSize_;
         });
-        _.every(this.element_, '.like-cell img', function (element) {
-            element.style = that.imgSize_;
-        });
-        _.every(this.element_, '.like-cell-footer', function (element) {
-            element.style = that.cellWidth_;
-        });
+        // _.every(this.element_, '.like-cell img', function (element) {
+        //     element.style = that.imgSize_;
+        // });
+        // _.every(this.element_, '.like-cell-footer', function (element) {
+        //     element.style = that.cellWidth_;
+        // });
     };
 // 计算相应的尺寸
     Home.prototype.calculateSize = function () {
@@ -35,8 +35,52 @@
     Home.prototype.onFailed = function () {
         this.likeLoadMore_.textContent = '没有更多了';
     };
-    Home.prototype.onSuccess = function () {
+    Home.prototype.onSuccess = function (obj) {
+        if (!obj) {
+            this.likeLoadMore_.textContent = '没有更多了';
+            return
+        }
+        var buf = [];
 
+        for (var i = 0; i < obj.length; i += 2) {
+            buf.push('<div class="like-row">');
+            var uid = obj[i][0];
+            var title = obj[i][1];
+            var price = obj[i][2];
+            var thumbnail = obj[i][3];
+            var quantities = obj[i][4] || 0;
+            var pattern = "<div class=\"like-cell\" style=\"" + this.cellSize_ + "\" data-id=\"" + uid + "\"><img src=\"/store/static/pictures/" + thumbnail + "\"/><div class=\"like-cell-footer\"><span>" + title + "</span><div class=\"like-cell-tags\"></div><div class=\"like-cell-bottom\"><span class=\"like-price\">￥" + price + "</span> <span class=\"like-quantities\">" + quantities + "</span></div></div></div>";
+            buf.push(pattern);
+            if (i + 1 < obj.length) {
+
+                uid = obj[i + 1][0];
+                title = obj[i + 1][1];
+                price = obj[i + 1][2];
+                thumbnail = obj[i + 1][3];
+                quantities = obj[i + 1][4] || 0;
+                pattern = "<div class=\"like-cell\" style=\"" + this.cellSize_ + "\" data-id=\"" + uid + "\"><img src=\"/store/static/pictures/" + thumbnail + "\"/><div class=\"like-cell-footer\"><span>" + title + "</span><div class=\"like-cell-tags\"></div><div class=\"like-cell-bottom\"><span class=\"like-price\">￥" + price + "</span> <span class=\"like-quantities\">" + quantities + "</span></div></div></div>";
+                buf.push(pattern);
+            }
+            buf.push('</div>')
+        }
+        document.getElementById('like-content')
+            .insertAdjacentHTML('beforeend', buf.join(''));
+        this.isLoading_ = false;
+        this.offset_ += 10;
+        /*
+                               <div class="like-row">
+                                    <div class="like-cell" data-id="{{uid}}">
+                                        <img src="{{thumbnail}}">
+                                        <div class="like-cell-footer">
+                                            <span>{{title}}</span>
+                                            <div class="like-cell-bottom">
+                                                <span class="like-price">￥{{price}}</span>
+                                                <span class="like-quantities">{{quantities}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+           */
     };
     Home.prototype.setupScroll = function () {
         var element = document.querySelector('.like-row:last-child');

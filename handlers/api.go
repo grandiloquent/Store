@@ -86,6 +86,9 @@ func ApiStoreHandler(e *common.Env) http.Handler {
 			case "details":
 				fetchStoreDetails(e, w, r)
 				return
+			default:
+				fetchStoreList(e, w, r)
+				return
 			}
 		}
 		notFound(w)
