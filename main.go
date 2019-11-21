@@ -43,9 +43,11 @@ func setupEnv() *common.Env {
 			}
 		}
 	}
-	database := settings["DSN"].(string)
-
-	db, err := datastore.NewDataStore(database)
+	connString := settings["DSN"].(string)
+	if !debug {
+		connString = settings["ConnString"].(string)
+	}
+	db, err := datastore.NewDataStore(connString)
 
 	if err != nil {
 		log.Fatal(err)

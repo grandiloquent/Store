@@ -18,8 +18,10 @@ type Home struct {
 
 func HomeHandler(e *common.Env) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
 		searchKeywords, err := fetchSearchKeywords(e, 6, 0, 2)
 		if err != nil {
+
 			internalServerError(w, err)
 			return
 		}

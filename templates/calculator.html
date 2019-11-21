@@ -86,22 +86,67 @@
         overflow-y: scroll;
         font-size: 18px;
     }
+
+    .mod-list-item {
+        justify-content: flex-start !important;
+        align-items: center !important;
+        padding: 0 !important;
+        font-size: 14px !important;
+        display: flex !important;
+        border-bottom: 1px solid #e1e4e8;
+    }
+
+    .mod-list {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .mod-list-item > a {
+        align-items: center !important;
+        flex: 1 1 auto !important;
+        padding: 8px !important;
+        text-decoration: none !important;
+        display: flex !important;
+        color: #1b1f23;
+        min-height: 44px;
+        min-width: 0;
+    }
+
+    .mod-list-icon {
+        flex-shrink: 0 !important;
+        margin-right: 8px !important;
+        text-align: center !important;
+        width: 28px;
+        color: #333;
+    }
+
+    .mod-list-icon > svg {
+        fill: currentColor;
+        vertical-align: text-bottom;
+        flex-shrink: 0 !important;
+        overflow: hidden;
+    }
 </style>
+
 <div class="mod-tab-wrapper">
     <div class="mod-tab">
         <div class="mod-tab-item">计算器</div>
-        <div class="mod-tab-item">计算器</div>
-        <div class="mod-tab-item">计算器</div>
+        <div class="mod-tab-item"></div>
+        <div class="mod-tab-item"></div>
 
 
     </div>
 </div>
 <div class="mod-container">
-    <div class="mod-input"></div>
+    <ul class="mod-list">
+
+    </ul>
+    <div class="mod-input" contenteditable="true"></div>
 
     <div class="mod-btn-group">
-        <div class="mod-btn">清空</div>
+        <div class="mod-btn" id="clear">清空</div>
         <div class="mod-btn" id="backspace">退格</div>
+        <div class="mod-btn" id="save">保存</div>
         <div class="mod-btn" data-value="+">加</div>
         <div class="mod-btn" data-value="-">减</div>
         <div class="mod-btn" data-value="*">乘</div>
@@ -119,36 +164,89 @@
         <div class="mod-btn" data-value=".">.</div>
     </div>
 </div>
-<script>
-    var modContainer_ = document.querySelector('.mod-container');
-    var modTabWrapper_ = document.querySelector('.mod-tab-wrapper');
-    var modBtns_ = document.querySelectorAll('.mod-btn[data-value]');
-    var modInput_ = document.querySelector('.mod-input');
+<script src="/store/static/js/calculator.js"></script>
 
-    for (var i = 0; i < modBtns_.length; i++) {
-        modBtns_[i].addEventListener('click', function (event) {
-            modInput_.textContent = substringBeforeLast(modInput_.textContent, ' = ') +
-                event.currentTarget.getAttribute('data-value');
-            var value = eval(modInput_.textContent);
-            if (!isNaN(value)) {
-                modInput_.textContent += ' = ' + value.toFixed(2);
-            }
-        })
-    }
+{{/*<script>*/}}
+{{/*    function clipboard(callback) {*/}}
+{{/*        if (navigator.clipboard) {*/}}
+{{/*            navigator.clipboard.readText().then(function (value) {*/}}
+{{/*                callback && callback(value);*/}}
+{{/*            }).catch(function (error) {*/}}
+{{/*                callback && callback(null);*/}}
+{{/*            });*/}}
+{{/*            return*/}}
+{{/*        }*/}}
+{{/*        var element = document.createElement('textarea');*/}}
+{{/*        var previouslyFocusedElement = document.activeElement;*/}}
+{{/*        // Prevent keyboard from showing on mobile*/}}
+{{/*        element.setAttribute('readonly', '');*/}}
+{{/*        element.contentEditable = true;*/}}
+{{/*        element.style.contain = 'strict';*/}}
+{{/*        element.style.position = 'absolute';*/}}
+{{/*        element.style.left = '-9999px';*/}}
+{{/*        element.style.fontSize = '12pt'; // Prevent zooming on iOS*/}}
+
+{{/*        document.body.append(element);*/}}
+{{/*        if (element.setSelectionRange) {*/}}
+{{/*            element.focus();*/}}
+{{/*            element.setSelectionRange(element.value.length, element.value.length);*/}}
+{{/*        } else if (element.createTextRange) {*/}}
+{{/*            var range = element.createTextRange();*/}}
+{{/*            range.collapse(true);*/}}
+{{/*            range.moveEnd('character', element.value.length);*/}}
+{{/*            range.moveStart('character', element.value.length);*/}}
+{{/*            range.select();*/}}
+{{/*        }*/}}
+{{/*        var isSuccess = false;*/}}
+{{/*        try {*/}}
+{{/*            isSuccess = document.execCommand('paste');*/}}
+{{/*            console.log(isSuccess);*/}}
+{{/*            //callback && callback(element.textContent);*/}}
+
+{{/*        } catch (_) {*/}}
+{{/*            console.log(_);*/}}
+{{/*            callback && callback(null);*/}}
+{{/*        }*/}}
+{{/*        element.remove();*/}}
+
+{{/*        return isSuccess;*/}}
+{{/*    }*/}}
+
+{{/*    var modContainer_ = document.querySelector('.mod-container');*/}}
+{{/*    var modTabWrapper_ = document.querySelector('.mod-tab-wrapper');*/}}
+{{/*    var modBtns_ = document.querySelectorAll('.mod-btn[data-value]');*/}}
+{{/*    var modInput_ = document.querySelector('.mod-input');*/}}
+
+{{/*    modInput_.addEventListener('input', function () {*/}}
+{{/*        console.log(arguments);*/}}
+{{/*    })*/}}
+{{/*    for (var i = 0; i < modBtns_.length; i++) {*/}}
+{{/*        modBtns_[i].addEventListener('click', function (event) {*/}}
+{{/*            modInput_.textContent = substringBeforeLast(modInput_.textContent, ' = ') +*/}}
+{{/*                event.currentTarget.getAttribute('data-value');*/}}
+{{/*            var value = eval(modInput_.textContent);*/}}
+{{/*            if (!isNaN(value)) {*/}}
+{{/*                modInput_.textContent += ' = ' + value.toFixed(2);*/}}
+{{/*            }*/}}
+{{/*        })*/}}
+{{/*    }*/}}
 
 
-    modContainer_.style.height = (window.innerHeight - modTabWrapper_.getClientRects()[0].height) + 'px';
+{{/*    modContainer_.style.height = (window.innerHeight - modTabWrapper_.getClientRects()[0].height) + 'px';*/}}
 
-    function substringBeforeLast(s, c) {
-        var i = s.lastIndexOf(c);
-        if (i === -1) return s;
-        return s.substring(0, i);
-    }
+{{/*    function substringBeforeLast(s, c) {*/}}
+{{/*        var i = s.lastIndexOf(c);*/}}
+{{/*        if (i === -1) return s;*/}}
+{{/*        return s.substring(0, i);*/}}
+{{/*    }*/}}
 
-    document.getElementById('backspace')
-        .addEventListener('click',
-            function () {
-
-            });
-</script>
+{{/*    document.getElementById('backspace')*/}}
+{{/*        .addEventListener('click',*/}}
+{{/*            function () {*/}}
+{{/*                clipboard(function (value) {*/}}
+{{/*                    console.log(value);*/}}
+{{/*                })*/}}
+{{/*            });*/}}
+{{/*    document.getElementById('content-holder')*/}}
+{{/*</script>*/}}
 {{template "footer.html" .}}

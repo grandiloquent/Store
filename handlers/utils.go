@@ -9,9 +9,11 @@ import (
 	"github.com/jackc/pgtype"
 	"github.com/pkg/errors"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"store/common"
+	"store/common/datastore"
 	"strconv"
 	"strings"
 	"text/template"
@@ -202,4 +204,29 @@ func safeQueryInt(r *http.Request, key string, defaultValue int) int {
 		return defaultValue
 	}
 	return i
+}
+func reconnect(e *common.Env) error {
+	m := loadSettings()
+	connString := m["DSN"].(string)
+	if !e.Debug {
+		connString = m["ConnString"].(string)
+	}
+	c, err := datastore.NewDataStore(connString)
+	if err != nil {
+		return err
+	}
+	e.DB = *c
+	return nil
+}
+func loadSettings() map[string]interface{} {
+	buf, err := ioutil.ReadFile("./settings/settings.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var m map[string]interface{}
+	err = json.Unmarshal(buf, &m)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return m
 }

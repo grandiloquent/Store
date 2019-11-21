@@ -1,7 +1,7 @@
 @font-face {
     font-family: wapseo;
-    src: url(../font/font_517299_345i7s00onefjemi.eot);
-    src: url(../font/font_517299_345i7s00onefjemi_ie.eot) format("embedded-opentype"), url(../font/font_517299_345i7s00onefjemi.woff) format("woff"), url(../font/font_517299_345i7s00onefjemi.ttf) format("truetype"), url(../font/font_517299_345i7s00onefjemi.svg) format("svg")
+    src: url(/store/static/font/font_517299_345i7s00onefjemi.eot);
+    src: url(/store/static/font/font_517299_345i7s00onefjemi_ie.eot) format("embedded-opentype"), url(/store/static/font/font_517299_345i7s00onefjemi.woff) format("woff"), url(/store/static/font/font_517299_345i7s00onefjemi.ttf) format("truetype"), url(/store/static/font/font_517299_345i7s00onefjemi.svg) format("svg")
 }
 
 .icon {
