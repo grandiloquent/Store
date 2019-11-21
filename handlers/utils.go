@@ -191,3 +191,15 @@ func stringPrice(i interface{}) string {
 	}
 	return fmt.Sprintf("%.2f", f)
 }
+
+func safeQueryInt(r *http.Request, key string, defaultValue int) int {
+	v := r.URL.Query().Get(key)
+	if v == "" {
+		return defaultValue
+	}
+	i, err := strconv.Atoi(v)
+	if err != nil {
+		return defaultValue
+	}
+	return i
+}

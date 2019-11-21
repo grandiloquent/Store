@@ -356,7 +356,7 @@ func insertSlide(host, accessToken string) {
 	fmt.Println(string(buf))
 }
 func insertStore(host, accessToken string) {
-	buf, err := ioutil.ReadFile("./insert.json")
+	buf, err := ioutil.ReadFile("./json/all.json")
 	if err != nil {
 		log.Fatal(err)
 	}

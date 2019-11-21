@@ -1,23 +1,5 @@
 --创建数据库
 
-create table store
-(
-    "_id"         serial         not null
-        constraint store_pk
-            primary key,
-    uid           text           not null,
-    title         text           not null,
-    price         numeric(15, 6) not null,
-    thumbnail     text,
-    details       text,
-    specification text,
-    service       text,
-    properties    text[],
-    showcases     text[],
-    create_at     timestamp,
-    update_at     timestamp
-);
-
 create table store_sell
 (
     "_id"      serial not null
@@ -150,51 +132,6 @@ $BODY$;
 
 ---
 
-create or replace function store_insert(title_val text,
-                                        price_val numeric,
-                                        thumbnail_val text,
-                                        details_val text,
-                                        specification_val text,
-                                        service_val text,
-                                        properties_val text[],
-                                        showcases_val text[]) returns text
-    language plpgsql
-as
-$$
-declare
-    uid_val text;
-begin
-
-    select uid from store where title = title_val into uid_val;
-    if uid_val is not null
-    then
-        return uid_val;
-    end if;
-    insert into store(uid,
-                      title,
-                      price,
-                      thumbnail,
-                      details,
-                      specification,
-                      service,
-                      properties,
-                      showcases,
-                      create_at,
-                      update_at)
-    values (make_store_uid(),
-            title_val,
-            price_val,
-            thumbnail_val,
-            details_val,
-            specification_val,
-            service_val,
-            properties_val,
-            showcases_val,
-            now(),
-            now()) returning uid into uid_val;
-    return uid_val;
-end;
-$$;
 
 ---
 
@@ -372,3 +309,7 @@ begin
     end if;
 end ;
 $$;
+
+
+---------------------
+

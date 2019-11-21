@@ -3,14 +3,7 @@
     var Home = function Home() {
     };
 
-    Home.prototype.addHistory = function (keywords) {
-        if (!window.localStorage) return;
-        var obj = (JSON.parse(window.localStorage.getItem('search-history'))) || [];
-        if (obj.indexOf(keywords) === -1) {
-            obj.push(keywords);
-        }
-        window.localStorage.setItem('search-history', JSON.stringify(obj));
-    }
+
     Home.prototype.adjustSize = function () {
         var that = this;
         _.every(this.element_, '.like-cell', function (element) {
@@ -22,7 +15,7 @@
         _.every(this.element_, '.like-cell-footer', function (element) {
             element.style = that.cellWidth_;
         });
-    }
+    };
 // 计算相应的尺寸
     Home.prototype.calculateSize = function () {
         var gutter = (window.innerWidth * 0.01333).toFixed(2);
@@ -31,24 +24,7 @@
         this.cellSize_ = 'width:' + cellWidth + 'px;height:' + (cellWidth + 96) + 'px';
         this.imgSize_ = 'width:' + cellWidth + 'px;height:' + cellWidth + 'px';
     };
-    Home.prototype.fetchHistory = function () {
-        //"<div class=\"history-tag\">"+history+"</div>"
-        if (!window.localStorage) return;
-        var searchHistory = window.localStorage.getItem('search-history');
-        if (!searchHistory) return;
-        var obj = JSON.parse(searchHistory);
-        var content = [];
-        for (var i = 0; i < obj.length; i++) {
-            var pattern =
-                "<div class=\"history-tag\">" + obj[i] + "</div>"
-            content.push(pattern);
-        }
-        if (!content.length) return;
-        if (!this.searchModalHistorytags_) {
-            this.searchModalHistorytags_ = document.querySelector('.search-modal_historytags');
-        }
-        this.searchModalHistorytags_.innerHTML = content.join('');
-    };
+
     Home.prototype.initialize = function () {
         this.element_ = document.getElementById('like-content');
         if (!this.element_) {
@@ -58,13 +34,14 @@
         this.calculateSize();
         this.adjustSize();
         this.setupSlide();
-        this.setupHomeSearch();6
+        this.setupHomeSearch();
         this.setupItems();
     };
     Home.prototype.onRefreshFailed = function (error) {
         console.log(error);
     };
     Home.prototype.onRefreshSuccess = function (obj) {
+        that.offset_ *= 2;
         var content = [];
         for (var i = 0; i < obj.length; i++) {
             var pattern = "<div class=\"hot-tag\">" + obj[i] + "</div>";
@@ -96,32 +73,18 @@
                     });
             });
     };
-    Home.prototype.setupKeyword = function () {
-        var that = this;
-        this.modalHotTags_
-            .querySelectorAll('.hot-tag')
-            .forEach(function (element) {
-                element.addEventListener('click', function (event) {
-                    window.location = "/store/results?keyword=" + event.currentTarget.textContent;
-                    that.addHistory(event.currentTarget.textContent);
-                })
-            });
-    };
-    Home.prototype.setupRefresh = function () {
-        if (!this.modalHotRefresh_)
-            this.modalHotRefresh_ = document.querySelector('.modal_hot-refresh');
-        if (!this.modalHotTags_)
-            this.modalHotTags_ = document.querySelector('.modal_hot-tags');
-        var that = this;
-        this.modalHotRefresh_.addEventListener('click', function () {
-            fetch("/store/api/search?method=fetch")
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(that.onRefreshSuccess.bind(that))
-                .catch(that.onRefreshFailed)
-        });
-    };
+    // Home.prototype.setupKeyword = function () {
+    //     var that = this;
+    //     this.modalHotTags_
+    //         .querySelectorAll('.hot-tag')
+    //         .forEach(function (element) {
+    //             element.addEventListener('click', function (event) {
+    //                 window.location = "/store/results?keyword=" + event.currentTarget.textContent;
+    //                 that.addHistory(event.currentTarget.textContent);
+    //             })
+    //         });
+    // };
+
     Home.prototype.setupSlide = function () {
         this.swiperActiveIndex_ = document.getElementById('swiper-active-index');
         this.swiperPagination_ = document.querySelector('.swiper-pagination');
@@ -147,22 +110,10 @@
             this.searchModal_.initialize(function () {
                 this.swiperPagination_.style.display = 'flex';
             }.bind(this));
-            this.setupRefresh();
-            this.setupKeyword();
-            this.searchModalHistorytags_ = document.querySelector('.search-modal_historytags');
-            if (!this.searchModalClear_) {
-                this.searchModalClear_ = document.querySelector('.search-modal_clear');
-                var that = this;
-                this.searchModalClear_.addEventListener('click', function () {
-                    window.localStorage.removeItem('search-history');
-                    that.searchModalHistorytags_.innerHTML = '';
-                });
-            }
         }
         this.searchModal_.show();
-        this.fetchHistory();
         this.swiperPagination_.style.display = 'none';
-    }
+    };
     var home = new Home();
     home.initialize();
 })();

@@ -3,7 +3,7 @@ package handlers
 import (
 	"bytes"
 	"fmt"
-	"github.com/jackc/pgtype"
+	"html/template"
 	"net/http"
 	"store/common"
 )
@@ -29,11 +29,7 @@ func ResultsHandler(e *common.Env) http.Handler {
 
 			uid := item[0].(string)
 			title := item [1].(string)
-			price, err := item[2].(*pgtype.Numeric).Value()
-			if err != nil {
-				internalServerError(w, err)
-				return
-			}
+			price := stringPrice(item[2])
 			thumbnail := item [3].(string)
 			quantities, ok := item[4].(int32)
 			if !ok {
@@ -54,7 +50,7 @@ func ResultsHandler(e *common.Env) http.Handler {
 		}
 
 		m := map[string]interface{}{
-			"Title": fmt.Sprintf("搜索 \"%s\"", keyword),
+			"Title": fmt.Sprintf("搜索 \"%s\"", template.HTMLEscapeString(keyword)),
 			"Debug": e.Debug,
 			"Items": writer.String(),
 		}

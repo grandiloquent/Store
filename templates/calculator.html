@@ -1,0 +1,154 @@
+{{template "header.html" .}}
+<style>
+    body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .mod-tab-wrapper {
+        height: 42px;
+    }
+
+    .mod-tab {
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        margin: 0 auto;
+        max-width: 100000px !important;
+        display: -webkit-box;
+        display: box;
+        display: -webkit-flex;
+        display: flex;
+        overflow-x: scroll;
+    }
+
+    .mod-tab, .mod-tab-item {
+        width: 100%;
+        overflow: hidden;
+        height: 40px;
+        background: #fff;
+    }
+
+    .mod-tab-item, .mod-btn {
+        display: block;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+        white-space: nowrap;
+        line-height: 40px;
+        border-left: 1px solid #ddd;
+        text-decoration: none;
+        text-align: center;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .mod-container {
+        display: -webkit-box;
+        display: box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        -webkit-justify-content: flex-end;
+    }
+
+    .mod-btn-group {
+        display: -webkit-box;
+        display: box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .mod-btn {
+        background: #fefefe;
+        min-width: 33.3%;
+    }
+
+    .mod-btn:focus {
+        background-color: #ff8d1e;
+    }
+
+    .mod-input {
+        height: 100px;
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #eee;
+        box-sizing: border-box;
+        padding: 8px;
+        word-break: break-word;
+        overflow-y: scroll;
+        font-size: 18px;
+    }
+</style>
+<div class="mod-tab-wrapper">
+    <div class="mod-tab">
+        <div class="mod-tab-item">计算器</div>
+        <div class="mod-tab-item">计算器</div>
+        <div class="mod-tab-item">计算器</div>
+
+
+    </div>
+</div>
+<div class="mod-container">
+    <div class="mod-input"></div>
+
+    <div class="mod-btn-group">
+        <div class="mod-btn">清空</div>
+        <div class="mod-btn" id="backspace">退格</div>
+        <div class="mod-btn" data-value="+">加</div>
+        <div class="mod-btn" data-value="-">减</div>
+        <div class="mod-btn" data-value="*">乘</div>
+        <div class="mod-btn" data-value="/">除</div>
+        <div class="mod-btn" data-value="1">1</div>
+        <div class="mod-btn" data-value="2">2</div>
+        <div class="mod-btn" data-value="3">3</div>
+        <div class="mod-btn" data-value="4">4</div>
+        <div class="mod-btn" data-value="5">5</div>
+        <div class="mod-btn" data-value="6">6</div>
+        <div class="mod-btn" data-value="7">7</div>
+        <div class="mod-btn" data-value="8">8</div>
+        <div class="mod-btn" data-value="9">9</div>
+        <div class="mod-btn" data-value="0">0</div>
+        <div class="mod-btn" data-value=".">.</div>
+    </div>
+</div>
+<script>
+    var modContainer_ = document.querySelector('.mod-container');
+    var modTabWrapper_ = document.querySelector('.mod-tab-wrapper');
+    var modBtns_ = document.querySelectorAll('.mod-btn[data-value]');
+    var modInput_ = document.querySelector('.mod-input');
+
+    for (var i = 0; i < modBtns_.length; i++) {
+        modBtns_[i].addEventListener('click', function (event) {
+            modInput_.textContent = substringBeforeLast(modInput_.textContent, ' = ') +
+                event.currentTarget.getAttribute('data-value');
+            var value = eval(modInput_.textContent);
+            if (!isNaN(value)) {
+                modInput_.textContent += ' = ' + value.toFixed(2);
+            }
+        })
+    }
+
+
+    modContainer_.style.height = (window.innerHeight - modTabWrapper_.getClientRects()[0].height) + 'px';
+
+    function substringBeforeLast(s, c) {
+        var i = s.lastIndexOf(c);
+        if (i === -1) return s;
+        return s.substring(0, i);
+    }
+
+    document.getElementById('backspace')
+        .addEventListener('click',
+            function () {
+
+            });
+</script>
+{{template "footer.html" .}}

@@ -11,10 +11,16 @@ import (
 
 const (
 	InsertSearchKeywordsSQL = "SELECT * FROM store_search_insert($1,$2,$3,$4)"
+	FetchSearchKeywordsSQL  = "select * from store_fetch_keywords($1, $2,$3);"
 )
 
 func fetchSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
-	s, err := fetchSearchKeywords(e)
+	limit := safeQueryInt(r, "limit", 6)
+	offset := safeQueryInt(r, "offset", 0)
+	sorttype := safeQueryInt(r, "sorttype", 2)
+
+	s, err := fetchSearchKeywords(e, limit, offset, sorttype)
+
 	if err != nil {
 		internalServerError(w, err)
 		return
@@ -27,8 +33,8 @@ func fetchSearch(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(obj)
 }
-func fetchSearchKeywords(e *common.Env) ([]string, error) {
-	rows, err := e.DB.Query(context.Background(), "select search from store_search limit 6")
+func fetchSearchKeywords(e *common.Env, limit, offset, sorttype int) ([]string, error) {
+	rows, err := e.DB.Query(context.Background(), FetchSearchKeywordsSQL, limit, offset, sorttype)
 	if err != nil {
 		return nil, err
 	}

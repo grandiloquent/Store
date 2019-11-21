@@ -194,6 +194,16 @@ func downloadFile(sftpClient *sftp.Client, remoteFileName, localFileName string,
 	}
 	return nil
 }
+func downloadDirectory(sftpClient *sftp.Client, remoteDirectory, localDirectory string, perm os.FileMode) {
+	files, err := sftpClient.ReadDir(remoteDirectory)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range files {
+		downloadFile(sftpClient, remoteDirectory+"/"+f.Name(), localDirectory+"\\"+f.Name(), 0644)
+	}
+
+}
 
 // ==============================================
 func loadingSettings() map[string]interface{} {
@@ -243,6 +253,9 @@ func main() {
 		} else if v == "images" {
 			uploadImages(c, dir)
 		} else if v == "css" {
+		} else if v == "download" {
+			fc, _ := sftp.NewClient(c)
+			downloadDirectory(fc, "/root/commodities/static/images", "C:\\Users\\psycho\\Desktop\\pictures", 0644)
 		}
 	}
 	defer c.Close()

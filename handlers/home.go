@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"store/common"
-	"text/template"
 )
 
 type Home struct {
@@ -19,7 +18,7 @@ type Home struct {
 
 func HomeHandler(e *common.Env) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		searchKeywords, err := fetchSearchKeywords(e)
+		searchKeywords, err := fetchSearchKeywords(e, 6, 0, 2)
 		if err != nil {
 			internalServerError(w, err)
 			return
@@ -91,21 +90,13 @@ func HomeHandler(e *common.Env) http.Handler {
 			writer.WriteString(`</div>`)
 		}
 
-		writeHome(w, &Home{
-			Title:          "淘货",
+		renderPage(w, "home.html", &Home{
+			Title:          "好货送到家",
 			Debug:          e.Debug,
 			SearchHolder:   "精选好货",
 			SearchKeywords: searchKeywords,
 			Slide:          slide,
 			Items:          writer.String(),
-		})
+		}, e.Debug)
 	})
-}
-func writeHome(w http.ResponseWriter, data *Home) {
-	t, err := template.ParseFiles("templates/home.html", "templates/header.html", "templates/footer.html")
-	if err != nil {
-		internalServerError(w, err)
-		return
-	}
-	t.Execute(w, *data)
 }

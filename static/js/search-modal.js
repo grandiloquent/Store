@@ -1,4 +1,5 @@
 ;(function () {
+    "use strict";
     var SearchModal = function SearchModal() {
     };
     window['SearchModal'] = SearchModal;
@@ -21,7 +22,17 @@
             // webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend
             _.addClass(this.searchModalRecent_, 'active');
         }.bind(this));
-        console.log(this.searchModal_);
+
+        this.modalHotTags_ = this.element_.querySelector('.modal_hot-tags');
+        this.searchModalClear_ = this.element_.querySelector('.search-modal_clear');
+        this.searchModalHistorytags_ = this.element_.querySelector('.search-modal_historytags');
+
+
+        this.offset_ = 0;
+        this.setupRefresh();
+        this.setupHistory();
+        this.setupHistoryClear();
+        this.onRefresh();
     };
     SearchModal.prototype.show = function () {
         // _.addClass(document.querySelector('html'), 'noscroll');
@@ -52,60 +63,85 @@
             _.display(this.close_, 'flex');
         }
     }
+    SearchModal.prototype.setupRefresh = function () {
+        this.modalHotRefresh_ = this.element_.querySelector('.modal_hot-refresh');
+        this.modalHotRefresh_.addEventListener('click', this.onRefresh.bind(this));
+    };
+    SearchModal.prototype.onRefresh = function () {
+        _.touchServer({
+            uri: '/store/api/search?method=fetch&limit=6&sorttype=2&offset=' + this.offset_,
+            success: this.onRefreshSuccess.bind(this),
+            failed: this.onRefreshFailed
+        })
+    };
+    SearchModal.prototype.onRefreshSuccess = function (obj) {
+        if (!obj) return null;
+        this.offset_ += 6;
+        var buf = [];
+        obj.forEach(function (item) {
+            buf.push('<div class="hot-tag">' + item + '</div>');
+        });
+        this.modalHotTags_.innerHTML = buf.join('');
+        this.bindHotTagEvent();
+    };
+
+    SearchModal.prototype.onRefreshFailed = function () {
+
+    };
+
+    SearchModal.prototype.bindHotTagEvent = function () {
+        var that = this;
+        _.every(this.modalHotTags_, '.hot-tag', function (element) {
+            element.addEventListener('click', function (event) {
+                that.addHistory(event.currentTarget.textContent)
+                window.location = "/store/results?keyword=" + encodeURIComponent(event.currentTarget.textContent);
+
+            })
+        })
+    };
+    SearchModal.prototype.addHistory = function (keywords) {
+        if (!window.localStorage) return;
+        var obj = (JSON.parse(window.localStorage.getItem('search-history'))) || [];
+        if (obj.indexOf(keywords) === -1) {
+            obj.push(keywords);
+        }
+        window.localStorage.setItem('search-history', JSON.stringify(obj));
+    };
+    SearchModal.prototype.fetchHistory = function () {
+        //"<div class=\"history-tag\">"+history+"</div>"
+        if (!window.localStorage) return;
+        var searchHistory = window.localStorage.getItem('search-history');
+        if (!searchHistory) return;
+        var obj = JSON.parse(searchHistory);
+        var content = [];
+        for (var i = 0; i < obj.length; i++) {
+            var pattern =
+                "<div class=\"history-tag\">" + obj[i] + "</div>";
+            content.push(pattern);
+        }
+        if (!content.length) return;
+        console.log(content.join(''));
+        this.searchModalHistorytags_.innerHTML = content.join('');
+        var that = this;
+        _.every(this.searchModalHistorytags_, '.history-tag', function (element) {
+            element.addEventListener('click', function (event) {
+                that.input_.value = event.currentTarget.textContent;
+            });
+        });
+    };
+    SearchModal.prototype.setupHistory = function () {
+        this.fetchHistory();
+        this.bindHotTagEvent();
+    };
+    SearchModal.prototype.setupHistoryClear = function () {
+        this.searchModalClear_.addEventListener('click', function () {
+            window.localStorage && window.localStorage.removeItem('search-history');
+            this.modalHotTags_.innerHTML = '';
+        }.bind(this));
+    };
+    SearchModal.prototype.setupInput = function () {
+        this.input_.addEventListener('input', function () {
+
+        });
+    }
 })();
-/*
-this.active_ = this.element_.querySelector('.active');
-this.autocompleteListItem_ = this.element_.querySelector('.autocomplete-list_item');
-this.close_ = this.element_.querySelector('.close');
-this.copyRight_ = this.element_.querySelector('.copy-right');
-this.flexCenter_ = this.element_.querySelector('.flex-center');
-this.footer_ = this.element_.querySelector('.footer');
-this.footerBar_ = this.element_.querySelector('.footer-bar');
-this.footerBarWrapper_ = this.element_.querySelector('.footer-bar-wrapper');
-this.header_ = this.element_.querySelector('.header');
-this.hide_ = this.element_.querySelector('.hide');
-this.historyTag_ = this.element_.querySelector('.history-tag');
-this.homeRecommend_ = this.element_.querySelector('.home-recommend');
-this.homeRecommendItem_ = this.element_.querySelector('.home-recommend-item');
-this.homeRecommendItemMain_ = this.element_.querySelector('.home-recommend-item-main');
-this.homeSearch_ = this.element_.querySelector('.home-search');
-this.homeSearchFixed_ = this.element_.querySelector('.home-search-fixed');
-this.homeSearchInputIcon_ = this.element_.querySelector('.home-search-input-icon');
-this.homeSearchInputText_ = this.element_.querySelector('.home-search-input-text');
-this.hotTag_ = this.element_.querySelector('.hot-tag');
-this.icon_ = this.element_.querySelector('.icon');
-this.likeCell_ = this.element_.querySelector('.like-cell');
-this.likeCellBottom_ = this.element_.querySelector('.like-cell-bottom');
-this.likeCellFooter_ = this.element_.querySelector('.like-cell-footer');
-this.likeContent_ = this.element_.querySelector('.like-content');
-this.likeContentWrapper_ = this.element_.querySelector('.like-content-wrapper');
-this.likeHeader_ = this.element_.querySelector('.like-header');
-this.likeLoadMore_ = this.element_.querySelector('.like-load-more');
-this.likePrice_ = this.element_.querySelector('.like-price');
-this.likeQuantities_ = this.element_.querySelector('.like-quantities');
-this.likeRow_ = this.element_.querySelector('.like-row');
-this.likeTitle_ = this.element_.querySelector('.like-title');
-this.likeTitleBlack_ = this.element_.querySelector('.like-title-black');
-this.likeTitleRed_ = this.element_.querySelector('.like-title-red');
-this.likeWrapper_ = this.element_.querySelector('.like-wrapper');
-this.modalHotRefresh_ = this.element_.querySelector('.modal_hot-refresh');
-this.modalHotRefreshIcon_ = this.element_.querySelector('.modal_hot-refresh-icon');
-this.modalHotTags_ = this.element_.querySelector('.modal_hot-tags');
-this.modalTitle_ = this.element_.querySelector('.modal_title');
-this.nodeInserted_ = this.element_.querySelector('.node-inserted');
-this.refresh_ = this.element_.querySelector('.refresh');
-this.search_ = this.element_.querySelector('.search');
-this.searchModalAutocomplete_ = this.element_.querySelector('.search-modal_autocomplete');
-this.searchModalClear_ = this.element_.querySelector('.search-modal_clear');
-this.searchModalClearIcon_ = this.element_.querySelector('.search-modal_clear-icon');
-this.searchModalHistory_ = this.element_.querySelector('.search-modal_history');
-this.searchModalHistorytags_ = this.element_.querySelector('.search-modal_historytags');
-this.searchModalHot_ = this.element_.querySelector('.search-modal_hot');
-this.searchModalTitle_ = this.element_.querySelector('.search-modal_title');
-this.topClear_ = this.element_.querySelector('.top_clear');
-this.topClearIcon_ = this.element_.querySelector('.top_clear-icon');
-this.topInput_ = this.element_.querySelector('.top_input');
-this.topInputText_ = this.element_.querySelector('.top_input-text');
-this.topSearch_ = this.element_.querySelector('.top_search');
-this.topSearchIcon_ = this.element_.querySelector('.top_search-icon');
- */
