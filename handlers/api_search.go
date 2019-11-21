@@ -53,17 +53,29 @@ func insertSearchKeywords(e *common.Env, w http.ResponseWriter, r *http.Request)
 	batch := &pgx.Batch{}
 
 	for _, m := range items {
-		_ = m
-		batch.Queue(InsertSearchKeywordsSQL)
+		item := m.(map[string]interface{})
+		search := item["search"].(string)
+		raw := safeString(item["raw"])
+		visits := item["visits"].(float64)
+		popular := item["popular"].(float64)
+		fmt.Println(item)
+		batch.Queue(InsertSearchKeywordsSQL, search,
+			raw,
+			int64(visits),
+			int64(popular),
+		)
 	}
-	results := e.DB.SendBatch(context.Background(), batch)
-	t, err := results.Exec()
+	br := e.DB.SendBatch(context.Background(), batch)
+
+	t, err := br.Exec()
 	if err != nil {
 		internalServerError(w, err)
 		return
 	}
-	c := t.RowsAffected()
-
-	fmt.Println(items, c)
-
+	err = br.Close()
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	writeCommandTag(t, w)
 }

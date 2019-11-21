@@ -39,11 +39,7 @@ func HomeHandler(e *common.Env) http.Handler {
 			item := items[i].([]interface{})
 			uid := item[0].(string)
 			title := item [1].(string)
-			price := item[2].(float64)
-			if err != nil {
-				internalServerError(w, err)
-				return
-			}
+			price := stringPrice(item[2])
 			thumbnail := item [3].(string)
 			quantities, ok := item[4].(int32)
 			if !ok {
@@ -67,7 +63,7 @@ func HomeHandler(e *common.Env) http.Handler {
 				item = items[i+1].([]interface{})
 				uid = item[0].(string)
 				title = item [1].(string)
-				price = item[2].(float64)
+				price = stringPrice(item[2])
 				if err != nil {
 					internalServerError(w, err)
 					return

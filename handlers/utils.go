@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
+	"fmt"
 	"github.com/jackc/pgconn"
+	"github.com/jackc/pgtype"
 	"github.com/pkg/errors"
 	"io"
 	"log"
@@ -163,4 +165,29 @@ func renderPage(w http.ResponseWriter, filename string, data interface{}, debug 
 	if err != nil {
 		log.Println(err)
 	}
+}
+func safeString(i interface{}) interface{} {
+	var s interface{}
+	v, ok := i.(string)
+	if ok {
+		s = v
+	} else {
+		s = nil
+	}
+	return s
+}
+func stringPrice(i interface{}) string {
+	v, ok := i.(*pgtype.Numeric)
+	if !ok {
+		return ""
+	}
+	s, err := v.Value()
+	if err != nil {
+		return ""
+	}
+	f, err := strconv.ParseFloat(s.(string), 64)
+	if err != nil {
+		return ""
+	}
+	return fmt.Sprintf("%.2f", f)
 }
