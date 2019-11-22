@@ -10,8 +10,10 @@
 
 
 
-##
+## Troubleshoots
 
+### 无法安装 `golang.org/x`的包
+ 
 ```
 
 go get github.com/jackc/pgx
@@ -22,7 +24,9 @@ git clone https://github.com/golang/xerrors.git
 
 ```
 
+### 无法侦听 `5050` 端口 
 ```shell script
+# 打印占用5050端口的程序
 $ netstat -ltnp | grep -w ':5050' 
 
 ```
