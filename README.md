@@ -10,7 +10,9 @@
 
 ## 部署
 
-* [打包CSS和JavaScript](./scripts/publish.go)
+`settings/settings.json`：设置服务器相关参数
+
+* [打包](./scripts/publish.go)
 * [SSH](./scripts/ssh/server.go)
 * [数据库](./SQL.md)
 
