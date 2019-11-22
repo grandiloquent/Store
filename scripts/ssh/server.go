@@ -229,8 +229,8 @@ func main() {
 	//publishNginx()
 	//publishFiles()
 
-	//publishTemplates()
-	publishScript()
+	publishTemplates()
+	//publishScript()
 }
 func publishApplication() {
 	serverRoot := "/usr/bin"

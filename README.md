@@ -1,7 +1,13 @@
 # Store
 
-* https://github.com/gorilla/handlers
-* https://github.com/jackc/pgconn
+* https://github.com/gorilla
+* https://github.com/jackc
+* https://github.com/russross/blackfriday
+* https://github.com/css/csso
+* https://github.com/thebird/Swipe
+* https://github.com/tweenjs/tween.js
+* https://github.com/golang
+
 
 
 ##

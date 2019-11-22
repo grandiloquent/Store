@@ -146,12 +146,13 @@ func mergeStyle(css, dir string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	regex := regexp.MustCompile("<link rel=\"stylesheet\" href=\"/store/static/css/([a-zA-Z0-9_\\-.]+)\"/>")
+	regex := regexp.MustCompile("<link rel=\"stylesheet\" href=\"/store/static/css/([a-zA-Z0-9_.-]+)\"/*>")
 	find := regex.FindAllSubmatch(buf, -1)
 	// -----------------------------------
 	var w bytes.Buffer
 	for _, f := range find {
 		c := dir + "/" + string(f[1])
+		fmt.Println(c)
 		buf, err = ioutil.ReadFile(c)
 		if err != nil {
 			log.Fatal(err)
