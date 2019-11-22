@@ -10,7 +10,7 @@
 
 
 
-## Troubleshoots
+## Troubleshooting
 
 ### 无法安装 `golang.org/x`的包
  
