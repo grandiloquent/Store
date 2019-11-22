@@ -8,7 +8,11 @@
 * https://github.com/tweenjs/tween.js
 * https://github.com/golang
 
+## 部署
 
+* [打包CSS和JavaScript](./scripts/publish.go)
+* [SSH](./scripts/ssh/server.go)
+* [数据库](./SQL.md)
 
 ## Troubleshooting
 
