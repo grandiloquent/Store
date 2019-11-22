@@ -2,7 +2,7 @@
 
 ## 示例
 
-https://halala.cn/store
+https://halalla.cn/store
 
 ## 引用库
 
