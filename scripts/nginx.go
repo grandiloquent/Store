@@ -107,13 +107,7 @@ func connect(user, password, host string, port int) (*ssh.Client, error) {
 	}
 	return sshClient, nil
 }
-func createDirectoryIfNotExists(client *sftp.Client, dir string) error {
-	_, err := client.ReadDir(dir)
-	if os.IsNotExist(err) {
-		return client.MkdirAll(dir)
-	}
-	return err
-}
+
 func listDirectory(client *sftp.Client, p string) {
 
 	fs, err := client.ReadDir(p)
@@ -434,7 +428,7 @@ func setupService(c *ssh.Client) {
 	cmd(c, "systemctl status GoCommodities")
 	// journalctl -u GoCommodities.service --since today
 	// /usr/bin/commodities_linux_amd64
-	// chmod +x /usr/bin/commodities_linux_amd64
+	//
 	defer c.Close()
 	defer cf.Close()
 

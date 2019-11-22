@@ -131,7 +131,11 @@
                     </div>
                 </div>
             </div>
+            <div class="detail-description-content">
+                {{.Details}}
+            </div>
         </div>
+
     </div>
 </div>
 
@@ -148,7 +152,7 @@
 
 {{/**/}}
 
-<div class="detail-attribute-mask">
+<div class="detail-attribute-mask" id="detail-attribute-mask">
     <div class="detail-attribute-mask-inner"></div>
     <div class="detail-attribute-modal-container" style="max-height: 80%">
         <div class="detail-attribute-header">
@@ -156,7 +160,7 @@
         </div>
         <div class="detail-attribute-content">
             <div class="detail-attribute-list">
-                {{.Specification}}
+                {{.Properties}}
             </div>
         </div>
         <div class="detail-attribute-close">

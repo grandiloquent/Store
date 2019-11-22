@@ -170,36 +170,12 @@
     };
 
     // ==============================================
-    ;
     Details.prototype.adjustSize = function () {
         document.documentElement.style.fontSize = "100%";
     }
-    Details.prototype.hideAttributeMask = function () {
-        function animate(time) {
-            requestAnimationFrame(animate);
-            TWEEN.update(time);
-        }
-
-        requestAnimationFrame(animate);
-        var element = this.detailAttributeMask_;
-        var start = {s: 1};
-        var tween = new TWEEN.Tween(start) // Create a new tween that modifies 'coords'.
-            .to({s: 0}, 400) // Move to (300, 200) in 1 second.
-            .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-            .onUpdate(function () {
-                element.style.opacity = start.s + '';
-            }).onComplete(function () {
-                element.style.display = 'none';
-            })
-            .start(); // Start the tween immediately.
-    };
     Details.prototype.initialize = function () {
         this.element_ = document.getElementById('details-content');
         if (!this.element_) return;
-        this.detailAttribute_ = this.element_.querySelector('.detail-attribute');
-        this.detailAttributeMask_ = document.querySelector('.detail-attribute-mask');
-        this.detailAttributeContent_ = this.detailAttributeMask_.querySelector('.detail-attribute-content');
-        this.detailAttributeHeader_ = this.detailAttributeMask_.querySelector('.detail-attribute-header');
 
         this.setupSwipe();
         this.setupGoBack();
@@ -208,20 +184,10 @@
         this.setupTaobao();
         this.adjustSize();
         this.setupScroll();
+        this.setupAttribute();
         // ==============================================
-        this.detailAttribute_.addEventListener('click', function () {
-            this.showAttributeMask();
-        }.bind(this));
-        this.detailAttributeMask_.addEventListener('click', function () {
-            this.hideAttributeMask();
-        }.bind(this));
-        this.detailAttributeHeader_.addEventListener('click', function (event) {
-            event.stopPropagation();
-        });
-        this.detailAttributeContent_.addEventListener('click', function (event) {
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-        });
+
+
     };
     Details.prototype.setupGoBack = function () {
         this.btnGoBack_ = this.element_.querySelector('.btn-go-back');
@@ -264,26 +230,16 @@
             },
         });
     };
-    Details.prototype.showAttributeMask = function () {
-        this.detailAttributeMask_.style.display = 'block';
-        this.detailAttributeMask_.style.zIndex = '100';
-        this.detailAttributeMask_.style.opacity = '0';
+    Details.prototype.setupAttribute = function () {
 
-        function animate(time) {
-            requestAnimationFrame(animate);
-            TWEEN.update(time);
-        }
-
-        requestAnimationFrame(animate);
-        var element = this.detailAttributeMask_;
-        var start = {s: 0};
-        var tween = new TWEEN.Tween(start) // Create a new tween that modifies 'coords'.
-            .to({s: 1}, 400) // Move to (300, 200) in 1 second.
-            .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-            .onUpdate(function () {
-                element.style.opacity = start.s + '';
-            })
-            .start(); // Start the tween immediately.
+        this.detailAttribute = document.querySelector('.detail-attribute');
+        this.detailAttribute.addEventListener('click', function () {
+            if (!this.attributeModal) {
+                this.attributeModal = new AttributeModal();
+                this.attributeModal.initialize();
+            }
+            this.attributeModal.show();
+        }.bind(this));
     };
 
     Details.prototype.setupTaobao = function () {
@@ -315,4 +271,71 @@
 })();
 
 
+;(function () {
+    var AttributeModal = function AttributeModal() {
 
+    };
+    window['AttributeModal'] = AttributeModal;
+    AttributeModal.prototype.initialize = function () {
+        this.element = document.getElementById('detail-attribute-mask');
+        if (!this.element) {
+            return;
+        }
+        this.setup();
+    };
+    AttributeModal.prototype.hideAttributeMask = function () {
+        function animate(time) {
+            requestAnimationFrame(animate);
+            TWEEN.update(time);
+        }
+
+        requestAnimationFrame(animate);
+        var element = this.element;
+        var start = {s: 1};
+        var tween = new TWEEN.Tween(start) // Create a new tween that modifies 'coords'.
+            .to({s: 0}, 400) // Move to (300, 200) in 1 second.
+            .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+            .onUpdate(function () {
+                element.style.opacity = start.s + '';
+            }).onComplete(function () {
+                element.style.display = 'none';
+            })
+            .start(); // Start the tween immediately.
+    };
+    AttributeModal.prototype.setup = function () {
+        var that = this;
+        this.detailAttributeModalContainer = this.element.querySelector('.detail-attribute-modal-container');
+        this.detailAttributeClose = this.element.querySelector('.detail-attribute-close');
+
+        this.element.addEventListener('click', function () {
+            that.hideAttributeMask();
+        });
+        this.detailAttributeModalContainer.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+        this.detailAttributeClose.addEventListener('click', function () {
+            that.hideOrderMask();
+        });
+    };
+    AttributeModal.prototype.show = function () {
+        this.element.style.display = 'block';
+        this.element.style.zIndex = '100';
+        this.element.style.opacity = '0';
+
+        function animate(time) {
+            requestAnimationFrame(animate);
+            TWEEN.update(time);
+        }
+
+        requestAnimationFrame(animate);
+        var element = this.element;
+        var start = {s: 0};
+        var tween = new TWEEN.Tween(start) // Create a new tween that modifies 'coords'.
+            .to({s: 1}, 400) // Move to (300, 200) in 1 second.
+            .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+            .onUpdate(function () {
+                element.style.opacity = start.s + '';
+            })
+            .start(); // Start the tween immediately.
+    };
+})();

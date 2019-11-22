@@ -205,7 +205,7 @@ func safeQueryInt(r *http.Request, key string, defaultValue int) int {
 	}
 	return i
 }
-func reconnect(e *common.Env) error {
+func ensureConnection(e *common.Env) error {
 	m := loadSettings()
 	connString := m["DSN"].(string)
 	if !e.Debug {

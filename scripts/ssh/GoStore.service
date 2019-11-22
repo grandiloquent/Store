@@ -1,0 +1,16 @@
+[Unit]
+Description=A Web Server written by Golang.
+
+[Service]
+WorkingDirectory=/root/store
+ExecStart=/usr/bin/store_linux_amd64
+
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=go-store
+User=root
+
+[Install]
+WantedBy=multi-user.target

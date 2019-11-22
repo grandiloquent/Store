@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"bytes"
 	"context"
+	"euphoria/blackfriday"
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgtype"
@@ -17,7 +19,7 @@ type Details struct {
 	Specification string
 	Service       string
 	Showcases     []string
-	Properties    []string
+	Properties    string
 	Taobao        string
 	Quantities    int32
 	Debug         bool
@@ -59,14 +61,37 @@ func DetailsHandler(e *common.Env) http.Handler {
 			return
 		}
 		renderPage(w, "details.html", Details{
-			UId:     uid,
-			Title:   title,
-			Price:   fmt.Sprintf("%.2f", float(priceStr)),
-			Details: details, Specification: specification, Service: service, Showcases: showcases,
-			Properties: properties,
+			UId:           uid,
+			Title:         title,
+			Price:         fmt.Sprintf("%.2f", float(priceStr)),
+			Details:       string(blackfriday.Run([]byte(details))),
+			Specification: specification, Service: service, Showcases: showcases,
+			Properties: buildProperties(properties),
 			Taobao:     taobao.String,
 			Quantities: quantities.Int,
 			Debug:      e.Debug,
 		}, e.Debug)
 	})
+}
+func buildProperties(values []string) string {
+	j := len(values)
+	if j == 0 {
+		return ""
+	}
+	var writer bytes.Buffer
+
+	for i := 0; i < j; i += 2 {
+		if i+1 >= j {
+			return writer.String()
+		}
+		name := values[i]
+		value := values[i+1]
+		writer.WriteString(`<div class="detail-attribute-item"><div class="detail-attribute-item-container"><div class="detail-attribute-item-name">`)
+		writer.WriteString(name)
+		writer.WriteString(`</div><div class="detail-attribute-item-value">`)
+		writer.WriteString(value)
+		writer.WriteString(`</div></div></div>`)
+
+	}
+	return writer.String()
 }

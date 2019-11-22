@@ -78,6 +78,12 @@ func insertStore(e *common.Env, w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(uid))
 }
 func insertStores(e *common.Env, w http.ResponseWriter, r *http.Request) {
+	err := ensureConnection(e)
+	if err != nil {
+		internalServerError(w, err)
+		return
+	}
+	// -----------------------------------
 
 	rItems, err := readData(e, r)
 	if err != nil {

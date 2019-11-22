@@ -67,6 +67,7 @@
             .insertAdjacentHTML('beforeend', buf.join(''));
         this.isLoading_ = false;
         this.offset_ += 10;
+        this.setupItems();
         /*
                                <div class="like-row">
                                     <div class="like-cell" data-id="{{uid}}">
@@ -141,10 +142,9 @@
     Home.prototype.setupItems = function () {
         document.querySelectorAll('.like-cell')
             .forEach(function (element) {
-                element
-                    .addEventListener('click', function (event) {
-                        window.location = "/store/details/" + event.currentTarget.getAttribute('data-id')
-                    });
+                element.onclick = function () {
+                    window.location = "/store/details/" + event.currentTarget.getAttribute('data-id');
+                }
             });
     };
     // Home.prototype.setupKeyword = function () {
