@@ -15,3 +15,8 @@ cd $GOPATH/src/golang.org/x
 git clone https://github.com/golang/xerrors.git
 
 ```
+
+```shell script
+$ netstat -ltnp | grep -w ':5050' 
+
+```

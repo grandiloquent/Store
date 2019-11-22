@@ -164,8 +164,11 @@
         <div class="mod-btn" data-value=".">.</div>
     </div>
 </div>
-<script src="/store/static/js/calculator.js"></script>
-
+{{if .Debug}}
+    <script src="/store/static/js/calculator.js"></script>
+{{else}}
+    <script src="/store/static/calculator.eef31a7fd387787b4346dc756f7f17ed.js"></script>
+{{end}}
 {{/*<script>*/}}
 {{/*    function clipboard(callback) {*/}}
 {{/*        if (navigator.clipboard) {*/}}

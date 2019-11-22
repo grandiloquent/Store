@@ -48,7 +48,7 @@ func checkFileType(filename string, extensions ...string) bool {
 	return false
 }
 func compressCSS(path string) {
-	runCommand("csso", path, "--output", path)
+	//runCommand("csso", path, "--output", path)
 }
 func deleteFiles(dir string) {
 	files, err := ioutil.ReadDir(dir)

@@ -12,6 +12,7 @@ import (
 	"path"
 	"path/filepath"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -171,6 +172,29 @@ func uploadFile(sftpClient *sftp.Client, localFile, remoteDir string) {
 	}
 	fmt.Printf("\n %s \n", remoteFileName)
 }
+func uploadDirectory(sftpClient *sftp.Client, localDirectory, remoteDir string, filter ( func(string) bool), allDirectory bool) {
+	if allDirectory {
+		filepath.Walk(localDirectory, func(path string, info os.FileInfo, err error) error {
+			if !info.IsDir() && filter(path) {
+				dir := remoteDir + strings.ReplaceAll(filepath.Dir(path)[len(localDirectory):], "\\", "/")
+				createDirectoryIfNotExists(sftpClient, dir)
+				uploadFile(sftpClient, path, dir)
+			}
+			return nil
+		})
+	} else {
+		files, err := ioutil.ReadDir(localDirectory)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, f := range files {
+			if !f.IsDir() && filter(f.Name()) {
+				uploadFile(sftpClient, localDirectory+"/"+f.Name(), remoteDir)
+			}
+		}
+	}
+
+}
 
 // ==============================================
 
@@ -203,7 +227,10 @@ func main() {
 	//publishApplication()
 	//publishService()
 	//publishNginx()
-	publishFiles()
+	//publishFiles()
+
+	//publishTemplates()
+	publishScript()
 }
 func publishApplication() {
 	serverRoot := "/usr/bin"
@@ -223,9 +250,88 @@ func publishFiles() {
 	defer c.Close()
 	defer f.Close()
 	// -----------------------------------
-	settingsDirectory := path.Join(serverDirectory, "settings")
-	createDirectoryIfNotExists(f, settingsDirectory)
-	uploadFile(f, "../../settings/settings.json", settingsDirectory)
+
+	//settingsDirectory := path.Join(serverDirectory, "settings")
+	//createDirectoryIfNotExists(f, settingsDirectory)
+	//uploadFile(f, "../../settings/settings.json", settingsDirectory)
+
+	// -----------------------------------
+
+	//templateDirectory := path.Join(serverDirectory, "templates")
+	//createDirectoryIfNotExists(f, templateDirectory)
+	//uploadDirectory(f, "../../templates", templateDirectory, func(s string) bool {
+	//	if strings.HasSuffix(s, ".html") {
+	//		return true
+	//	}
+	//	return false
+	//}, true)
+
+	// -----------------------------------
+
+	//runCommand(c, "rm -Rf "+serverDirectory+"/static")
+	//
+	staticDirectory := path.Join(serverDirectory, "static")
+	createDirectoryIfNotExists(f, staticDirectory)
+	uploadDirectory(f, "../../static", staticDirectory, func(s string) bool {
+		if strings.HasSuffix(s, "js") || strings.HasSuffix(s, "css") {
+			return true
+		}
+		return false
+	}, false)
+
+	// -----------------------------------
+
+	//staticDirectory := path.Join(serverDirectory, "static")
+	//createDirectoryIfNotExists(f, staticDirectory)
+	//uploadDirectory(f, "../../static", staticDirectory, func(s string) bool {
+	//	if strings.Contains(s,"\\pictures\\") {
+	//		return true
+	//	}
+	//	return false
+	//}, true)
+}
+func publishScript() {
+	serverDirectory := "/root/store"
+	// -----------------------------------
+	c, f := connectSftp()
+	defer c.Close()
+	defer f.Close()
+	// -----------------------------------
+
+	// -----------------------------------
+
+	runCommand(c, "rm -f "+serverDirectory+"/static/*.js")
+	runCommand(c, "rm -f "+serverDirectory+"/static/*.css")
+
+	staticDirectory := path.Join(serverDirectory, "static")
+	createDirectoryIfNotExists(f, staticDirectory)
+	uploadDirectory(f, "../../static", staticDirectory, func(s string) bool {
+		if strings.HasSuffix(s, "js") || strings.HasSuffix(s, "css") {
+			return true
+		}
+		return false
+	}, false)
+
+
+}
+func publishTemplates() {
+	serverDirectory := "/root/store"
+	// -----------------------------------
+	c, f := connectSftp()
+	defer c.Close()
+	defer f.Close()
+
+	// -----------------------------------
+
+	templateDirectory := path.Join(serverDirectory, "templates")
+	createDirectoryIfNotExists(f, templateDirectory)
+	uploadDirectory(f, "../../templates", templateDirectory, func(s string) bool {
+		if strings.HasSuffix(s, ".html") {
+			return true
+		}
+		return false
+	}, true)
+
 }
 func publishNginx() {
 	// -----------------------------------
