@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #24292e;
+            background-color: #fff;
+        }
+
+        body {
+            word-wrap: break-word;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+            margin: 0;
+        }
+
+        button, input {
+            overflow: visible;
+        }
+
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+    </style>
+    <script type="module">
+        import Convert from "./convert.js";
+
+        customElements.define("c-convert", Convert);
+    </script>
+</head>
+<body>
+
+<c-convert>
+
+</c-convert>
+<div>
+    <div contenteditable="true" id="hexDiv"></div>
+    <div contenteditable="true" id="intDiv"></div>
+</div>
+</body>
+</html>

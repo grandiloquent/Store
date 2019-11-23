@@ -230,7 +230,7 @@ func main() {
 	//publishFiles()
 
 	publishTemplates()
-	//publishScript()
+	publishScript()
 }
 func publishApplication() {
 	serverRoot := "/usr/bin"

@@ -8,6 +8,7 @@
     var clear_ = document.getElementById('clear');
     var save_ = document.getElementById('save');
     var modList_ = document.querySelector('.mod-list');
+    var backspace = document.getElementById('backspace');
 
 
     var obj_;
@@ -49,7 +50,6 @@
         var result = eval(expression);
         if (!isNaN(result)) {
             modInput_.textContent = expression.trim() + ' = ' + result.toFixed(2);
-            var range = document.createRange();
             var selection = window.getSelection();
             selection.collapse(modInput_.childNodes[modInput_.childNodes.length - 1], anchorOffset);
         }
@@ -74,6 +74,7 @@
         loadStorage();
         setupDeleteButtons();
         setupButtons();
+        setBackSpace()
     }
 
     function setupClear() {
@@ -85,17 +86,22 @@
     function setupDeleteButtons() {
         var buttons = document.querySelectorAll('.mod-list-icon');
         for (var i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', function (event) {
+            buttons[i].onclick = function (event) {
                 var t = event.currentTarget.parentNode.textContent.trim();
                 var n = event.currentTarget.parentNode.parentNode;
                 n.parentNode.removeChild(n);
                 var index = obj_.indexOf(t);
                 if (index !== -1) {
                     obj_.splice(index, 1);
-                    window.localStorage && window.localStorage.setItem("calculator", JSON.stringify(obj_));
+
+                    if(_.isWeiXin()){
+                        setCookie("calculator", JSON.stringify(obj_), 365);
+                    }else {
+                        window.localStorage && window.localStorage.setItem("calculator", JSON.stringify(obj_));
+                    }
 
                 }
-            })
+            };
         }
     }
 
@@ -106,6 +112,7 @@
     }
 
     function substringBeforeLast(s, c) {
+        if (!s) return s;
         var i = s.lastIndexOf(c);
         if (i === -1) return s;
         return s.substring(0, i);
@@ -127,8 +134,12 @@
                 '                </a>\n' +
                 '        </li>')
         }
-        window.localStorage && window.localStorage.setItem("calculator", JSON.stringify(obj_));
-
+        if (_.isWeiXin()) {
+            setCookie("calculator", JSON.stringify(obj_), 365);
+        } else {
+            window.localStorage && window.localStorage.setItem("calculator", JSON.stringify(obj_));
+        }
+        setupDeleteButtons();
     }
 
 
@@ -137,8 +148,8 @@
     }
 
     function loadStorage() {
-        if (!window.localStorage) return;
-        var data = window.localStorage.getItem('calculator');
+        if (!_.isWeiXin() && !window.localStorage) return;
+        var data = _.isWeiXin() ? getCookie('calculator') : window.localStorage.getItem('calculator');
         if (!data) return;
         obj_ = JSON.parse(data);
         for (var i = 0; i < obj_.length; i++) {
@@ -153,6 +164,62 @@
                 '                </a>\n' +
                 '        </li>')
         }
+    }
+
+    function setCookie(c_name, value, expiredays) {
+
+        var exdate = new Date()
+
+        exdate.setDate(exdate.getDate() + expiredays)
+
+        document.cookie = c_name + "=" + escape(value) +
+
+            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+
+    }
+
+
+    function getCookie(c_name) {
+
+        if (document.cookie.length > 0) {
+
+            var c_start = document.cookie.indexOf(c_name + "=")
+
+            if (c_start !== -1) {
+
+                c_start = c_start + c_name.length + 1
+
+                var c_end = document.cookie.indexOf(";", c_start)
+
+                if (c_end === -1) c_end = document.cookie.length
+
+                return unescape(document.cookie.substring(c_start, c_end))
+
+            }
+
+        }
+
+        return ""
+
+    }
+
+    function setBackSpace() {
+        backspace.addEventListener('click', function () {
+            var text = modInput_.textContent;
+            if (!text) return;
+            text = substringBeforeLast(text, '=').trim();
+            if (!text) return;
+            text = text.substring(0, text.length - 1);
+            modInput_.textContent = text;
+
+            var expression = formatExpression(modInput_.textContent);
+            var result = eval(expression);
+            if (!isNaN(result)) {
+                modInput_.textContent = expression.trim() + ' = ' + result.toFixed(2);
+            }
+            var selection = window.getSelection();
+            selection.collapse(modInput_.childNodes[modInput_.childNodes.length - 1], substringBeforeLast(modInput_.value, '=').trim().length - 1);
+        });
     }
 
     // ==============================================

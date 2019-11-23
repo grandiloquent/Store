@@ -20,9 +20,9 @@
     Home.prototype.calculateSize = function () {
         var gutter = (window.innerWidth * 0.01333).toFixed(2);
         var cellWidth = window.innerWidth / 2 - gutter / 2;
-        this.cellWidth_ = 'width:' + cellWidth + 'px';
-        this.cellSize_ = 'width:' + cellWidth + 'px;height:' + (cellWidth + 96) + 'px';
-        this.imgSize_ = 'width:' + cellWidth + 'px;height:' + cellWidth + 'px';
+        this.cellSize_ = 'width:' + cellWidth + 'px;height:' + (cellWidth * 1.54) + 'px';
+        document.documentElement.style.fontSize = (window.innerWidth / 10) + 'px';
+
     };
 
     Home.prototype.loadingMore = function () {
@@ -49,7 +49,7 @@
             var price = obj[i][2];
             var thumbnail = obj[i][3];
             var quantities = obj[i][4] || 0;
-            var pattern = "<div class=\"like-cell\" style=\"" + this.cellSize_ + "\" data-id=\"" + uid + "\"><img src=\"/store/static/pictures/" + thumbnail + "\"/><div class=\"like-cell-footer\"><span>" + title + "</span><div class=\"like-cell-tags\"></div><div class=\"like-cell-bottom\"><span class=\"like-price\">￥" + price + "</span> <span class=\"like-quantities\">" + quantities + "</span></div></div></div>";
+            var pattern = "<div class=\"like-cell\" style=\"" + this.cellSize_ + "\" data-id=\"" + uid + "\"><img src=\"/store/static/pictures/" + thumbnail + "\"/><div class=\"like-cell-footer\"><span>" + title + "</span><div class=\"like-cell-tags\"></div><div class=\"like-cell-bottom\"><span class=\"like-price\">￥" + price + "</span> <span class=\"like-quantities\">已出售 " + quantities + " 件</span></div></div></div>";
             buf.push(pattern);
             if (i + 1 < obj.length) {
 
@@ -58,7 +58,7 @@
                 price = obj[i + 1][2];
                 thumbnail = obj[i + 1][3];
                 quantities = obj[i + 1][4] || 0;
-                pattern = "<div class=\"like-cell\" style=\"" + this.cellSize_ + "\" data-id=\"" + uid + "\"><img src=\"/store/static/pictures/" + thumbnail + "\"/><div class=\"like-cell-footer\"><span>" + title + "</span><div class=\"like-cell-tags\"></div><div class=\"like-cell-bottom\"><span class=\"like-price\">￥" + price + "</span> <span class=\"like-quantities\">" + quantities + "</span></div></div></div>";
+                pattern = "<div class=\"like-cell\" style=\"" + this.cellSize_ + "\" data-id=\"" + uid + "\"><img src=\"/store/static/pictures/" + thumbnail + "\"/><div class=\"like-cell-footer\"><span>" + title + "</span><div class=\"like-cell-tags\"></div><div class=\"like-cell-bottom\"><span class=\"like-price\">￥" + price + "</span> <span class=\"like-quantities\">已出售 " + quantities + " 件</span></div></div></div>";
                 buf.push(pattern);
             }
             buf.push('</div>')
@@ -85,6 +85,8 @@
     };
     Home.prototype.setupScroll = function () {
         var element = document.querySelector('.like-row:last-child');
+        if (!element) return;
+
         this.offsetTop_ = element.offsetTop;
         var that = this;
         window.addEventListener('scroll', function () {
@@ -111,6 +113,7 @@
         this.setupHomeSearch();
         this.setupItems();
         this.setupScroll();
+        this.onResize();
     };
     Home.prototype.onRefreshFailed = function (error) {
         console.log(error);
@@ -158,7 +161,11 @@
     //             })
     //         });
     // };
-
+    Home.prototype.onResize = function () {
+        window.addEventListener('resize', function () {
+            document.documentElement.style.fontSize = (window.innerWidth / 10) + 'px';
+        });
+    };
     Home.prototype.setupSlide = function () {
         this.swiperActiveIndex_ = document.getElementById('swiper-active-index');
         this.swiperPagination_ = document.querySelector('.swiper-pagination');
