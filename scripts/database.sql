@@ -99,7 +99,8 @@ declare
     id int;
 begin
     insert into store_sell (uid, taobao, wholesaler, quantities)
-    VALUES (uid_val, taobao_val, wholesaler_val, quantities_val) returning _id into id;
+    VALUES (uid_val, taobao_val, wholesaler_val, quantities_val)
+    returning _id into id;
     return id;
 end;
 $$;
@@ -154,7 +155,8 @@ begin
                           join store_sell ss on store.uid = ss.uid
                  order by update_at desc
                  limit limit_val
-                     offset offset_val;
+                 offset
+                 offset_val;
 end;
 $$;
 
@@ -258,7 +260,8 @@ begin
                           join store_sell ss on store.uid = ss.uid
                  order by update_at desc
                  limit limit_val
-                     offset offset_val;
+                 offset
+                 offset_val;
 end;
 $$;
 ---
@@ -287,7 +290,8 @@ begin
                         or s.details like like_val
                      order by update_at desc
                      limit limit_val
-                         offset offset_val;
+                     offset
+                     offset_val;
     elseif sort_val = 2 then
         return query select s.uid, s.title, s.price, s.thumbnail, ss.quantities
                      from store as s
@@ -296,7 +300,8 @@ begin
                         or s.details like like_val
                      order by ss.quantities desc
                      limit limit_val
-                         offset offset_val;
+                     offset
+                     offset_val;
     elseif sort_val = 3 then
         return query select s.uid, s.title, s.price, s.thumbnail, ss.quantities
                      from store as s
@@ -305,7 +310,8 @@ begin
                         or s.details like like_val
                      order by s.price
                      limit limit_val
-                         offset offset_val;
+                     offset
+                     offset_val;
     end if;
 end ;
 $$;
@@ -326,7 +332,7 @@ create or replace function store_insert(uid_val text,
 as
 $$
 declare
-    uid_val          text;
+    uid_val_         text;
     properties_array text[];
     showcases_array  text[];
 
@@ -340,9 +346,11 @@ begin
         showcases_array = showcases_val;
     end if;
     if uid_val isnull then
-        select uid from store where title = title_val into uid_val;
+        select uid from store where title = title_val into uid_val_;
+    else
+        uid_val_ = uid_val;
     end if;
-    if uid_val is not null then
+    if uid_val_ is not null then
         update
             store
         set title= COALESCE(title_val, title),
@@ -354,8 +362,8 @@ begin
             properties = COALESCE(properties_array, properties),
             showcases = COALESCE(showcases_array, showcases),
             update_at = now()
-        where uid = uid_val;
-        return uid_val;
+        where uid = uid_val_;
+        return uid_val_;
     end if;
     insert into store(uid,
                       title,
@@ -378,7 +386,8 @@ begin
             properties_val,
             showcases_val,
             now(),
-            now()) returning uid into uid_val;
+            now())
+    returning uid into uid_val;
     return uid_val;
 end;
 $$;

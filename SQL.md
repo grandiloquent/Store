@@ -2,7 +2,7 @@
 
 ## store
 
-```
+```postgresql
 drop table store CASCADE;
 
 create table store
@@ -25,9 +25,13 @@ create table store
 
 ```
 
-```
+```postgresql
 
-create or replace function store_insert(title_val text,
+```
+```postgresql
+
+create or replace function store_insert(uid_val text,
+                                        title_val text,
                                         price_val numeric,
                                         thumbnail_val text,
                                         details_val text,
@@ -39,7 +43,7 @@ create or replace function store_insert(title_val text,
 as
 $$
 declare
-    uid_val          text;
+    uid_val_         text;
     properties_array text[];
     showcases_array  text[];
 
@@ -52,9 +56,12 @@ begin
     if array_length(showcases_val, 1) > 0 then
         showcases_array = showcases_val;
     end if;
-
-    select uid from store where title = title_val into uid_val;
-    if uid_val is not null then
+    if uid_val isnull then
+        select uid from store where title = title_val into uid_val_;
+    else
+        uid_val_ = uid_val;
+    end if;
+    if uid_val_ is not null then
         update
             store
         set title= COALESCE(title_val, title),
@@ -66,8 +73,8 @@ begin
             properties = COALESCE(properties_array, properties),
             showcases = COALESCE(showcases_array, showcases),
             update_at = now()
-        where uid = uid_val;
-        return uid_val;
+        where uid = uid_val_;
+        return uid_val_;
     end if;
     insert into store(uid,
                       title,
@@ -90,7 +97,8 @@ begin
             properties_val,
             showcases_val,
             now(),
-            now()) returning uid into uid_val;
+            now())
+    returning uid into uid_val;
     return uid_val;
 end;
 $$;
