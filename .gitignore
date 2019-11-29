@@ -2,6 +2,7 @@
 /settings
 /static/pictures
 /scripts/json
+/scripts/dom/pages
 /static/*.css
 /static/*.js
 store_linux_amd64

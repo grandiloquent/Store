@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="dom-to-image.css">
+</head>
+<body>
+<div id="canvas" style="width: 790px">
+    <h2>参数介绍</h2>
+    <table>
+        <tbody>
+        <tr>
+            <td>建议零售价</td>
+            <td>¥39.90</td>
+        </tr>
+        <tr>
+            <td>品牌</td>
+            <td>xkzx</td>
+        </tr>
+        <tr>
+            <td>材质</td>
+            <td>孰料机电</td>
+        </tr>
+        <tr>
+            <td>产地</td>
+            <td>中国
+            </td>
+        </tr>
+        <tr>
+            <td>型号</td>
+            <td>-178</td>
+        </tr>
+        <tr>
+            <td>电源方式</td>
+            <td>充电式</td>
+        </tr>
+        <tr>
+            <td>清洁方式</td>
+            <td>刀头水洗</td>
+        </tr>
+        <tr>
+            <td>剃须刀充电时间</td>
+            <td>8小时</td>
+        </tr>
+        <tr>
+            <td>剃须刀刀头</td>
+            <td>旋转式3刀头</td>
+        </tr>
+        <tr>
+            <td>最大功率</td>
+            <td>3W</td>
+        </tr>
+        <tr>
+            <td>产品上市时间</td>
+            <td>2018年夏</td>
+        </tr>
+        <tr>
+            <td>货号</td>
+            <td>-178</td>
+        </tr>
+        <tr>
+            <td>颜色</td>
+            <td>黑色,金色</td>
+        </tr>
+        <tr>
+            <td>是否跨境货源</td>
+            <td>否</td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>包邮</h2>
+    <p>除青海、西藏、新疆、港澳台另行计价外，其他地区包邮。</p>
+    <h2 style="padding-top: 32px">服务</h2>
+    <img style="display: block;margin: 0 auto;padding-bottom: 16px" src="../qr.png">
+    <p style="text-align: center">扫描二维码进入神秘商店</p>
+
+</div>
+<div>
+    <button id="png">PNG</button>
+    <button id="jpg">JPG</button>
+    <button id="svg">SVG</button>
+</div>
+<script src="dom-to-image.min.js"></script>
+<script>
+    document.getElementById('png').onclick = function () {
+        var node = document.getElementById('canvas');
+        domtoimage.toPng(node)
+            .then(function (dataUrl) {
+                var img = new Image();
+                img.src = dataUrl;
+                document.body.appendChild(img);
+            })
+            .catch(function (error) {
+                console.error('oops, something went wrong!', error);
+            });
+    }
+    document.getElementById('jpg').onclick = function () {
+        var node = document.getElementById('canvas');
+        node.style.backgroundColor = "#fff";
+        domtoimage.toJpeg(node)
+            .then(function (dataUrl) {
+                var img = new Image();
+                img.src = dataUrl;
+                document.body.appendChild(img);
+            })
+            .catch(function (error) {
+                console.error('oops, something went wrong!', error);
+            });
+    }
+    document.getElementById('svg').onclick = function () {
+        var node = document.getElementById('canvas');
+        domtoimage.toSvg(node)
+            .then(function (dataUrl) {
+                var img = new Image();
+                img.src = dataUrl;
+                document.body.appendChild(img);
+            })
+            .catch(function (error) {
+                console.error('oops, something went wrong!', error);
+            });
+    }
+</script>
+</body>
+</html>
