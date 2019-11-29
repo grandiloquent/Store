@@ -227,7 +227,7 @@ func main() {
 	//publishApplication()
 	//publishService()
 	//publishNginx()
-	//publishFiles()
+	// publishFiles()
 
 	publishTemplates()
 	publishScript()
@@ -270,25 +270,25 @@ func publishFiles() {
 
 	//runCommand(c, "rm -Rf "+serverDirectory+"/static")
 	//
-	staticDirectory := path.Join(serverDirectory, "static")
-	createDirectoryIfNotExists(f, staticDirectory)
-	uploadDirectory(f, "../../static", staticDirectory, func(s string) bool {
-		if strings.HasSuffix(s, "js") || strings.HasSuffix(s, "css") {
-			return true
-		}
-		return false
-	}, false)
-
-	// -----------------------------------
-
 	//staticDirectory := path.Join(serverDirectory, "static")
 	//createDirectoryIfNotExists(f, staticDirectory)
 	//uploadDirectory(f, "../../static", staticDirectory, func(s string) bool {
-	//	if strings.Contains(s,"\\pictures\\") {
+	//	if strings.HasSuffix(s, "js") || strings.HasSuffix(s, "css") {
 	//		return true
 	//	}
 	//	return false
-	//}, true)
+	//}, false)
+
+	// -----------------------------------
+
+	staticDirectory := path.Join(serverDirectory, "static")
+	createDirectoryIfNotExists(f, staticDirectory)
+	uploadDirectory(f, "../../static", staticDirectory, func(s string) bool {
+		if strings.Contains(s, "\\js\\") && strings.HasSuffix(s, ".min.js") {
+			return true
+		}
+		return false
+	}, true)
 }
 func publishScript() {
 	serverDirectory := "/root/store"
@@ -311,7 +311,6 @@ func publishScript() {
 		}
 		return false
 	}, false)
-
 
 }
 func publishTemplates() {

@@ -3,11 +3,11 @@ package handlers
 import (
 	"bytes"
 	"context"
-	"euphoria/blackfriday"
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgtype"
 	"net/http"
+	"store/blackfriday"
 	"store/common"
 )
 
@@ -89,6 +89,7 @@ func buildProperties(values []string) string {
 		writer.WriteString(`<div class="detail-attribute-item"><div class="detail-attribute-item-container"><div class="detail-attribute-item-name">`)
 		writer.WriteString(name)
 		writer.WriteString(`</div><div class="detail-attribute-item-value">`)
+		fmt.Println(value)
 		writer.WriteString(value)
 		writer.WriteString(`</div></div></div>`)
 

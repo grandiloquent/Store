@@ -1,0 +1,50 @@
+.detail-description-content {
+    padding-top: 2.6rem;
+}
+
+.detail-description-content h2, .detail-description-content h3 {
+    padding: 1.3rem 0 .4rem;
+    font-weight: 700;
+    text-rendering: auto;
+}
+
+.detail-description-content h2 {
+    font-size: 1.4rem;
+    line-height: 1.3;
+}
+
+.detail-description-content h3 {
+    line-height: 1.25;
+    font-size: 1.2rem;
+}
+
+.detail-description-content img {
+    padding-bottom: .4rem;
+}
+
+.detail-description-content ul {
+    color: #111;
+    margin: 0 0 0 1.8rem;
+    padding: 0;
+}
+
+.detail-description-content li {
+    list-style: disc;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+
+.detail-description-content .mark {
+    padding: 0 7px;
+    border-radius: 3px;
+    margin: 0;
+    color: #fff;
+    font-size: 15px;
+    display: inline-block;
+    -webkit-transform: skew(-10deg);
+    -ms-transform: skew(-10deg);
+    transform: skew(-10deg);
+    -moz-transform: skew(-10deg);
+    -o-transform: skew(-10deg);
+}

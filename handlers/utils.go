@@ -94,7 +94,7 @@ func joinArray(i interface{}) string {
 	if len(a) > 0 {
 		s, ok := a[0].(string)
 		if ok {
-			buf.WriteString(s)
+			buf.WriteString(strings.ReplaceAll(s,`"`,`\"`))
 		}
 	}
 	if len(a) > 1 {
@@ -102,7 +102,7 @@ func joinArray(i interface{}) string {
 			s, ok := v.(string)
 			if ok {
 				buf.WriteString(",")
-				buf.WriteString(s)
+				buf.WriteString(strings.ReplaceAll(s,`"`,`\"`))
 			}
 		}
 	}

@@ -246,11 +246,15 @@
 {{/* https://github.com/tweenjs/tween.js */}}
 <script type="text/javascript" src="/store/static/js/swipe.min.js"></script>
 <script type="text/javascript" src="/store/static/js/Tween.min.js"></script>
+<script type="text/javascript" src="/store/static/js/lazyload.min.js"></script>
+
 {{if  .Debug}}
     <script src="/store/static/js/share.js"></script>
     <script src="/store/static/js/details.js"></script>
 {{else}}
     <script src="/store/static/details.30c62ca956c2964591980825d45eea62.js"></script>
 {{end}}
-
+<script>
+    lazyload();
+</script>
 {{template "footer.html" .}}
